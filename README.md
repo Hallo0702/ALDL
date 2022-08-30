@@ -14,7 +14,7 @@
 
 1. 문제 해결 : vagrant up 중 Timeout 발생
 
-![에러.png](C:\Users\multicampus\Desktop\S07P21C207\Timeout%20err.png)
+![에러.png](./Timeout%20err.png)
 
 - 해결 : PowerShell에서 VirtualMachinePlatform 비활성화
 
