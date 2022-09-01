@@ -1,0 +1,14 @@
+{
+	"config": {
+		"chainId": 921,
+		"homesteadBlock": 0,
+		"eip150Block": 0,
+		"eip155Block": 0,
+		"eip158Block": 0
+	},
+	"difficulty": "0x10",
+	"nonce": "0xdeadbeefdeadbeef",
+	"timestamp": "0x0",
+	"gasLimit": "9999999",
+	"alloc": {}
+}

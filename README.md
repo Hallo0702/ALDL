@@ -25,20 +25,20 @@
 
 ```t
 {
-   "config": {
-      "chainId": 921,
-      "homesteadBlock": 0,
-      "eip150Block": 0
-   },
-   "difficulty": "0x10",
-   "gasLimit": "9999999",
-   "nonce": "0xdeadbeefdeadbeef",
-   "alloc": {
-      "7b684d27167d208c66584ece7f09d8bc8f86ffff": {
-          "balance": "100000000000000000000000"
-      }
-   }
+	"config": {
+		"chainId": 921,
+		"homesteadBlock": 0,
+		"eip150Block": 0,
+		"eip155Block": 0,
+		"eip158Block": 0
+	},
+	"difficulty": "0x10",
+	"nonce": "0xdeadbeefdeadbeef",
+	"timestamp": "0x0",
+	"gasLimit": "9999999",
+	"alloc": {}
 }
+
 ```
 
 4. private network 생성
@@ -50,7 +50,7 @@ geth --datadir . init genesis
 5. private network 구동
 
 ```c
-geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" console
+geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "*" --http.api "db,eth,debug,miner,net,personal,web3" --allow-insecure-unlock console
 ```
 
 ### 22.08.31
@@ -59,11 +59,24 @@ geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --ht
 
 * 다만 eth1은 localhost로 실행한다 하였으므로 http.addr 만 수정하여 올림.
 ```c
-geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "localhost" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" console
+geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --allow-insecure-unlock console
 ```
 2. eth0에 새로운 계정 생성
+
 * 구동 후
 ```c
 personal.newAccount("비밀번호")
 eth.accounts
+```
+
+### 22.09.01
+
+1. 마이닝
+
+```c
+miner.setEtherbase(eth.accounts[0])
+miner.start(1)
+miner.stop()
+personal.unlockAccount(eth.accounts[0])
+eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:web3.toWei(10,"Ether")})
 ```
