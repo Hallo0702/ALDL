@@ -52,3 +52,18 @@ geth --datadir . init genesis
 ```c
 geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" console
 ```
+
+### 22.08.30
+
+1. eth1 실행 후 설치 (위와 같은 방법으로 진행)
+
+* 다만 eth1은 localhost로 실행한다 하였으므로 http.addr 만 수정하여 올림.
+```c
+geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "localhost" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" console
+```
+2. eth0에 새로운 계정 생성
+* 구동 후
+```c
+personal.newAccount("비밀번호")
+eth.accounts
+```
