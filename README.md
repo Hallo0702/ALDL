@@ -44,13 +44,13 @@
 4. private network 생성
 
 ```c
-geth --datadir . init genesis
+geth --datadir ~/testnet init genesis
 ```
 
 5. private network 구동
 
 ```c
-geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "*" --http.api "db,eth,debug,miner,net,personal,web3" --allow-insecure-unlock console
+geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/testnet --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "*" --http.api "db,eth,debug,miner,net,personal,web3" --allow-insecure-unlock console
 ```
 
 ### 22.08.31
@@ -59,7 +59,7 @@ geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --h
 
 * 다만 eth1은 localhost로 실행한다 하였으므로 http.addr 만 수정하여 올림.
 ```c
-geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --allow-insecure-unlock console
+geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/testnet --allow-insecure-unlock console
 ```
 2. eth0에 새로운 계정 생성
 
@@ -77,6 +77,35 @@ eth.accounts
 miner.setEtherbase(eth.accounts[0])
 miner.start(1)
 miner.stop()
-personal.unlockAccount(eth.accounts[0])
-eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:web3.toWei(10,"Ether")})
+web3.fromWei(eth.getBalance(eth.accounts[1]), "ether")
+
 ```
+
+* 마이닝을 할 계좌를 설정
+* 마이닝 시작 / 멈춤
+* 선택한 계좌의 내용을 이더리움 형식으로 반환
+
+
+2. 송금하기
+
+```c
+personal.unlockAccount(eth.accounts[0], "비밀번호")
+eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:web3.toWei(10, "ether")})
+eth.getTransaction("트랜잭션 ID")
+eth.pendingTransactions
+````
+
+* 송금할 계정 잠금 해제
+* 트랜잭션을 생성하여 송금하기 / 트랜잭션 확인하기
+* 미처리 트랜잭션 목록 확인하기
+
+3. 트랜잭션 처리를 위해서 채굴하기
+
+```c
+miner.start(1)
+eth.pendingTransactions
+miner.stop()
+eth.getTransaction("트랜잭션 ID")
+```
+
+4. 송금 결과 확인하기
