@@ -53,7 +53,7 @@ geth --datadir . init genesis
 geth -networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" console
 ```
 
-### 22.08.30
+### 22.08.31
 
 1. eth1 실행 후 설치 (위와 같은 방법으로 진행)
 
