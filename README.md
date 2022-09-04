@@ -170,3 +170,10 @@ miner.stop()
 ```
 web3.fromWei(eth.getBalance(eth.accounts[1]),"ether")
 ```
+
+## 22.09.04
+
+### 현재 오류 발생
+* http로 실행하던 것 rpc로 실행하는것과 차이 찾는중
+* rpc설정이 가능하면 rpc로 해보고싶음
+* 피어 연결은 되었다고 하는것 같은데 블록이 연동이 되지않음 방법 찾는중
