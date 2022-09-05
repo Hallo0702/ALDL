@@ -1,18 +1,24 @@
 - pjt1
+
   - **Req. 1 프라이빗 이더리움 네트워크 구축**
+
     - 1-1. 가상머신 구성
       - VirtualBox 설치
       - Vagrant 설치
       - 이더리움 네트워크 구축용 VM 2대 생성
     - 1-2. 이더리움 eth0 노드 구성
+
       - 이더리움 소프트웨어는 Geth 1.9(stable) 이상을 사용
       - Geth는 가상 머신 상에서 동작하도록 구축
       - eth0 노드의 경우 RPC API를 호출할 수 있도록 활성화
+
       ***
+
       $ vagrant version
       $ vagrant plugin install vagrant-scp
       $ vagrant init
       vagrantfile 수정
+
       ```makefile
       # -*- mode: ruby -*-
       # vi: set ft=ruby :
@@ -46,6 +52,7 @@
          end
       end
       ```
+
       $ vagrant up
       $ vagrant status
       $ vagrant up eth0
@@ -58,6 +65,7 @@
       mkdir -p dev/eth_localdata
       cd dev/eth_localdata
       vi genesis.json
+
       ```json
       {
         "config": {
@@ -74,14 +82,18 @@
         "alloc": {}
       }
       ```
+
       - eth0
-      geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" --allow-insecure-unlock console
+        geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "\*" --http.api "db,eth,debug,miner,net,personal,web3" --allow-insecure-unlock console
       - eth1
-      geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --allow-insecure-unlock console
+        geth --networkid 921 --nodiscover --maxpeers 2 --datadir ~/dev/eth_localdata --allow-insecure-unlock console
+
     - 1-3. 이더리움 eth1 노드 구성
       - 이더리움 소프트웨어는 Geth 1.9 (stable) 이상을 사용
       - Geth는 가상 머신 상에서 동작하도록 구축
+
   ***
+
   - Req 2. **이더리움 계정 생성**
     Geth 콘솔에서 명령어 사용
     - 2-1 계정 생성
@@ -103,9 +115,9 @@
     admin.nodeInfo.enode
     admin.addPeer("enode://91c801c4d345e742cc1043df7644626b517dd6b69b21daaea40044ba5e3ce4c0ebacbc75a9f69e55ee9d118568abfc31d919572d810c9cd1452c2411fa80a4a0@192.168.50.10:30303?discport=0")
     true
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e6eada2-8dd8-4ad2-b9ad-777ca3d93bd7/Untitled.png)
+    ![Untitled](./image/1adminaddpeer.png)
     admin.peers
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/94351fce-8ff9-4181-a737-c85de9317f7e/Untitled.png)
+    ![Untitled](./image/2adminpeers.png)
     ***
   - **Req.3 이더리움 트랜잭션 생성**
     Geth 콘솔에서 명령어 사용
@@ -118,11 +130,15 @@
       - 마이닝 재시작(일정 시간 수행)
       - 트랜잭션 상태 조회
       - 마이닝에 따른 트랜잭션 처리가 완료되면 마이닝 중단
+
   ***
+
   personal.unlockAccount(eth.accounts[0], "test1")
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b251a69-b36c-4f54-ada3-5d55517d7a9a/Untitled.png)
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6d248380-f4df-4ffc-80be-20fa6d379554/Untitled.png)
+  ![Untitled](./image/3unlock.png)
+  ![Untitled](./image/4.png)
+
   ***
+
   - Req.4 스마트 컨트랜트 배포
     - 4-1. eth0 노드 확인
       - VirtualBox 또는 Vagrant에서 eth0 VM에 대한 포트 포워딩 확인 - Host 8545 → Guest 8545
@@ -155,8 +171,8 @@
       - Metamask에서 계정 Import(eht0의 keystone json파일 활용)
       - Metamask에서 계정 및 잔액 정보 확인
       ***
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e3918a62-196b-49d7-9877-c169e1c92e5a/Untitled.png)
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/620ff0d7-c758-42e3-8ace-f74b0f03ff73/Untitled.png)
+      ![Untitled](./image/5.png)
+      ![Untitled](./image/6.png)
       ***
     - 4-3. 스마트 컨트랙트 배포(Remix)
       - Remix 접속
@@ -165,9 +181,9 @@
       - 기본 제공 예제 중 1개를 선택하여 코드 내용 확인
       - Comile 및 Deploy 수행 후 결과 확인
       ***
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/be7f2044-069a-4b55-a52c-7e2a5bac2888/Untitled.png)
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/26b03a9a-1a2d-4271-840d-dd76ef18f9d7/Untitled.png)
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9c745266-bf48-4af9-adae-7ecafbd3d156/Untitled.png)
+      ![Untitled](./image/7.png)
+      ![Untitled](./image/8.png)
+      ![Untitled](./image/9.pngg)
       ***
     - 블록 정보 조회
       - 스켈레톤 프로젝트의 이더리움 네트워크 정보를 맞게 수정
@@ -176,4 +192,4 @@
       ***
       npm i
       npm run serve
-      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/68c1e73b-07c7-4fd9-9155-fd0a149d6793/Untitled.png)
+      ![Untitled](./image/10.png)
