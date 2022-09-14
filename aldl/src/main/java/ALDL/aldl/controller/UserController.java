@@ -22,6 +22,7 @@ public class UserController {
 
 
     }
+    //이메일 중복확인
     @CrossOrigin(origins="*")
     @GetMapping("/emailduplicate")
     @ResponseBody
@@ -38,6 +39,7 @@ public class UserController {
             return ResponseEntity.status(404).body("비어있는 이메일");
         }
     }
+    //닉네임(별명) 중복확인
     @CrossOrigin(origins="*")
     @GetMapping("/nicknameduplicate")
     @ResponseBody
@@ -54,6 +56,7 @@ public class UserController {
             return ResponseEntity.status(404).body("비어있는 닉네임");
         }
     }
+    //로그인
     @CrossOrigin(origins="*")
     @GetMapping("/login")
     @ResponseBody
@@ -76,6 +79,8 @@ public class UserController {
             return ResponseEntity.status(404).body("아이디와 비밀번호를 확인해주세요");
         }
     }
+
+    //로그아웃
     @CrossOrigin(origins="*")
     @PostMapping("/logout")
     @ResponseBody
