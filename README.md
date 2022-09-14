@@ -237,3 +237,151 @@ admin.addPeer("eth1의 enode")
    ```
    
    - 트랜잭션 송금 시 creation of Storage pending에서 진행되지 않는 문제가 발생해서 해결중
+
+## 22.09.14
+
+- cmd, Powershell, intelliJ 등 명령어를 찾을 수 없는 이슈가 발생해서 문제를 지속적으로 해결하기위해 조사
+
+- 환경변수의 Path가 모두 지워져있어 복구 완료, 개발을 다시 진행
+
+### 솔리디티 개발환경 구성
+
+1. trufflesuite 설치
+   
+   - 스마트컨트랙트를 개발하는데 있어 테스트, 배포, 운영 등을 쉽게 도와주는 툴
+
+```shell
+npm install -g truffle
+```
+
+2. ATOM에디터 설치
+   
+   - 솔리디티 및 이더리움 개발 도구
+   
+   - https://atom.io/
+
+3. Metacoin tutorial 설치
+   
+   ```shell
+   truffle unbox metacoin
+   ```
+
+### sol 파일 레이아웃
+
+```solidity
+//SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7.0 < 0.8.0
+```
+
+- 소스코드의 SPDX라이선스를 명시
+
+- 소스코드가 이용하는 솔리디티 컴파일러 버전 명시
+
+```solidity
+contract Storage {
+    uint256 number;
+
+    function store(uint256 num) public {
+        number = num;
+    }
+    function retrieve() public view returns(uint256){
+        //retrun이 있는 경우 함수 선언에서 언급
+        return number;
+    }
+}
+```
+
+- contract Storage{} : 컨트랙트 범위
+
+- 상태변수
+  
+  - 블록체인에 상태가 동기화되는 변수
+  
+  - 접근 제어자 지정 가능
+  
+  - ex) uint: 부호없는 정수
+
+- 함수
+  
+  - 컨트랙트의 단위 기능
+  
+  - 매개 변수, 제어자, 반환값 지정 가능
+
+### solidity 문법 공부
+
+```solidity
+contract fund{
+    uint public constant MINIMUM_AMOUNT = 1e16;
+    uint public fundRaisingCloses;
+    address public beneficiary;
+
+    constructor (uint _duration, address _beneficiary) {
+        fundRaisingCloses = block.timestamp + _duration;
+        beneficiary = _beneficiary;
+
+    address[] funders;
+
+    function fund() public payable {
+
+        // if (msg.value >= MINIMUM_AMOUNT) {
+        //     if (block.timestamp < fundRaisingCloses) {
+
+        //     }
+        // }
+        require(msg.value >= MINIMUM_AMOUNT, "MINIMUM AMOUNT: 0.01 ether");
+        require(block.timestamp < fundRaisingCloses, "FUND RAISING CLOSED");
+        address funder = msg.sender;
+        funders.push(funder);
+
+    }
+
+    function currentCollection() public view returns(uint256) {
+        return address(this).balance;
+    }
+
+    function withdraw() public payable onlyBeneficiary{
+        require(block.timestamp > fundRaisingCloses, "not yet");
+        // msg.sender.transfer(address(this).balance);
+        payable(msg.sender).transfer(address(this).balance);
+        // address payable owner = msg.sender;
+
+    }
+    }}
+```
+
+- constructor : 컨트랙트가 배포될 때 호출되는 특수 함수
+
+- uint duration : 모금의 유효 시간을 의미(3600 = 1시간)
+
+- 정수형 연산자 '+' : 현재 타임스탬프 + duration을 종료 시간으로 지정
+
+- block.timestamp : 특수 전역 변수 중 하나, 현재 시각의 유닉스 타임 스탬프 값
+
+- beneficiary : 펀드 수혜자
+
+- 최소 모금액 = 0.01 ether(1ether = 10^18Wei)
+
+- 밑에 함수는 모금, 현재 모금액, 수령하기
+1. fund()
+   
+   - if / require(판별문, 에러메시지) : 유효성 검사 구문, true가 아니면 바로 종료
+   
+   - address : 이더리움 주소를 저장할 수 있는 자료형
+   
+   - msg.sender : 메시지 송신자를 알 수 있는 전역변수(펀딩한 사람 address)
+   
+   - 자료형의 배열
+     
+     - uint[4] fixedArray;
+     
+     - uint[] dynamicArray;
+
+2. currentCollection()
+   
+   - 함수 반환문 작성
+   
+   - view : 상태 변수에 변화를 가하지 않고 읽기만 하는 함수
+
+3. withdraw()
+   
+   - 기한이 종료된 뒤 누적된 이더를 받는다.
