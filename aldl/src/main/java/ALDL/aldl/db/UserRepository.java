@@ -1,6 +1,7 @@
 package ALDL.aldl.db;
 
 import ALDL.aldl.model.User;
+import ALDL.aldl.model.UserForm;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,8 @@ public interface UserRepository extends CrudRepository<User,Long> {
     String validPassword(String email,String password);
     @Query(value = "SELECT id FROM User t where t.nickname = ?1 ")
     String validNickname(String nickname);
+    @Query(value = "SELECT email FROM User t where t.email =?1 ")
+    Optional<UserForm> findByUserEmail(String email);
 
 
 

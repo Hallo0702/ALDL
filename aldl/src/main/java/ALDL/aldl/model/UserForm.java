@@ -10,6 +10,14 @@ public class UserForm {
     private String name;
     private String nickname;
 
+    private String refreshToken;
+    public void changeRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
+    public void deleteRefreshToken(){
+        this.refreshToken = null;
+    }
+
     public User toEntity(){
         return User.builder()
                 .email(email)
