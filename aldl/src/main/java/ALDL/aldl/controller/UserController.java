@@ -1,14 +1,14 @@
 package ALDL.aldl.controller;
 
 import ALDL.aldl.service.UserService;
-import lombok.RequiredArgsConstructor;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Api(value = "유저 API", tags = {"User"})
 @RestController
 public class UserController {
     @Autowired
