@@ -2,6 +2,7 @@ package ALDL.aldl.controller;
 
 import ALDL.aldl.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class UserController {
     UserService userService;
 
     //회원가입
+    @ApiOperation(value = "사용자회원가입")
     @CrossOrigin(origins="*")
     @PostMapping(path="/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String,String> info){
@@ -46,6 +48,7 @@ public class UserController {
 
     }
     //이메일 중복확인
+    @ApiOperation(value = "이메일 중복확인")
     @CrossOrigin(origins="*")
     @GetMapping("/emailduplicate")
     @ResponseBody
@@ -63,6 +66,8 @@ public class UserController {
         }
     }
     //닉네임(별명) 중복확인
+
+    @ApiOperation(value = "닉네임 중복확인")
     @CrossOrigin(origins="*")
     @GetMapping("/nicknameduplicate")
     @ResponseBody
@@ -80,6 +85,7 @@ public class UserController {
         }
     }
     //로그인
+    @ApiOperation(value = "사용자 로그인")
     @CrossOrigin(origins="*")
     @GetMapping("/login")
     @ResponseBody
@@ -104,6 +110,7 @@ public class UserController {
     }
 
     //로그아웃
+    @ApiOperation(value = "사용자 로그아웃")
     @CrossOrigin(origins="*")
     @PostMapping("/logout")
     @ResponseBody

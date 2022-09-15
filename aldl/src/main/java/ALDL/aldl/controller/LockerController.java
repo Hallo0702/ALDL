@@ -5,6 +5,7 @@ import ALDL.aldl.model.LockerOwner;
 import ALDL.aldl.service.LockerOwnerService;
 import ALDL.aldl.service.LockerService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class LockerController {
     LockerOwnerService lockerOwnerService;
 
 
+    @ApiOperation(value = "자물쇠 정보 등록")
     @CrossOrigin(origins="*")
     @PostMapping(path="/setlocker")
     public ResponseEntity<?> setlocker(@RequestBody Map<String,String> info){
@@ -41,6 +43,7 @@ public class LockerController {
         return ResponseEntity.status(200).body("자물쇠등록완료");
    }
 
+    @ApiOperation(value = "자물쇠 소유자 등록")
     @CrossOrigin(origins="*")
     @PostMapping(path="/savelocker")
     public ResponseEntity<?> savelocker(@RequestBody Map<String,String> info){
@@ -59,6 +62,7 @@ public class LockerController {
         return ResponseEntity.status(200).body("자물쇠 저장 완료");
     }
 
+    @ApiOperation(value = "장소별 자물쇠 전체 반환",response = Locker.class)
     @CrossOrigin(origins = "*")
     @GetMapping("/backgroundlocker")
     public ResponseEntity<?> allLocker(@RequestParam String background){
@@ -69,6 +73,7 @@ public class LockerController {
         return ResponseEntity.status(200).body(lockers);
 
     }
+    @ApiOperation(value = "사용자가 보유중인 자물쇠 반환",response = LockerOwner.class)
     @CrossOrigin(origins = "*")
     @GetMapping("/mylockers")
     public ResponseEntity<?> mylockers(@RequestParam String email){
