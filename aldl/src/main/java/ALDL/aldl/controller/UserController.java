@@ -1,12 +1,14 @@
 package ALDL.aldl.controller;
 
 import ALDL.aldl.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 public class UserController {
     @Autowired
@@ -16,8 +18,29 @@ public class UserController {
     @CrossOrigin(origins="*")
     @PostMapping(path="/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String,String> info){
+        String email = info.get("email");
+        String password = info.get("password");
+        String name = info.get("name");
+        String nickname = info.get("nickname");
+
+        if(
+                email==""||email==null||
+                        password==""||password==null||
+                        name==""||name==null||
+                        nickname==""||nickname==null
+        ){
+            return ResponseEntity.status(400).body("유효하지 않은 정보");
+        }
+        if (userService.checkEmail(email) != null){
+            return ResponseEntity.status(400).body("존재하는 이메일");
+        }
+        if (userService.checkNickname(nickname) != null){
+            return ResponseEntity.status(400).body("존재하는 닉네임");
+        }
+
 
         userService.signupUser(info.get("email"),info.get("password"),info.get("name"),info.get("nickname"));
+
         return ResponseEntity.status(200).body("회원가입 완료");
 
 
@@ -53,7 +76,7 @@ public class UserController {
             }
         }
         else{
-            return ResponseEntity.status(404).body("비어있는 닉네임");
+            return ResponseEntity.status(400).body("비어있는 닉네임");
         }
     }
     //로그인
@@ -76,7 +99,7 @@ public class UserController {
             }
         }
         else{
-            return ResponseEntity.status(404).body("아이디와 비밀번호를 확인해주세요");
+            return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
         }
     }
 
