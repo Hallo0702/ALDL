@@ -5,6 +5,7 @@ import ALDL.aldl.model.User;
 import ALDL.aldl.model.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -23,7 +24,6 @@ public class UserService {
 
     }
 
-
     public String checkEmail(String email) {
         String emailvalue = userRepository.validEmail(email);
         return emailvalue;
@@ -35,6 +35,5 @@ public class UserService {
     public String checkPassword(String email,String password){
         String check = userRepository.validPassword(email,password);
         return check;
-
     }
 }

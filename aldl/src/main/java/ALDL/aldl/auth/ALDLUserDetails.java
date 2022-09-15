@@ -1,6 +1,6 @@
 package ALDL.aldl.auth;
 
-import ALDL.aldl.model.User;
+import ALDL.aldl.model.UserForm;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,19 +10,19 @@ import java.util.List;
 
 public class ALDLUserDetails implements UserDetails {
 
-    User user;
+    UserForm user;
     boolean accountNonExpired;
     boolean accountNonLocked;
     boolean credentialNonExpired;
     boolean enabled = false;
     List<GrantedAuthority> roles = new ArrayList<>();
 
-    public ALDLUserDetails(User user) {
+    public ALDLUserDetails(UserForm user) {
         super();
         this.user = user;
     }
 
-    public User getUser() {
+    public UserForm getUser() {
         return this.user;
     }
     public String getUserEmail() { return this.user.getEmail(); }
