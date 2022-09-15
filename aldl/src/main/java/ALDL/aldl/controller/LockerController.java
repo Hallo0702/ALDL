@@ -4,6 +4,7 @@ import ALDL.aldl.model.Locker;
 import ALDL.aldl.model.LockerOwner;
 import ALDL.aldl.service.LockerOwnerService;
 import ALDL.aldl.service.LockerService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Api(value = "LOCKER API", tags = {"Locker"})
 @RestController
 public class LockerController {
     @Autowired
