@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()  // 그 외 나머지 요청은 누구나 접근 가능
                 .and()
                 .cors();
-//                .and() /* OAuth */
+//                .and()
 //                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 //                        UsernamePasswordAuthenticationFilter.class);
 
