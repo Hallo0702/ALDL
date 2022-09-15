@@ -7,6 +7,8 @@ import ALDL.aldl.model.LockerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LockerService {
 
@@ -24,5 +26,11 @@ public class LockerService {
         Locker locker = lockerForm.toEntity();
         lockerRepository.save(locker);
     }
+
+    public List<Locker> backgroundLocker(String background){
+        return lockerRepository.backgroundLocker(background);
+    }
+
+
 
 }
