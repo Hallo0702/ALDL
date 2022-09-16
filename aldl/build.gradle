@@ -37,7 +37,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-
+bootJar{
+	mainClass = 'ALDL.aldl.AldlApplication'
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }
