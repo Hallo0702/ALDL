@@ -39,6 +39,7 @@ dependencies {
 
 bootJar{
 	mainClass = 'ALDL.aldl.AldlApplication'
+	archiveFileName = 'aldl.jar'
 }
 tasks.named('test') {
 	useJUnitPlatform()
