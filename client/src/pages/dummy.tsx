@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import axios, { Axios, AxiosError } from 'axios';
+import axios from 'axios';
 import { useEffect } from 'react';
 
 const Dummy: NextPage = ({}) => {
@@ -7,7 +7,7 @@ const Dummy: NextPage = ({}) => {
     const fetch = async () => {
       try {
         const res = await axios.get(
-          'http://j7c207.p.ssafy.io:8088/emailduplicate?email=asfasd'
+          'http://j7c207.p.ssafy.io:8088/api/emailduplicate?email=asfasd'
         );
         console.log(res);
       } catch (err) {
