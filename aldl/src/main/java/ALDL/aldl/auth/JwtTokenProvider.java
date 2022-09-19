@@ -128,4 +128,18 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // 토큰의 유효성 + 만료일자 확인
+    public boolean validateToken(String jwtToken){
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e){
+            e.printStackTrace();
+            return false;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
 }
