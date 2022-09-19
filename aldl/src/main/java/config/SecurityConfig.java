@@ -1,5 +1,7 @@
 package config;
 
+import ALDL.aldl.auth.JwtAuthenticationFilter;
+import ALDL.aldl.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,10 +10,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -19,6 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 암호화에 필요한 PasswordEncoder를 Bean으로 등록
     @Bean
@@ -29,6 +35,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/assets/**", "/h2-console/**","/api/hello2");
     }
 
     @Bean
@@ -49,13 +59,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()  // 요청에 대한 사용 권한 체크
                 .antMatchers("/api/**").authenticated()
-                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().permitAll()  // 그 외 나머지 요청은 누구나 접근 가능
                 .and()
-                .cors();
-//                .and()
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-//                        UsernamePasswordAuthenticationFilter.class);
+                .cors()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class);
 
         return  http.build();
     }

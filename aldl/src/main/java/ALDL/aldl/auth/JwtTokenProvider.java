@@ -39,9 +39,9 @@ public class JwtTokenProvider {
 
     private final UserRepository userRepository;
 
-    public String createToken(String userEmail, List<String> roles) throws UnsupportedEncodingException {
+    public String createToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
-        claims.put("roles", roles); // 정보는 key-value 쌍으로 저장
+        claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
         Date now = new Date();
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
@@ -112,9 +112,9 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String createRefreshToken(String userEmail, List<String> roles) throws UnsupportedEncodingException {
+    public String createRefreshToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
-        claims.put("roles", roles); // 정보는 key-value 쌍으로 저장
+        claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
         claims.put("userId",userEmail);
         Date now = new Date();
 
@@ -125,6 +125,20 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now.getTime() + refreshExpireTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey.getBytes("UTF-8"))
                 .compact();
+    }
+
+    // 토큰의 유효성 + 만료일자 확인
+    public boolean validateToken(String jwtToken){
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e){
+            e.printStackTrace();
+            return false;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 }
