@@ -130,6 +130,7 @@ public class UserController {
     }
 
     //로그아웃
+    //토큰 작성 요망
     @ApiOperation(value = "사용자 로그아웃")
     @CrossOrigin(origins="*")
     @PostMapping("/logout")
