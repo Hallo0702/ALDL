@@ -110,21 +110,26 @@ public class UserController {
                 if (userService.checkEmail(email) != null){
                     String password_encrypt = UserSha256.encrypt(password);
                     if (userService.checkPassword(email,password_encrypt)!=null){
+                        System.out.println("Login:로그인성공");
                         return ResponseEntity.status(200).body("로그인 성공");
                     }
                     else{
+                        System.out.println("Login:아이디와 비밀번호를 확인해주세요");
                         return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
                     }
 
                 }
                 else{
+                    System.out.println("Login:아이디와 비밀번호를 확인해주세요");
                     return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
                 }
             }
             else{
+                System.out.println("Login:아이디와 비밀번호를 확인해주세요");
                 return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
             }
         }catch(Exception e){
+            System.out.println("Login:에러발생");
             return ResponseEntity.status(500).body("에러발생");
         }
     }
@@ -151,18 +156,22 @@ public class UserController {
                 if (userService.checkPassword(email,password)!=null){
 
                     userService.ModifingPassword(email,new_password);
+                    System.out.println("ModifyPassword:비밀번호 수정완료");
                     return ResponseEntity.status(200).body("비밀번호 수정 완료");
                 }
                 else{
+                    System.out.println("ModifyPassword:비밀번호 확인하세요");
                     return ResponseEntity.status(400).body("비밀번호를 확인하세요");
                 }
             }
             else{
+                System.out.println("ModifyPassword:이메일을 확인하세요");
                 return ResponseEntity.status(400).body("이메일을 확인하세요");
 
             }
         }
         catch (Exception e){
+            System.out.println("ModifyPassword:에러발생");
             return ResponseEntity.status(500).body("에러발생");
         }
     }
