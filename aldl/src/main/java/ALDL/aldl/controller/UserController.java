@@ -137,6 +137,7 @@ public class UserController {
     public void logout(@RequestParam String nickname){
 
     }
+    //비밀번호 수정
     @ApiOperation(value = "사용자 비밀번호 수정")
     @CrossOrigin(origins="*")
     @PostMapping(path="/ModifyPassword")
@@ -164,7 +165,7 @@ public class UserController {
             return ResponseEntity.status(500).body("에러발생");
         }
     }
-
+    //닉네임 수정
     @ApiOperation(value = "사용자 닉네임 수정")
     @CrossOrigin(origins="*")
     @PostMapping(path="/ModifyNickname")
