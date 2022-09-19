@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import axios from 'axios';
 import { useEffect } from 'react';
-import Header from '../components/common/Header';
 
 const Dummy: NextPage = ({}) => {
   useEffect(() => {
@@ -21,7 +20,6 @@ const Dummy: NextPage = ({}) => {
   }, []);
   return (
     <>
-      <Header />
       <div className="font-custom font-light text-xs">
         font-custom font-light text-xs 폰트
       </div>
@@ -60,6 +58,12 @@ const Dummy: NextPage = ({}) => {
       </div>
 
       <div className="bg-peach w-40 h-40">
+        <div className="text-gray-light">asdasfasd</div>
+        <div className="text-gray-normal">asdasfasd</div>
+        <div className="text-gray">asdasfasd</div>
+        <div className="text-gray-dark">asdasfasd</div>
+      </div>
+      <div className="bg-peach w-40 h-80">
         <div className="text-gray-light">asdasfasd</div>
         <div className="text-gray-normal">asdasfasd</div>
         <div className="text-gray">asdasfasd</div>
