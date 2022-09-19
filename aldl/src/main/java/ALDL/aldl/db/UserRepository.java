@@ -17,7 +17,7 @@ public interface UserRepository extends CrudRepository<User,Long> {
     @Query(value = "SELECT id FROM User t where t.nickname = ?1 ")
     String validNickname(String nickname);
     @Query(value = "SELECT email FROM User t where t.email =?1 ")
-    Optional<UserForm> findByUserEmail(String email);
+    Optional<User> findByUserEmail(String email);
 
 
 

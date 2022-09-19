@@ -1,6 +1,7 @@
 package ALDL.aldl.auth;
 
 import ALDL.aldl.db.UserRepository;
+import ALDL.aldl.model.User;
 import ALDL.aldl.model.UserForm;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -39,9 +40,9 @@ public class JwtTokenProvider {
 
     private final UserRepository userRepository;
 
-    public String createToken(String userEmail, List<String> roles) throws UnsupportedEncodingException {
+    public String createToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
-        claims.put("roles", roles); // 정보는 key-value 쌍으로 저장
+        claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
         Date now = new Date();
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
@@ -94,7 +95,7 @@ public class JwtTokenProvider {
             String userEmail = decodedJWT.getSubject();
             if (userEmail != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-                UserForm user = userRepository.findByUserEmail(userEmail).orElse(null);
+                User user = userRepository.findByUserEmail(userEmail).orElse(null);
                 if (user != null) {
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     ALDLUserDetails userDetails = new ALDLUserDetails(user);
@@ -112,9 +113,9 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String createRefreshToken(String userEmail, List<String> roles) throws UnsupportedEncodingException {
+    public String createRefreshToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
-        claims.put("roles", roles); // 정보는 key-value 쌍으로 저장
+        claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
         claims.put("userId",userEmail);
         Date now = new Date();
 
