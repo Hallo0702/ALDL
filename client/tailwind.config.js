@@ -14,7 +14,12 @@ module.exports = {
         peach: '#FBD4CB',
         red: '#FF0000',
         black: '#000000',
-        gray: '#D9D9D9',
+        gray: {
+          light: '#D9D9D9',
+          normal: '#AAAAAA',
+          DEFAULT: '#AAAAAA',
+          dark: '#797979',
+        },
       },
     },
   },
