@@ -7,8 +7,7 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="relative min-h-screen ">
-      {/* <div className="z-10 h-full w-full absolute bg-gradient-to-r from-orange-100 to-blue-700"></div> */}
+    <div className="relative min-h-screen">
       <Image
         src="/images/main_bg.png"
         alt="메인 배경 이미지"
