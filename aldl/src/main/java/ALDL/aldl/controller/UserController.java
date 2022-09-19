@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
+@RequestMapping("/auth")
 public class UserController {
     @Autowired
     UserService userService;
