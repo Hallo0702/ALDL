@@ -7,7 +7,7 @@ const Dummy: NextPage = ({}) => {
     const fetch = async () => {
       try {
         const res = await axios.get(
-          'http://j7c207.p.ssafy.io:8088/api/emailduplicate?email=asfasd'
+          'https://aldl.kro.kr/api/emailduplicate?email=asfasd'
         );
         console.log(res);
       } catch (err) {
