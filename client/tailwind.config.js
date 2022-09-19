@@ -10,6 +10,12 @@ module.exports = {
       fontFamily: {
         custom: ['Custom'],
       },
+      colors: {
+        peach: '#FBD4CB',
+        red: '#FF0000',
+        black: '#000000',
+        gray: '#D9D9D9',
+      },
     },
   },
   variants: {

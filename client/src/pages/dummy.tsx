@@ -56,6 +56,10 @@ const Dummy: NextPage = ({}) => {
       <div className="font-custom font-bold text-4xl">
         font-custom font-bold text-4xl 스포카 한 산스 네오
       </div>
+
+      <div className="bg-peach w-40 h-40">
+        <span className="text-black">asdasfasd</span>
+      </div>
     </>
   );
 };
