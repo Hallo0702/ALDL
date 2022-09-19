@@ -1,6 +1,7 @@
 package ALDL.aldl.controller;
 
 import ALDL.aldl.service.UserService;
+import ALDL.aldl.service.UserSha256;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserController {
     @PostMapping(path="/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String,String> info){
         String email = info.get("email");
-        String password = info.get("password");
+        String password = UserSha256.encrypt(info.get("password"));
         String name = info.get("name");
         String nickname = info.get("nickname");
 
@@ -41,7 +42,7 @@ public class UserController {
         }
 
 
-        userService.signupUser(info.get("email"),info.get("password"),info.get("name"),info.get("nickname"));
+        userService.signupUser(email,password,name,nickname);
 
         return ResponseEntity.status(200).body("회원가입 완료");
 
@@ -92,7 +93,8 @@ public class UserController {
     public ResponseEntity<?> login(@RequestParam String email,@RequestParam  String password){
         if (email != null && !email.equals("")){
             if (userService.checkEmail(email) != null){
-                if (userService.checkPassword(email,password)!=null){
+                String password_encrypt = UserSha256.encrypt(password);
+                if (userService.checkPassword(email,password_encrypt)!=null){
                     return ResponseEntity.status(200).body("로그인 성공");
                 }
                 else{
