@@ -1,5 +1,6 @@
 package ALDL.aldl.controller;
 
+import ALDL.aldl.auth.UserLoginPostReq;
 import ALDL.aldl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,17 @@ public class UserController {
         if (email != null && !email.equals("")){
             if (userService.checkEmail(email) != null){
                 if (userService.checkPassword(email,password)!=null){
-                    return ResponseEntity.status(200).body("로그인 성공");
+
+
+                    try {
+                        UserLoginPostReq loginPostReq = userService.userLogin(email);
+                        System.out.println(loginPostReq.getAccessToken());
+                        System.out.println(loginPostReq.getRefreshToken());
+                        return ResponseEntity.status(200).body("로그인 성공");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
                 else{
                     return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
