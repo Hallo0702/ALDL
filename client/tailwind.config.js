@@ -6,7 +6,22 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ['Custom'],
+      },
+      colors: {
+        peach: '#FBD4CB',
+        red: '#FF0000',
+        black: '#000000',
+        gray: {
+          light: '#D9D9D9',
+          normal: '#AAAAAA',
+          DEFAULT: '#AAAAAA',
+          dark: '#797979',
+        },
+      },
+    },
   },
   variants: {
     extend: {},
