@@ -1,16 +1,28 @@
 package ALDL.aldl.service;
 
+import ALDL.aldl.auth.JwtTokenProvider;
+import ALDL.aldl.auth.UserLoginPostReq;
+import ALDL.aldl.db.UserLoginRepo;
 import ALDL.aldl.db.UserRepository;
 import ALDL.aldl.model.User;
 import ALDL.aldl.model.UserForm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.nio.file.AccessDeniedException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
+
+    private final UserRepository userRepository;
+    private final UserLoginRepo userLoginRepo;
+
     public void signupUser(String email, String password, String name, String nickname){
         UserForm userForm = new UserForm();
         userForm.setEmail(email);
