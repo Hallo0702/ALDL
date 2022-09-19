@@ -25,26 +25,29 @@ public class UserController {
         String password = UserSha256.encrypt(info.get("password"));
         String name = info.get("name");
         String nickname = info.get("nickname");
+        try{
+            if(
+                    email==""||email==null||
+                            password==""||password==null||
+                            name==""||name==null||
+                            nickname==""||nickname==null
+            ){
+                return ResponseEntity.status(400).body("유효하지 않은 정보");
+            }
+            if (userService.checkEmail(email) != null){
+                return ResponseEntity.status(400).body("존재하는 이메일");
+            }
+            if (userService.checkNickname(nickname) != null){
+                return ResponseEntity.status(400).body("존재하는 닉네임");
+            }
 
-        if(
-                email==""||email==null||
-                        password==""||password==null||
-                        name==""||name==null||
-                        nickname==""||nickname==null
-        ){
-            return ResponseEntity.status(400).body("유효하지 않은 정보");
+
+            userService.signupUser(email,password,name,nickname);
+
+            return ResponseEntity.status(200).body("회원가입 완료");
+        }catch(Exception e){
+            return ResponseEntity.status(500).body("에러발생");
         }
-        if (userService.checkEmail(email) != null){
-            return ResponseEntity.status(400).body("존재하는 이메일");
-        }
-        if (userService.checkNickname(nickname) != null){
-            return ResponseEntity.status(400).body("존재하는 닉네임");
-        }
-
-
-        userService.signupUser(email,password,name,nickname);
-
-        return ResponseEntity.status(200).body("회원가입 완료");
 
 
     }
@@ -54,16 +57,20 @@ public class UserController {
     @GetMapping("/emailduplicate")
     @ResponseBody
     public ResponseEntity<?> validemail(@RequestParam String email){
-        if (email != null && !email.equals("")){
-            if (userService.checkEmail(email) != null){
-                return ResponseEntity.status(200).body("존재하는 이메일");
+        try{
+            if (email != null && !email.equals("")){
+                if (userService.checkEmail(email) != null){
+                    return ResponseEntity.status(200).body("존재하는 이메일");
+                }
+                else{
+                    return ResponseEntity.status(400).body("존재하지 않는 이메일");
+                }
             }
             else{
-                return ResponseEntity.status(400).body("존재하지 않는 이메일");
+                return ResponseEntity.status(404).body("비어있는 이메일");
             }
-        }
-        else{
-            return ResponseEntity.status(404).body("비어있는 이메일");
+        }catch(Exception e){
+            return ResponseEntity.status(500).body("에러발생");
         }
     }
     //닉네임(별명) 중복확인
@@ -73,16 +80,22 @@ public class UserController {
     @GetMapping("/nicknameduplicate")
     @ResponseBody
     public ResponseEntity<?> validnickname(@RequestParam String nickname){
-        if (nickname != null && !nickname.equals("")){
-            if (userService.checkNickname(nickname) != null){
-                return ResponseEntity.status(200).body("존재하는 닉네임");
+        try{
+
+
+            if (nickname != null && !nickname.equals("")){
+                if (userService.checkNickname(nickname) != null){
+                    return ResponseEntity.status(200).body("존재하는 닉네임");
+                }
+                else{
+                    return ResponseEntity.status(400).body("존재하지 않는 닉네임");
+                }
             }
             else{
-                return ResponseEntity.status(400).body("존재하지 않는 닉네임");
+                return ResponseEntity.status(400).body("비어있는 닉네임");
             }
-        }
-        else{
-            return ResponseEntity.status(400).body("비어있는 닉네임");
+        }catch(Exception e){
+            return ResponseEntity.status(500).body("에러발생");
         }
     }
     //로그인
@@ -91,23 +104,28 @@ public class UserController {
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestParam String email,@RequestParam  String password){
-        if (email != null && !email.equals("")){
-            if (userService.checkEmail(email) != null){
-                String password_encrypt = UserSha256.encrypt(password);
-                if (userService.checkPassword(email,password_encrypt)!=null){
-                    return ResponseEntity.status(200).body("로그인 성공");
+        try{
+            if (email != null && !email.equals("")){
+
+                if (userService.checkEmail(email) != null){
+                    String password_encrypt = UserSha256.encrypt(password);
+                    if (userService.checkPassword(email,password_encrypt)!=null){
+                        return ResponseEntity.status(200).body("로그인 성공");
+                    }
+                    else{
+                        return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
+                    }
+
                 }
                 else{
                     return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
                 }
-
             }
             else{
                 return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
             }
-        }
-        else{
-            return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
+        }catch(Exception e){
+            return ResponseEntity.status(500).body("에러발생");
         }
     }
 
@@ -118,6 +136,58 @@ public class UserController {
     @ResponseBody
     public void logout(@RequestParam String nickname){
 
+    }
+    @ApiOperation(value = "사용자 비밀번호 수정")
+    @CrossOrigin(origins="*")
+    @PostMapping(path="/ModifyPassword")
+    public ResponseEntity<?> ModifyPassword(@RequestBody Map<String,String> info){
+        String email = info.get("email");
+        String password = UserSha256.encrypt(info.get("password"));
+        String new_password = UserSha256.encrypt(info.get("new_password"));
+        try {
+            if (userService.checkEmail(email) != null){
+                if (userService.checkPassword(email,password)!=null){
+
+                    userService.ModifingPassword(email,new_password);
+                    return ResponseEntity.status(200).body("비밀번호 수정 완료");
+                }
+                else{
+                    return ResponseEntity.status(400).body("비밀번호를 확인하세요");
+                }
+            }
+            else{
+                return ResponseEntity.status(400).body("이메일을 확인하세요");
+
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(500).body("에러발생");
+        }
+    }
+
+    @ApiOperation(value = "사용자 닉네임 수정")
+    @CrossOrigin(origins="*")
+    @PostMapping(path="/ModifyNickname")
+    public ResponseEntity<?> ModifyNickname(@RequestBody Map<String,String> info){
+        String email = info.get("email");
+        String nickname = info.get("new_nickname");
+        try {
+            if (nickname != null && !nickname.equals("")){
+                if (userService.checkNickname(nickname) != null){
+                    return ResponseEntity.status(400).body("존재하는 닉네임");
+                }
+                else{
+                    userService.ModifingNickname(email,nickname);
+                    return ResponseEntity.status(200).body("닉네임 변경 완료");
+                }
+            }
+            else{
+                return ResponseEntity.status(400).body("닉네임을 확인해주세요");
+            }
+        }
+        catch (Exception e){
+            return ResponseEntity.status(500).body("에러발생");
+        }
     }
 
 

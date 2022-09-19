@@ -37,4 +37,12 @@ public class UserService {
         return check;
 
     }
+
+    public void ModifingPassword(String email,String password){
+        userRepository.ModifyingPassword(email,password);
+    }
+
+    public void ModifingNickname(String email,String nickname){
+        userRepository.ModifyingNickname(email,nickname);
+    }
 }
