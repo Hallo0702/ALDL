@@ -20,6 +20,7 @@ public class ALDLUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByUserEmail(email).orElse(null);
+
         if (user != null) {
             ALDLUserDetails userDetails = new ALDLUserDetails(user);
             return userDetails;

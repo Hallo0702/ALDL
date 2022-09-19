@@ -7,7 +7,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,7 @@ import io.jsonwebtoken.*;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,7 +34,7 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    private static String secretKey = "aldl";
+    static Key secretKey = Keys.hmacShaKeyFor("ALDLForAllAroundGlobalUsersWelcome".getBytes(StandardCharsets.UTF_8));
     //엑세스 토큰 유효시간 == 1일
     private static final long expireTime = 24 * 60 * 60 * 1000L;
     //리프레시 토큰 유효시간 == 7일
@@ -45,19 +48,19 @@ public class JwtTokenProvider {
         claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
         Date now = new Date();
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
-        Key signatureKey =
-                new SecretKeySpec(
-                        secretKeyBytes
-                        , signatureAlgorithm.getJcaName()
-                );
+//        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
+//        Key signatureKey =
+//                new SecretKeySpec(
+//                        secretKeyBytes
+//                        , signatureAlgorithm.getJcaName()
+//                );
 
         return JWT.create()
                 .withSubject(userEmail)
                 .withExpiresAt(new Date(now.getTime() + expireTime))
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey.getEncoded()));
     }
 
     public static Date getTokenExpiration(long expirationTime) {
@@ -67,17 +70,17 @@ public class JwtTokenProvider {
 
     public static JWTVerifier getVerifier() {
         return JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey.getEncoded()))
                 .withIssuer(ISSUER)
                 .build();
     }
     public static void handleError(String token) {
         JWTVerifier verifier = JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .require(Algorithm.HMAC512(secretKey.getEncoded()))
                 .withIssuer(ISSUER)
                 .build();
         System.out.println(ISSUER);
-        System.out.println(secretKey.getBytes().toString());
+        System.out.println(secretKey.getEncoded().toString());
         try {
             verifier.verify(token.replace("Bearer ", ""));
         }         catch (Exception ex) {
@@ -110,7 +113,7 @@ public class JwtTokenProvider {
     }
 
     public String getUserPk(String token){
-        return Jwts.parserBuilder().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(Base64.getEncoder().encodeToString(secretKey.getEncoded())).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     public String createRefreshToken(String userEmail) throws UnsupportedEncodingException {
@@ -120,11 +123,13 @@ public class JwtTokenProvider {
         Date now = new Date();
 
         System.out.println("createRefreshToken 완료");
+
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + refreshExpireTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes("UTF-8"))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -132,7 +137,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken){
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes())).build().parseClaimsJws(jwtToken);
+                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getEncoded())).build().parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException e){
             e.printStackTrace();

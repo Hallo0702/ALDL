@@ -2,6 +2,7 @@ package ALDL.aldl.service;
 
 import ALDL.aldl.auth.JwtTokenProvider;
 import ALDL.aldl.auth.UserLoginPostReq;
+import ALDL.aldl.db.UserLoginRepo;
 import ALDL.aldl.db.UserRepository;
 import ALDL.aldl.model.User;
 import ALDL.aldl.model.UserForm;
@@ -10,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserLoginRepo userLoginRepo;
     private final JwtTokenProvider jwtTokenProvider;
     public void signupUser(String email, String password, String name, String nickname){
         UserForm userForm = new UserForm();
@@ -61,6 +65,27 @@ public class UserService {
                 .build();
 
         return userLoginPostReq;
+    }
+
+    @Transactional
+    public UserLoginPostReq refreshToken(String refreshToken) throws Exception {
+
+        User user = userLoginRepo.findByEmail(jwtTokenProvider.getUserPk(refreshToken));
+        if(!refreshToken.equals(user.getRefreshToken())) throw new AccessDeniedException("해당 멤버가 존재하지 않습니다.");
+
+        if(!jwtTokenProvider.validateToken(user.getRefreshToken()))
+            throw new IllegalStateException("다시 로그인 해주세요.");
+
+        user.changeRefreshToken(jwtTokenProvider.createRefreshToken(user.getEmail()));
+
+        UserLoginPostReq userDto = UserLoginPostReq.builder()
+                .email(user.getEmail())
+                .accessToken(jwtTokenProvider.createToken(user.getEmail()))
+                .refreshToken(user.getRefreshToken())
+                .nickname(user.getNickname())
+                .build();
+
+        return userDto;
     }
 
 }
