@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import type { FC, ReactNode } from 'react';
 
+import Header from './Header';
+
 interface Props {
   children: ReactNode;
 }
@@ -15,7 +17,10 @@ const Layout: FC<Props> = ({ children }) => {
         objectFit="cover"
         objectPosition="center"
       />
-      <div className="mx-20 z-20 relative">{children}</div>
+      <div className="mx-20 z-20 relative">
+        <Header />
+        {children}
+      </div>
     </div>
   );
 };
