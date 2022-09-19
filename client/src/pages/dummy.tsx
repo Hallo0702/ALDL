@@ -65,6 +65,12 @@ const Dummy: NextPage = ({}) => {
         <div className="text-gray">asdasfasd</div>
         <div className="text-gray-dark">asdasfasd</div>
       </div>
+      <div className="bg-peach w-40 h-80">
+        <div className="text-gray-light">asdasfasd</div>
+        <div className="text-gray-normal">asdasfasd</div>
+        <div className="text-gray">asdasfasd</div>
+        <div className="text-gray-dark">asdasfasd</div>
+      </div>
     </>
   );
 };

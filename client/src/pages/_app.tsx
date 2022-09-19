@@ -1,11 +1,13 @@
 import type { AppProps } from 'next/app';
+
 import '../../styles/globals.css';
+import Layout from '../components/common/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="mx-20">
-      <Component {...pageProps} />;
-    </div>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   );
 }
 
