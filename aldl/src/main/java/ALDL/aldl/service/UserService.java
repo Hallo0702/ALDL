@@ -19,7 +19,6 @@ public class UserService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-
     private final UserRepository userRepository;
     private final UserLoginRepo userLoginRepo;
 
@@ -52,7 +51,7 @@ public class UserService {
     public User getUserByUserEmail(String userEmail) {
         // 디비에 유저 정보 조회 (userId 를 통한 조회).
         System.out.println("유저ID 체크" + userEmail);
-        User user = userRepository.findByUserEmail(userEmail).orElseGet(null);
+        User user = userLoginRepo.findByEmail(userEmail);
         return user;
     }
     public void ModifingPassword(String email,String password){
@@ -97,6 +96,14 @@ public class UserService {
                 .build();
 
         return userDto;
+    }
+
+    @Transactional
+    public void logoutMember(String refreshToken) {
+        boolean result = jwtTokenProvider.validateToken(refreshToken);
+        if(!result) throw new IllegalStateException("토큰 만료 되었습니다.");
+        User user = userLoginRepo.findByEmail(jwtTokenProvider.getUserPk(refreshToken));
+        user.deleteRefreshToken();
     }
 
 }
