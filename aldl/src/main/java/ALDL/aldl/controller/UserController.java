@@ -1,17 +1,25 @@
 package ALDL.aldl.controller;
 
+import ALDL.aldl.auth.UserLoginPostReq;
+import ALDL.aldl.model.Message;
+import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.service.UserService;
 import ALDL.aldl.service.UserSha256;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
+@RequestMapping("/auth")
 public class UserController {
     @Autowired
     UserService userService;
@@ -104,14 +112,26 @@ public class UserController {
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestParam String email,@RequestParam  String password){
+
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+
         try{
+            System.out.println("현재위치확인 // 로그인");
             if (email != null && !email.equals("")){
 
                 if (userService.checkEmail(email) != null){
                     String password_encrypt = UserSha256.encrypt(password);
                     if (userService.checkPassword(email,password_encrypt)!=null){
+                        UserLoginPostReq loginPostReq  = userService.userLogin(email);
+                        message.setAccessToken(loginPostReq.getAccessToken());
+                        message.setRefreshToken(loginPostReq.getRefreshToken());
+                        message.setStatus(StatusEnum.OK);
+
                         System.out.println("Login:로그인성공");
-                        return ResponseEntity.status(200).body("로그인 성공");
+                        return new ResponseEntity<>(message,headers, HttpStatus.OK);
                     }
                     else{
                         System.out.println("Login:아이디와 비밀번호를 확인해주세요");
@@ -140,7 +160,20 @@ public class UserController {
     @CrossOrigin(origins="*")
     @PostMapping("/logout")
     @ResponseBody
-    public void logout(@RequestParam String nickname){
+    public ResponseEntity<?> logout(@RequestBody Map<String, String> body){
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        try {
+            userService.logoutMember(body.get("refreshToken"));
+            message.setStatus(StatusEnum.OK);
+            message.setResponseType("로그아웃 성공");
+            return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        } catch (Exception e){
+            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setResponseType("ACCESS TOKEN이 일치하지 않습니다.");
+            return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
+        }
 
     }
     //비밀번호 수정

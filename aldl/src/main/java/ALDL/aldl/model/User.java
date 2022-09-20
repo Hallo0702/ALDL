@@ -26,13 +26,24 @@ public class User {
     @Column
     private String nickname;
 
+    @Column
+    private String refreshToken;
+
+
+    public void changeRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
+    public void deleteRefreshToken(){
+        this.refreshToken = null;
+    }
+
     @Builder
-    public User(String email, String password, String name, String nickname){
+    public User(String email, String password, String name, String nickname,String refreshToken){
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
-
+        this.refreshToken = refreshToken;
     }
 
 }
