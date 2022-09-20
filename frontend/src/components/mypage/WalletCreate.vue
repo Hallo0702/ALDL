@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     createWallet: async function() {
-      var web3 = new Web3(new Web3.providers.HttpProvider('http://local:8545'));
+      var web3 = new Web3(new Web3.providers.HttpProvider('http://43.200.253.174:3000'));
       var account = await web3.eth.accounts.create();
       const res=await web3.eth.accounts.privateKeyToAccount(account.privateKey);
       this.walletAddress=res.address;

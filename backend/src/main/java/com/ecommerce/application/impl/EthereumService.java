@@ -86,17 +86,18 @@ public class EthereumService implements IEthereumService {
 		CryptoUtil cryptoUtil = CryptoUtil.of(ADMIN_ADDRESS);
 		try {
 //			web3j.netVersion().send().getNetVersion();
-			Web3j web3 = Web3j.build(new HttpService());
+			Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
 			web3.netVersion().send().getNetVersion();
-			Credentials credentials = WalletUtils.loadCredentials(PASSWORD, "C:\\Users\\multicampus\\Desktop\\blockchain-contract-skeleton\\backend\\src\\main\\resources\\admin.wallet");
+			Credentials credentials = WalletUtils.loadCredentials(PASSWORD, "C:\\Users\\multicampus\\Desktop\\S07P21C207\\backend\\src\\main\\resources\\admin.wallet");
 			log.info("sending ...");
 			Transfer transfer = new Transfer(web3, new RawTransactionManager(web3 , credentials , 921));
 //			CompletableFuture<TransactionReceipt> transactionReceipt = Transfer.sendFunds(web3j, credentials, address, new BigDecimal(5), Convert.Unit.ETHER).sendAsync();
 //			System.out.println(transactionReceipt);
+			log.info(String.valueOf(transfer));
 //			TransactionReceipt txReceipt = transactionReceipt.get();
 			TransactionReceipt transactionReceipt = transfer.sendFunds(address, new BigDecimal(5), Convert.Unit.ETHER).send();
 //			log.info("txReceipt received: " + txReceipt.getTransactionHash());
-
+			log.info(transactionReceipt.getTransactionHash());
 //			return txReceipt.getTransactionHash();
 			return transactionReceipt.getTransactionHash();
 		} catch (IOException | InterruptedException | TransactionException | ExecutionException e) {
