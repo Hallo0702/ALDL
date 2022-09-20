@@ -244,7 +244,11 @@ public class UserController {
                 Integer v = (int)Math.floor(Math.random() * 1000000);
                 String new_password = UserSha256.encrypt(v.toString());
                 userService.ModifingPassword(email,new_password);
-                return ResponseEntity.status(500).body(v);
+                return ResponseEntity.status(200).body(v);
+            }
+            else{
+                return ResponseEntity.status(400).body("이메일오류");
+                
             }
 
         }
