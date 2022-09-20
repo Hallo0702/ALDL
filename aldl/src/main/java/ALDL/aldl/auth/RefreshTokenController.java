@@ -51,7 +51,6 @@ public class RefreshTokenController {
             System.out.println(email + "    :   userid ");
 
             message.setStatus(StatusEnum.OK);
-            message.setUserEmail(email);
             message.setAccessToken(accesstoken);
             message.setRefreshToken(new_refreshToken);
             return new ResponseEntity<>(message, headers, HttpStatus.OK);
