@@ -21,6 +21,10 @@ module.exports = {
           dark: '#797979',
         },
       },
+      width: {
+        112: '28rem',
+        128: '32rem',
+      },
     },
   },
   variants: {
