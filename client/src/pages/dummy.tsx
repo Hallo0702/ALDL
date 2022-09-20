@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import axios from 'axios';
 import { useEffect } from 'react';
+import FormInput from '../components/common/FormInput';
 
 const Dummy: NextPage = ({}) => {
   useEffect(() => {
@@ -69,6 +70,33 @@ const Dummy: NextPage = ({}) => {
         <div className="text-gray">asdasfasd</div>
         <div className="text-gray-dark">asdasfasd</div>
       </div>
+      <form className="flex flex-col justify-center items-center">
+        <FormInput
+          label="비밀번호 확인"
+          id="test"
+          isError
+          errMsg="* 올바른 이메일 형식을 확인하세요."
+        />
+        <FormInput
+          label="test"
+          id="test"
+          isError
+          errMsg="* 중복된 별명입니다."
+        />
+        <FormInput
+          label="test"
+          id="test"
+          // isError
+          errMsg="* 올바른 이메일 형식을 확인하세요."
+        />
+        <FormInput
+          label="test"
+          id="test"
+          // isError
+          errMsg="* 올바른 이메일 형식을 확인하세요."
+          type="password"
+        />
+      </form>
     </>
   );
 };
