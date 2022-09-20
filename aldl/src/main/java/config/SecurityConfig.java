@@ -53,7 +53,7 @@ public class SecurityConfig {
                 // 스프링이 아닌 다른 어플리케이션에서 세션을 사용하는 곳이 있다면 세션이 생성 될 수도 있다는 점
                 .and()
                 .authorizeRequests()  // 요청에 대한 사용 권한 체크
-                .antMatchers("/login", "/signup").permitAll()
+//                .antMatchers("/login", "/signup").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()  // 그 외 나머지 요청은 누구나 접근 가능
                 .and()
