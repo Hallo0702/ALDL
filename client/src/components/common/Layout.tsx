@@ -9,7 +9,7 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen font-custom">
       <Image
         src="/images/main_bg.png"
         alt="메인 배경 이미지"
