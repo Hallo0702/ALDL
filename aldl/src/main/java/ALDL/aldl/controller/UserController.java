@@ -200,6 +200,26 @@ public class UserController {
             return ResponseEntity.status(500).body("에러발생");
         }
     }
+    //비밀번호 찾기
+    @ApiOperation(value = "비밀번호 찾기/초기화")
+    @CrossOrigin(origins="*")
+    @PostMapping(path="/ResetPassword")
+    public ResponseEntity<?> ResetPassword(@RequestBody Map<String,String> info){
+        String email = info.get("email");
+        try {
+            if (email !=null && !email.equals("")){
+                Integer v = (int)Math.floor(Math.random() * 1000000);
+                String new_password = UserSha256.encrypt(v.toString());
+                userService.ModifingPassword(email,new_password);
+                return ResponseEntity.status(500).body(v);
+            }
+
+        }
+        catch (Exception e){
+            return ResponseEntity.status(500).body("에러발생");
+        }
+    }
+
 
 
 }
