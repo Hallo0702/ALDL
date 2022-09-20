@@ -12,6 +12,7 @@ const FormInput: FC<FormInputProps> = ({
   id,
   isError,
   errMsg,
+  onChange,
   ...rest
 }) => {
   return (
@@ -28,6 +29,7 @@ const FormInput: FC<FormInputProps> = ({
           className="w-112 h-12 rounded-full text-center p-8"
           type="text"
           id={id}
+          onChange={onChange}
           {...rest}
         />
         {isError && (

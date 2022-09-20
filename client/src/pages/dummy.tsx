@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FormInput from '../components/common/FormInput';
 
 const Dummy: NextPage = ({}) => {
+  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -76,6 +77,10 @@ const Dummy: NextPage = ({}) => {
           id="test"
           isError
           errMsg="* 올바른 이메일 형식을 확인하세요."
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
         />
         <FormInput
           label="test"
@@ -97,6 +102,7 @@ const Dummy: NextPage = ({}) => {
           type="password"
         />
       </form>
+      <span>{inputValue}</span>
     </>
   );
 };
