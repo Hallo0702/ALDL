@@ -8,10 +8,7 @@ import ALDL.aldl.service.UserSha256;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
@@ -29,6 +26,10 @@ public class UserController {
     @CrossOrigin(origins="*")
     @PostMapping(path="/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String,String> info){
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         String email = info.get("email");
         String password = UserSha256.encrypt(info.get("password"));
         String name = info.get("name");
@@ -40,21 +41,33 @@ public class UserController {
                             name==""||name==null||
                             nickname==""||nickname==null
             ){
-                return ResponseEntity.status(400).body("유효하지 않은 정보");
+                message.setResponseType("유효하지 않은 정보");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
             if (userService.checkEmail(email) != null){
-                return ResponseEntity.status(400).body("존재하는 이메일");
+                message.setResponseType("존재하는 이메일");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
             if (userService.checkNickname(nickname) != null){
-                return ResponseEntity.status(400).body("존재하는 닉네임");
+                message.setResponseType("존재하는 닉네임");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
 
 
             userService.signupUser(email,password,name,nickname);
 
-            return ResponseEntity.status(200).body("회원가입 완료");
+            message.setResponseType("회원가입 완료");
+            message.setStatus(StatusEnum.OK);
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
         }catch(Exception e){
-            return ResponseEntity.status(500).body("에러발생");
+            message.setResponseType("에러 발생");
+            message.setStatus(StatusEnum.FORBIDDEN);
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
 
 
@@ -65,20 +78,33 @@ public class UserController {
     @GetMapping("/emailduplicate")
     @ResponseBody
     public ResponseEntity<?> validemail(@RequestParam String email){
+
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         try{
             if (email != null && !email.equals("")){
                 if (userService.checkEmail(email) != null){
-                    return ResponseEntity.status(200).body("존재하는 이메일");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
+                    message.setResponseType("존재하는 이메일");
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
                 else{
-                    return ResponseEntity.status(400).body("존재하지 않는 이메일");
+                    message.setResponseType("존재하지 않는 이메일!");
+                    message.setStatus(StatusEnum.OK);
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
             }
             else{
-                return ResponseEntity.status(404).body("비어있는 이메일");
+                message.setResponseType("비어있는 이메일");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
         }catch(Exception e){
-            return ResponseEntity.status(500).body("에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            message.setResponseType("에러 발생");
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
     //닉네임(별명) 중복확인
@@ -88,22 +114,33 @@ public class UserController {
     @GetMapping("/nicknameduplicate")
     @ResponseBody
     public ResponseEntity<?> validnickname(@RequestParam String nickname){
+
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         try{
-
-
             if (nickname != null && !nickname.equals("")){
                 if (userService.checkNickname(nickname) != null){
-                    return ResponseEntity.status(200).body("존재하는 닉네임");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
+                    message.setResponseType("존재하는 닉네임");
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
                 else{
-                    return ResponseEntity.status(400).body("존재하지 않는 닉네임");
+                    message.setResponseType("존재하지 않는 닉네임!");
+                    message.setStatus(StatusEnum.OK);
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
             }
             else{
-                return ResponseEntity.status(400).body("비어있는 닉네임");
+                message.setResponseType("비어있는 닉네임");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
         }catch(Exception e){
-            return ResponseEntity.status(500).body("에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            message.setResponseType("에러 발생");
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
     //로그인
@@ -129,28 +166,35 @@ public class UserController {
                         message.setAccessToken(loginPostReq.getAccessToken());
                         message.setRefreshToken(loginPostReq.getRefreshToken());
                         message.setStatus(StatusEnum.OK);
-
-                        System.out.println("Login:로그인성공");
+                        message.setResponseType("Login:로그인성공");
                         return new ResponseEntity<>(message,headers, HttpStatus.OK);
                     }
                     else{
-                        System.out.println("Login:아이디와 비밀번호를 확인해주세요");
-                        return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
+                        message.setResponseType("Login:아이디와 비밀번호를 확인해주세요");
+                        message.setStatus(StatusEnum.BAD_REQUEST);
+
+                        return new ResponseEntity<>(message,headers,HttpStatus.OK);
                     }
 
                 }
                 else{
-                    System.out.println("Login:아이디와 비밀번호를 확인해주세요");
-                    return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
+                    message.setResponseType("Login:아이디와 비밀번호를 확인해주세요");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
+
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
             }
             else{
-                System.out.println("Login:아이디와 비밀번호를 확인해주세요");
-                return ResponseEntity.status(400).body("아이디와 비밀번호를 확인해주세요");
+                message.setResponseType("Login:아이디와 비밀번호를 확인해주세요");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
         }catch(Exception e){
-            System.out.println("Login:에러발생");
-            return ResponseEntity.status(500).body("에러발생");
+            message.setResponseType("Login:에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
+
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
 
@@ -184,28 +228,45 @@ public class UserController {
         String email = info.get("email");
         String password = UserSha256.encrypt(info.get("password"));
         String new_password = UserSha256.encrypt(info.get("new_password"));
+
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         try {
             if (userService.checkEmail(email) != null){
                 if (userService.checkPassword(email,password)!=null){
 
                     userService.ModifingPassword(email,new_password);
+
+                    message.setResponseType("ModifyPassword:비밀번호 수정완료");
+                    message.setStatus(StatusEnum.OK);
                     System.out.println("ModifyPassword:비밀번호 수정완료");
-                    return ResponseEntity.status(200).body("비밀번호 수정 완료");
+
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
                 else{
+                    message.setResponseType("ModifyPassword:비밀번호 확인하세요");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
                     System.out.println("ModifyPassword:비밀번호 확인하세요");
-                    return ResponseEntity.status(400).body("비밀번호를 확인하세요");
+
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
                 }
             }
             else{
+                message.setResponseType("ModifyPassword:이메일을 확인하세요");
+                message.setStatus(StatusEnum.BAD_REQUEST);
                 System.out.println("ModifyPassword:이메일을 확인하세요");
-                return ResponseEntity.status(400).body("이메일을 확인하세요");
 
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
         }
         catch (Exception e){
+            message.setResponseType("ModifyPassword: 에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
             System.out.println("ModifyPassword:에러발생");
-            return ResponseEntity.status(500).body("에러발생");
+
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
     //닉네임 수정
@@ -215,22 +276,39 @@ public class UserController {
     public ResponseEntity<?> ModifyNickname(@RequestBody Map<String,String> info){
         String email = info.get("email");
         String nickname = info.get("new_nickname");
+
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         try {
             if (nickname != null && !nickname.equals("")){
                 if (userService.checkNickname(nickname) != null){
-                    return ResponseEntity.status(400).body("존재하는 닉네임");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
+                    message.setResponseType("존재하는 닉네임");
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
                 }
                 else{
                     userService.ModifingNickname(email,nickname);
-                    return ResponseEntity.status(200).body("닉네임 변경 완료");
+                    message.setResponseType("닉네임 변경 완료");
+                    message.setStatus(StatusEnum.OK);
+                    return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
                 }
             }
             else{
-                return ResponseEntity.status(400).body("닉네임을 확인해주세요");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                message.setResponseType("닉네임을 확인해주세요");
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
             }
         }
         catch (Exception e){
-            return ResponseEntity.status(500).body("에러발생");
+            message.setResponseType("에러 발생!");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
         }
     }
     //비밀번호 찾기
@@ -239,21 +317,30 @@ public class UserController {
     @PostMapping(path="/ResetPassword")
     public ResponseEntity<?> ResetPassword(@RequestBody Map<String,String> info){
         String email = info.get("email");
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         try {
             if (email !=null && !email.equals("")){
                 Integer v = (int)Math.floor(Math.random() * 1000000);
                 String new_password = UserSha256.encrypt(v.toString());
                 userService.ModifingPassword(email,new_password);
-                return ResponseEntity.status(200).body(v);
+
+                message.setResponseType(String.valueOf(v));
+                message.setStatus(StatusEnum.OK);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
             else{
-                return ResponseEntity.status(400).body("이메일오류");
-                
+                message.setResponseType("이메일오류");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message,headers,HttpStatus.OK);
             }
 
         }
         catch (Exception e){
-            return ResponseEntity.status(500).body("에러발생");
+            message.setResponseType("에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
 
