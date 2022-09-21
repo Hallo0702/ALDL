@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import FormInput from '../components/common/FormInput';
 import Button from '../components/common/Button';
-import Card from '../components/common/Card';
 import Board from '../components/common/Board';
 import ListCard from '../components/common/ListCard';
 
@@ -111,8 +110,6 @@ const Dummy: NextPage = ({}) => {
       <Button label="복사" btnType="dark" btnSize="small"></Button>
       <Button label="취소" btnType="normal" btnSize="midium"></Button>
       <Button label="자물쇠 등록" btnType="active" btnSize="large"></Button>
-
-      <Card title="광주" />
       <Board>
         <div>asdasd</div>
       </Board>
