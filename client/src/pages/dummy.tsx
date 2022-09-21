@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import FormInput from '../components/common/FormInput';
+import Board from '../components/common/Board';
 import ListCard from '../components/common/ListCard';
 
 const Dummy: NextPage = ({}) => {
@@ -104,6 +105,9 @@ const Dummy: NextPage = ({}) => {
         />
       </form>
       <span>{inputValue}</span>
+      <Board>
+        <div>asdasd</div>
+      </Board>
       <ListCard
         tag="#광주"
         title="
