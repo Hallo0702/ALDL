@@ -14,7 +14,7 @@ const Layout: FC<Props> = ({ children }) => {
         src="/images/main_bg.png"
         alt="메인 배경 이미지"
         layout="fill"
-        objectFit="cover"
+        objectFit="fill"
         objectPosition="center"
       />
       <div className="mx-20 z-20 relative">
