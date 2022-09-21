@@ -1,0 +1,54 @@
+import { FC } from 'react';
+
+interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  label?: string;
+  btnType: string;
+  btnSize: string;
+  customstyle?: string;
+}
+const btnType = {
+  active: 'active',
+  normal: 'normal',
+  dark: 'dark',
+};
+
+const btnSize = {
+  small: 'small',
+  medium: 'medium',
+  large: 'large',
+};
+
+const btnTypeClass = {
+  [btnType.active]: 'border border-black rounded-3xl bg-peach',
+  [btnType.normal]: 'border border-black rounded-3xl bg-white',
+  [btnType.dark]: 'border border-black rounded-3xl bg-black text-white',
+};
+
+const btnSizeClass = {
+  [btnSize.small]: 'w-14 h-7 font-custom font-medium text-xs',
+  [btnSize.medium]: 'w-24 h-10 font-custom font-medium text-sm',
+  [btnSize.large]: 'w-36 h-10 font-custom font-medium text-sm',
+};
+
+const Button: FC<ButtonProps> = ({
+  label,
+  btnSize,
+  btnType,
+  customstyle,
+  onClick,
+  ...rest
+}) => {
+  return (
+    <button
+      className={
+        btnSizeClass[btnSize] + ' ' + btnTypeClass[btnType] + ' ' + customstyle
+      }
+      onClick={onClick}
+      {...rest}
+    >
+      {label}
+    </button>
+  );
+};
+
+export default Button;
