@@ -39,9 +39,9 @@ dependencies {
 	implementation 'com.auth0:java-jwt:3.19.2'
 	compileOnly 'io.jsonwebtoken:jjwt-api:0.11.1'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1'
-
+	//mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
-
 bootJar{
 	mainClass = 'ALDL.aldl.AldlApplication'
 	archiveFileName = 'aldl.jar'

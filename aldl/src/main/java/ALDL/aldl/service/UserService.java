@@ -62,6 +62,16 @@ public class UserService {
         userRepository.ModifyingNickname(email,nickname);
     }
 
+    public void updateAuthCode(String email,String authCode){userRepository.updateAuthCode(email,authCode);}
+
+    public boolean vaildAuthCode(String email,String authCode){
+        if(userRepository.validAuthCode(email,authCode) != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     @Transactional
     public UserLoginPostReq userLogin(String email) throws Exception {
         User user = getUserByUserEmail(email);
