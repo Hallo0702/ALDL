@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import FormInput from '../components/common/FormInput';
+import Card from '../components/common/Card';
 
 const Dummy: NextPage = ({}) => {
   const [inputValue, setInputValue] = useState('');
@@ -103,6 +104,7 @@ const Dummy: NextPage = ({}) => {
         />
       </form>
       <span>{inputValue}</span>
+      <Card title="광주" />
     </>
   );
 };
