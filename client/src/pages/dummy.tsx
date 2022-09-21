@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import FormInput from '../components/common/FormInput';
 import Card from '../components/common/Card';
+import Board from '../components/common/Board';
+import ListCard from '../components/common/ListCard';
 
 const Dummy: NextPage = ({}) => {
   const [inputValue, setInputValue] = useState('');
@@ -105,6 +107,25 @@ const Dummy: NextPage = ({}) => {
       </form>
       <span>{inputValue}</span>
       <Card title="광주" />
+      <Board>
+        <div>asdasd</div>
+      </Board>
+      <ListCard
+        tag="#광주"
+        title="
+        긴 제목입니다.
+        긴 제목입니다.
+        긴 제목입니다.
+        긴 제목입니다.
+        긴 제목입니다.
+        긴 제목입니다.
+        긴 제목입니다.
+        "
+        content="
+        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
+        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
+        "
+      />
     </>
   );
 };

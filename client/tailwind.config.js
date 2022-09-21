@@ -24,6 +24,7 @@ module.exports = {
       width: {
         112: '28rem',
         128: '32rem',
+        256: '64rem',
       },
       height: {
         112: '28rem',
@@ -34,5 +35,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };
