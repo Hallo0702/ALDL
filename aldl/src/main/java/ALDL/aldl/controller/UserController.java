@@ -343,6 +343,43 @@ public class UserController {
             return new ResponseEntity<>(message,headers,HttpStatus.OK);
         }
     }
+    @ApiOperation(value = "사용자 로그인")
+    @CrossOrigin(origins="*")
+    @GetMapping("/checkAuthCode")
+    @ResponseBody
+    private ResponseEntity<?> checkAuthCode(@RequestParam String email,@RequestParam  String authCode) {
+        Message message = new Message();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        try {
+            if (email != null && !email.equals("")) {
+                if (userService.vaildAuthCode(email,authCode)) {
+                    message.setResponseType("인증번호가 일치합니다");
+                    message.setStatus(StatusEnum.OK);
+                    return new ResponseEntity<>(message, headers, HttpStatus.OK);
+
+                } else {
+                    message.setResponseType("인증번호가 일치하지 않습니다");
+                    message.setStatus(StatusEnum.BAD_REQUEST);
+                    return new ResponseEntity<>(message, headers, HttpStatus.OK);
+
+                }
+
+
+            } else {
+                message.setResponseType("이메일정보가 정확하지 않습니다");
+                message.setStatus(StatusEnum.BAD_REQUEST);
+                return new ResponseEntity<>(message, headers, HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            message.setResponseType("에러발생");
+            message.setStatus(StatusEnum.NOT_FOUND);
+            return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        }
+
+    }
 
 
 

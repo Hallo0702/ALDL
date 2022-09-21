@@ -11,6 +11,8 @@ public class UserForm {
     private String nickname;
 
     private String refreshToken;
+
+    private String authCode;
     public void changeRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }
@@ -24,6 +26,7 @@ public class UserForm {
                 .password(password)
                 .name(name)
                 .nickname(nickname)
+                .authCode(authCode)
                 .build();
     }
 

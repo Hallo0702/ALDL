@@ -29,6 +29,9 @@ public class User {
     @Column
     private String refreshToken;
 
+    @Column
+    private String authCode;
+
 
     public void changeRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
@@ -38,12 +41,13 @@ public class User {
     }
 
     @Builder
-    public User(String email, String password, String name, String nickname,String refreshToken){
+    public User(String email, String password, String name, String nickname,String refreshToken,String authCode){
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
         this.refreshToken = refreshToken;
+        this.authCode = authCode;
     }
 
 }
