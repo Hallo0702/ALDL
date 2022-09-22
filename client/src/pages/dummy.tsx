@@ -112,11 +112,8 @@ const Dummy: NextPage = ({}) => {
       <Button label="취소" btnType="normal" btnSize="medium"></Button>
       <Button label="자물쇠 등록" btnType="active" btnSize="large"></Button>
 
-      <Card title="광주" />
-=======
       <Button label="취소" btnType="normal" btnSize="midium"></Button>
       <Button label="자물쇠 등록" btnType="active" btnSize="large"></Button>
->>>>>>> client/src/pages/dummy.tsx
       <Board>
         <div>asdasd</div>
       </Board>
