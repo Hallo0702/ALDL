@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
-import Editor from '../../components/common/Editor';
 
 const Create = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
@@ -31,26 +30,18 @@ const Create = () => {
           <input
             type="text"
             id="title"
-            className="w-full border border-black rounded-lg h-full"
+            className="w-full border border-black rounded-lg h-full p-4"
           />
         </div>
-
-        <Editor
-          name="description"
-          onChange={(data) => {
-            setData(data);
-          }}
-          onReady={(editor) => {
-            editor.editing.view.change((writer) => {
-              writer.setStyle(
-                'height',
-                '200px',
-                editor.editing.view.document.getRoot()
-              );
-            });
-          }}
-          editorLoaded={editorLoaded}
-        />
+        <div className="flex mb-4 w-full h-48 items-center text-xl font-bold">
+          <label htmlFor="content" className="w-16 mr-4 self-start">
+            내용*
+          </label>
+          <textarea
+            id="content"
+            className="w-full border border-black rounded-lg resize-none h-48 p-4"
+          />
+        </div>
       </Board>
       <div className="flex justify-center content-center mt-12">
         <Button
