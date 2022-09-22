@@ -2,13 +2,18 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useRef } from 'react';
 interface EditorProps {
   onChange: any;
+  onReady: any;
   editorLoaded: any;
   name: any;
   value?: any;
 }
-const Editor: FC<EditorProps> = ({ onChange, editorLoaded, name, value }) => {
-  const router = useRouter();
-  console.log(router);
+const Editor: FC<EditorProps> = ({
+  onChange,
+  onReady,
+  editorLoaded,
+  name,
+  value,
+}) => {
   const editorRef = useRef();
   const { CKEditor, ClassicEditor } = editorRef.current || {};
 
@@ -23,18 +28,15 @@ const Editor: FC<EditorProps> = ({ onChange, editorLoaded, name, value }) => {
     <div>
       {editorLoaded && (
         <CKEditor
-          // type=""
           name={name}
           editor={ClassicEditor}
           data={value}
           onChange={(event, editor) => {
             const data = editor.getData();
-            console.log({ event, editor, data });
             onChange(data);
           }}
           onReady={(editor) => {
-            console.log(editor);
-            // console.log(event.ui.view.render());
+            onReady(editor);
           }}
           onError={(a, b) => console.log(a, b)}
         />
