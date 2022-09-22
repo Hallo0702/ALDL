@@ -78,6 +78,7 @@ import { createWeb3 } from "@/utils/itemInventory.js";
 import { buyCash, getBalance } from "@/utils/cashContract.js";
 import MyPageNav from "./MyPageNav.vue";
 import { ethToWei } from "@/utils/ethereumUnitUtils.js";
+import Web3 from "web3";
 import BN from "bn.js";
 
 export default {
@@ -137,6 +138,16 @@ export default {
       const vm = this;
       walletService.chargeEther(this.wallet.address, function(res){
         vm.wallet = res.data;
+        var web3 = new Web3(new Web3.providers.HttpProvider('http://43.200.253.174:3000'));
+        web3.eth.accounts.signTransaction({data:"0x74657374", gas:10000000},"0x304d624c6edd206395411dd123862a1069c22482e364b4c917634824621b0d55")
+        .then(function(res){
+          console.log(res)
+          web3.eth.sendSignedTransaction(res.rawTransaction)
+          .then(function(res) {
+            console.log(res)
+          })
+        })
+        // var hash = web3.eth.sendSignedTransaction(tx.PrimiseResult.rawTransaction)
       },
       function(res) {
         console.log(res)
