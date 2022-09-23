@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 const Home: NextPage = () => {
@@ -21,12 +22,14 @@ const Home: NextPage = () => {
         </section>
 
         <section className="flex justify-center mb-16">
-          <Button
-            btnSize="large"
-            btnType="active"
-            label="자물쇠 등록"
-            customstyle="mr-8"
-          ></Button>
+          <Link href="/lock/create">
+            <Button
+              btnSize="large"
+              btnType="active"
+              label="자물쇠 등록"
+              customstyle="mr-8"
+            ></Button>
+          </Link>
           <Button btnSize="large" btnType="normal" label="모아보기"></Button>
         </section>
 
