@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
-import { createLock } from '../../api/lock';
+import React, { useRef, useState } from 'react';
 
+import { createLock } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
-
+import locks from '../../constant/locks';
 interface FormState {
   title: string;
   content: string;
@@ -27,6 +27,16 @@ const Create = () => {
     if (input.files && input.files.length) {
       const files = input.files;
       setFormState((prev) => ({ ...prev, image: files[0] }));
+    }
+  };
+
+  const onLockClickHandler = (e: React.MouseEvent) => {
+    if (e.currentTarget) {
+      const lock_design = Number(e.currentTarget.getAttribute('data-key'));
+      setFormState((prev) => ({
+        ...prev,
+        lock_design: lock_design,
+      }));
     }
   };
 
@@ -105,15 +115,26 @@ const Create = () => {
               자물쇠*
             </label>
             <div id="lock" className="flex gap-4 self-start">
-              <div className="w-32 h-32 relative border-peach border-2 cursor-pointer hover:border-peach">
-                <Image src="/images/locks/1.png" layout="fill"></Image>
-              </div>
-              <div className="w-32 h-32 relative border-gray-400 border cursor-pointer hover:border-peach">
-                <Image src="/images/locks/1.png" layout="fill"></Image>
-              </div>
-              <div className="w-32 h-32 relative border-gray-400 border cursor-pointer hover:border-peach">
-                <Image src="/images/locks/1.png" layout="fill"></Image>
-              </div>
+              {locks.map((lock) => (
+                <div
+                  key={lock.lock_design}
+                  data-key={lock.lock_design}
+                  className={`w-32 h-32 relative ${
+                    formState.lock_design === lock.lock_design
+                      ? 'border-peach border-2'
+                      : 'border-black border'
+                  } cursor-pointer hover:border-peach`}
+                  onClick={onLockClickHandler}
+                >
+                  <Image
+                    src={lock.image_src}
+                    alt={lock.image_src}
+                    layout="fill"
+                    objectFit="contain"
+                    objectPosition="center"
+                  ></Image>
+                </div>
+              ))}
             </div>
           </div>
         </div>
