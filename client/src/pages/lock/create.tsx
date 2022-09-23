@@ -100,6 +100,21 @@ const Create = () => {
               style={{ display: 'none' }}
               onChange={onImageChange}
             />
+            {formState.image && (
+              <div>
+                <span className="mb-2 font-medium">
+                  {formState.image?.name}
+                </span>
+                <Button
+                  label="삭제"
+                  btnSize="small"
+                  btnType="normal"
+                  onClick={() =>
+                    setFormState((prev) => ({ ...prev, image: null }))
+                  }
+                />
+              </div>
+            )}
             <Button
               label="Browse"
               btnType="dark"
