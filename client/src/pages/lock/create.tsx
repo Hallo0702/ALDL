@@ -100,6 +100,22 @@ const Create = () => {
             ></Button>
           </div>
           {/* todo : 자물쇠 선택 */}
+          <div className="flex mb-4 w-full h-48 items-center text-xl font-bold">
+            <label htmlFor="lock" className="w-20 self-start">
+              자물쇠*
+            </label>
+            <div id="lock" className="flex gap-4 self-start">
+              <div className="w-32 h-32 relative border-peach border-2 cursor-pointer hover:border-peach">
+                <Image src="/images/locks/1.png" layout="fill"></Image>
+              </div>
+              <div className="w-32 h-32 relative border-gray-400 border cursor-pointer hover:border-peach">
+                <Image src="/images/locks/1.png" layout="fill"></Image>
+              </div>
+              <div className="w-32 h-32 relative border-gray-400 border cursor-pointer hover:border-peach">
+                <Image src="/images/locks/1.png" layout="fill"></Image>
+              </div>
+            </div>
+          </div>
         </div>
       </Board>
       <div className="flex justify-center content-center mt-12">
