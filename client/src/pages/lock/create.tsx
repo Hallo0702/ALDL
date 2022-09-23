@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
@@ -8,6 +9,7 @@ const Create = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState('');
 
+  const fileRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
@@ -42,14 +44,37 @@ const Create = () => {
             className="w-full border border-black rounded-lg resize-none h-48 p-4"
           />
         </div>
+        <div className="flex items-end gap-10">
+          <div className="w-96 h-32 relative ml-20">
+            <Image
+              src="/images/upload.png"
+              alt="메인 배경 이미지"
+              layout="fill"
+              objectFit="fill"
+              objectPosition="center"
+            />
+          </div>
+          <input
+            ref={fileRef}
+            name="file"
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+          />
+          <Button
+            label="Browse"
+            btnType="dark"
+            btnSize="large"
+            onClick={() => {
+              if (fileRef.current) fileRef.current.click();
+            }}
+          ></Button>
+        </div>
+
+        {/* todo : 자물쇠 선택 */}
       </Board>
       <div className="flex justify-center content-center mt-12">
-        <Button
-          label="취소"
-          btnType="normal"
-          btnSize="medium"
-          customstyle="mr-8"
-        ></Button>
+        <Button label="취소" btnType="normal" btnSize="medium"></Button>
         <Button label="등록" btnType="active" btnSize="medium"></Button>
       </div>
     </>
