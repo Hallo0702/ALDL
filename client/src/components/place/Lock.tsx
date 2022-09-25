@@ -24,8 +24,9 @@ const Lock: FC<LockProps> = ({ lockType, top, left }) => {
       height={LOCK_SIZE}
       style={{
         top: `${top}%`,
-        left: `calc(${left}% - ${LOCK_SIZE})`,
+        left: `${left}%`,
       }}
+      // todo : 마우스 올리면 제목정도 나오게 출력하면 좋을것 같음.
       onMouseOver={() => console.log(2)}
     ></Lock>
   );
