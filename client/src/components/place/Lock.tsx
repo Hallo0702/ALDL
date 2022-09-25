@@ -3,7 +3,7 @@ import BasicIcon from '../../../assets/locks/basic.svg';
 import StripeIcon from '../../../assets/locks/stripe.svg';
 
 const LOCK_SIZE = '5vw';
-interface LockProps {
+export interface LockProps {
   lockType?: string;
   top: number;
   left: number;
