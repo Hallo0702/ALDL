@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FormInput from '../components/common/FormInput';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
@@ -9,6 +9,7 @@ import ListCard from '../components/common/ListCard';
 
 const Dummy: NextPage = ({}) => {
   const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>();
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -85,6 +86,7 @@ const Dummy: NextPage = ({}) => {
           onChange={(e) => {
             setInputValue(e.target.value);
           }}
+          ref={inputRef}
         />
         <FormInput
           label="test"
