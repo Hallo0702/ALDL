@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, forwardRef } from 'react';
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   label?: string;
@@ -30,25 +30,25 @@ const btnSizeClass = {
   [btnSize.large]: 'w-36 h-10 m-2 font-custom font-medium text-sm',
 };
 
-const Button: FC<ButtonProps> = ({
-  label,
-  btnSize,
-  btnType,
-  customstyle,
-  onClick,
-  ...rest
-}) => {
-  return (
-    <button
-      className={
-        btnSizeClass[btnSize] + ' ' + btnTypeClass[btnType] + ' ' + customstyle
-      }
-      onClick={onClick}
-      {...rest}
-    >
-      {label}
-    </button>
-  );
-};
-
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ label, btnSize, btnType, customstyle, onClick, ...rest }, ref) => {
+    return (
+      <button
+        className={
+          btnSizeClass[btnSize] +
+          ' ' +
+          btnTypeClass[btnType] +
+          ' ' +
+          customstyle
+        }
+        onClick={onClick}
+        ref={ref}
+        {...rest}
+      >
+        {label}
+      </button>
+    );
+  }
+);
+Button.displayName = 'Button';
 export default Button;
