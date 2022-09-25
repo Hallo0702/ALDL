@@ -34,9 +34,11 @@ const Home: NextPage = () => {
         </section>
 
         <section className="flex flex-wrap justify-around gap-32">
-          <div className="w-1/4">
-            <Card title="#광주" imageSrc="/images/landmark/seoul.png"></Card>
-          </div>
+          <Link href="/place/gwangju">
+            <div className="w-1/4">
+              <Card title="#광주" imageSrc="/images/landmark/seoul.png"></Card>
+            </div>
+          </Link>
           <div className="w-1/4 relative top-36 ">
             <Card title="#서울" imageSrc="/images/landmark/seoul.png"></Card>
           </div>
