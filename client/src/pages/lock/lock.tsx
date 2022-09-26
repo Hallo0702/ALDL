@@ -1,9 +1,19 @@
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 
+const DynamicContainer = dynamic(
+  () => import('../../components/place/DynamicContainer'),
+  { ssr: false }
+);
+
 const lock: NextPage = ({}) => {
+  const locks = [
+    { top: 0, left: 0 },
+    { lockType: 'stripe', top: 15, left: 50 },
+  ];
   return (
     <>
       <Head>
@@ -28,6 +38,7 @@ const lock: NextPage = ({}) => {
           </div>
         </div>
       </Board>
+      <DynamicContainer bgHeight={2000} bgWidth={3000} locks={locks} />
       <div className="flex justify-center content-center mt-12">
         <Button label="취소" btnType="normal" btnSize="medium"></Button>
         <Button label="걸기" btnType="active" btnSize="medium"></Button>
