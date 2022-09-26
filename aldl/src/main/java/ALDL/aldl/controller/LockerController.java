@@ -7,7 +7,10 @@ import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.service.LockerOwnerService;
 import ALDL.aldl.service.LockerService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,20 +31,17 @@ public class LockerController {
     @Autowired
     LockerOwnerService lockerOwnerService;
 
-
-    @ApiOperation(value = "자물쇠 정보 등록")
+    @ApiOperation(value = "자물쇠 정보 등록") //Swagger
     @CrossOrigin(origins="*")
     @PostMapping(path="/setlocker")
-    public ResponseEntity<?> setlocker(@RequestBody Map<String,String> info){
-        Message message = new Message();
+    public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
-        String background = info.get("background");
-        String design = info.get("design");
-        String nickname = info.get("nickname");
-        String location_x = info.get("location_x");
-        String location_y = info.get("location_y");
+        String background = info.getBackground();
+        String design = info.getDesign();
+        String nickname = info.getNickname();
+        String location_x = info.getLocation_x();
+        String location_y = info.getLocation_y();
         try{
             if (background == ""||background ==null||
                     design == ""||design==null||
@@ -49,99 +49,104 @@ public class LockerController {
                     location_x==""||location_x==null||
                     location_y==""||location_y==null
             ){
-                message.setResponseType("setlocker:정보가 비어있습니다");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+                return new ResponseEntity<>("정보가 비어있습니다.",headers, HttpStatus.BAD_REQUEST);
             }
 
             lockerService.saveLocker(background,design,nickname,location_x,location_y);
-            message.setResponseType("setlocker:자물쇠 등록 완료");
-            message.setStatus(StatusEnum.OK);
-            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+            return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
-            message.setResponseType("setlocker:올바르지 않은 정보");
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+            return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
         }
    }
 
     @ApiOperation(value = "자물쇠 소유자 등록")
     @CrossOrigin(origins="*")
     @PostMapping(path="/savelocker")
-    public ResponseEntity<?> savelocker(@RequestBody Map<String,String> info){
-        Message message = new Message();
+    public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
-
-        String email = info.get("email");
-        String lockerHash = info.get("lockerHash");
+        String email = info.getEmail();
+        String lockerHash = info.getLockerHash();
         try{
             if(email==""||email==null||
             lockerHash==""||lockerHash==null){
-                message.setResponseType("savelocker:올바르지 않은 정보");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+                return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
 
             }
             if(lockerOwnerService.findlocker(email,lockerHash)==false){
-                message.setResponseType("savelocker:이미 등록된 자물쇠");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+                return new ResponseEntity<>("이미 등록된 자물쇠",headers, HttpStatus.FORBIDDEN);
             }
             lockerOwnerService.saveLockerOwner(email,lockerHash);
-            return ResponseEntity.status(200).body("자물쇠 저장 완료");
+
+            return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
-            message.setResponseType("savelocker:올바르지않은 정보");
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+            return new ResponseEntity<>("올바르지않은 정보",headers, HttpStatus.BAD_REQUEST);
         }
     }
 
     @ApiOperation(value = "장소별 자물쇠 전체 반환",response = Locker.class)
     @CrossOrigin(origins = "*")
     @GetMapping("/backgroundlocker")
-    public ResponseEntity<?> allLocker(@RequestParam String background){
-        Message message = new Message();
+    public ResponseEntity<List<Locker>> allLocker(@RequestParam String background){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try{
             if (background==null||background==""){
-                message.setResponseType("backgroundlocker:올바르지않은 정보");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+                return new ResponseEntity<>(null,headers, HttpStatus.BAD_REQUEST);
             }
             List<Locker> lockers = lockerService.backgroundLocker(background);
-            return ResponseEntity.status(200).body(lockers);
+            return new ResponseEntity<>(lockers,headers, HttpStatus.OK);
         }catch(Exception e){
-            message.setResponseType("backgroundlocker:정보를 확인하세요");
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+            return new ResponseEntity<>(null,headers, HttpStatus.BAD_REQUEST);
         }
 
     }
     @ApiOperation(value = "사용자가 보유중인 자물쇠 반환",response = LockerOwner.class)
     @CrossOrigin(origins = "*")
     @GetMapping("/mylockers")
-    public ResponseEntity<?> mylockers(@RequestParam String email){
-        Message message = new Message();
+    public ResponseEntity<List<LockerOwner>> mylockers(@RequestParam String email){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try{
             if (email==""||email==null){
-                message.setResponseType("Mylockers:이메일을 확인하세요");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+                return new ResponseEntity<>(null,headers, HttpStatus.BAD_REQUEST);
             }
-            return ResponseEntity.status(200).body(lockerOwnerService.mylockers(email));
+            return new ResponseEntity<>(lockerOwnerService.mylockers(email),headers, HttpStatus.OK);
         }catch(Exception e){
-            message.setResponseType("Mylockers:이메일을 확인하세요");
-            message.setStatus(StatusEnum.BAD_REQUEST);
-            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+            return new ResponseEntity<>(null,headers ,HttpStatus.BAD_REQUEST);
         }
 
     }
+    //swagger
+    @Getter
+    public class Swagger_savelocker{
+        @ApiModelProperty(example = "사용자 이메일")
+        String email;
+        @ApiModelProperty(example = "자물쇠 해쉬값")
+        String lockerHash;
+
+    }
+    @Getter
+    public class Swagger_setlocker{
+        @ApiModelProperty(example = "배경 종류")
+        String background;
+        @ApiModelProperty(example = "사용자 닉네임")
+        String nickname;
+        @ApiModelProperty(example = "자물쇠 X축")
+        String location_x;
+        @ApiModelProperty(example = "자물쇠 Y축")
+        String location_y;
+        @ApiModelProperty(example = "자물쇠 디자인")
+        String design;
+
+    }
+
 }
 
