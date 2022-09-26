@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 
-import { createLock } from '../../api/lock';
+import { uploadImage } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import locks from '../../constant/locks';
@@ -21,6 +22,7 @@ const Create = () => {
   });
 
   const fileRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -40,9 +42,45 @@ const Create = () => {
     }
   };
 
-  const onCreateHandler = () => {
-    createLock(formState);
+  const onCreateHandler = async () => {
+    const formData = new FormData();
+    try {
+      if (formState.image) {
+        formData.append('image', formState.image);
+        const res = await uploadImage(formData);
+        if (res && res.data) {
+          const imageUrl = res.data;
+          router.push(
+            {
+              pathname: '/lock/lock',
+              query: {
+                title: formState.title,
+                content: formState.content,
+                lock_design: formState.lock_design,
+                image: imageUrl,
+              },
+            },
+            '/lock/lock'
+          );
+        }
+      } else {
+        router.push(
+          {
+            pathname: '/lock/lock',
+            query: {
+              title: formState.title,
+              content: formState.content,
+              lock_design: formState.lock_design,
+            },
+          },
+          '/lock/lock'
+        );
+      }
+    } catch (err) {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
+
   return (
     <>
       <Head>

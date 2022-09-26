@@ -1,6 +1,8 @@
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 
@@ -9,11 +11,12 @@ const DynamicContainer = dynamic(
   { ssr: false }
 );
 
-const lock: NextPage = ({}) => {
+const Lock: NextPage = () => {
   const locks = [
     { top: 0, left: 0 },
     { lockType: 'stripe', top: 15, left: 50 },
   ];
+
   return (
     <>
       <Head>
@@ -46,4 +49,4 @@ const lock: NextPage = ({}) => {
     </>
   );
 };
-export default lock;
+export default Lock;

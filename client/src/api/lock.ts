@@ -9,3 +9,8 @@ export const createLock = async (body: {
   const res = await API.post('/locker/makelocker', body);
   return res;
 };
+
+export const uploadImage = async (formData: FormData) => {
+  const res = await API.post('/upload', formData);
+  return res;
+};
