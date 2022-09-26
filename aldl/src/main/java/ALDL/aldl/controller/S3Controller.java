@@ -4,6 +4,7 @@ import ALDL.aldl.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin("*")
 public class S3Controller {
 
     private final S3Uploader s3Uploader;
