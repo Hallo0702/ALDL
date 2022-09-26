@@ -25,6 +25,7 @@ import java.util.Map;
 
 @Api(value = "LOCKER API", tags = {"Locker"})
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://aldl.kro.kr"},allowCredentials = "true")
 public class LockerController {
     @Autowired
     LockerService lockerService;
@@ -32,7 +33,6 @@ public class LockerController {
     LockerOwnerService lockerOwnerService;
 
     @ApiOperation(value = "자물쇠 정보 등록") //Swagger
-    @CrossOrigin(origins="*")
     @PostMapping(path="/setlocker")
     public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info){
         HttpHeaders headers= new HttpHeaders();
@@ -62,7 +62,6 @@ public class LockerController {
    }
 
     @ApiOperation(value = "자물쇠 소유자 등록")
-    @CrossOrigin(origins="*")
     @PostMapping(path="/savelocker")
     public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info){
         HttpHeaders headers= new HttpHeaders();
@@ -89,7 +88,6 @@ public class LockerController {
     }
 
     @ApiOperation(value = "장소별 자물쇠 전체 반환",response = Locker.class)
-    @CrossOrigin(origins = "*")
     @GetMapping("/backgroundlocker")
     public ResponseEntity<List<Locker>> allLocker(@RequestParam String background){
         HttpHeaders headers= new HttpHeaders();
@@ -108,7 +106,6 @@ public class LockerController {
 
     }
     @ApiOperation(value = "사용자가 보유중인 자물쇠 반환",response = LockerOwner.class)
-    @CrossOrigin(origins = "*")
     @GetMapping("/mylockers")
     public ResponseEntity<List<LockerOwner>> mylockers(@RequestParam String email){
         HttpHeaders headers= new HttpHeaders();

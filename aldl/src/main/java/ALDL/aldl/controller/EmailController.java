@@ -26,6 +26,7 @@ import java.util.Map;
 
 @RestController
 @Controller
+@CrossOrigin(origins = {"http://localhost:3000", "https://aldl.kro.kr"},allowCredentials = "true")
 public class EmailController {
     @Autowired
     UserService userService;
@@ -33,7 +34,6 @@ public class EmailController {
     private JavaMailSender javaMailSender;
 
     @ApiOperation(value = "이메일로 인증번호 보내기")
-    @CrossOrigin(origins="*")
     @PatchMapping(path="/sendAuthCode")
     public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info){
         String email = info.getEmail();

@@ -24,13 +24,13 @@ import java.util.Map;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = {"http://localhost:3000", "https://aldl.kro.kr"},allowCredentials = "true")
 public class UserController {
     @Autowired
     UserService userService;
 
     //회원가입
     @ApiOperation(value = "사용자회원가입")
-    @CrossOrigin(origins="*")
     @PostMapping(path="/signup")
     public ResponseEntity<String> signup(@RequestBody Swagger_signup info){
         HttpHeaders headers= new HttpHeaders();
@@ -69,7 +69,6 @@ public class UserController {
     }
     //이메일 중복확인
     @ApiOperation(value = "이메일 중복확인")
-    @CrossOrigin(origins="*")
     @GetMapping("/emailduplicate")
     @ResponseBody
     public ResponseEntity<String> validemail(@RequestParam String email){
@@ -95,7 +94,6 @@ public class UserController {
     //닉네임(별명) 중복확인
 
     @ApiOperation(value = "닉네임 중복확인")
-    @CrossOrigin(origins="*")
     @GetMapping("/nicknameduplicate")
     @ResponseBody
     public ResponseEntity<String> validnickname(@RequestParam String nickname){
@@ -121,7 +119,6 @@ public class UserController {
     }
     //로그인
     @ApiOperation(value = "사용자 로그인")
-    @CrossOrigin(origins="*")
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<Message> login(@RequestParam String email,@RequestParam  String password){
@@ -177,7 +174,6 @@ public class UserController {
     //로그아웃
     //토큰 작성 요망
     @ApiOperation(value = "사용자 로그아웃")
-    @CrossOrigin(origins="*")
     @DeleteMapping("/logout")
     @ResponseBody
     public ResponseEntity<String> logout(@RequestBody Swagger_Logout info){
@@ -194,7 +190,6 @@ public class UserController {
     }
     //비밀번호 수정
     @ApiOperation(value = "사용자 비밀번호 수정")
-    @CrossOrigin(origins="*")
     @PatchMapping(path="/ModifyPassword")
     public ResponseEntity<String> ModifyPassword(@RequestBody Swagger_Modifypassword info){
         String email = info.getEmail();
@@ -223,7 +218,6 @@ public class UserController {
     }
     //닉네임 수정
     @ApiOperation(value = "사용자 닉네임 수정")
-    @CrossOrigin(origins="*")
     @PatchMapping(path="/ModifyNickname")
     public ResponseEntity<String> ModifyNickname(@RequestBody Swagger_ModifyNickname info){
         String email = info.getEmail();
@@ -287,7 +281,6 @@ public class UserController {
 //        }
 //    }
     @ApiOperation(value = "인증번호 체크")
-    @CrossOrigin(origins="*")
     @GetMapping("/checkAuthCode")
     @ResponseBody
     private ResponseEntity<String> checkAuthCode(@RequestParam String email,@RequestParam  String authCode) {
