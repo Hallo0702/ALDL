@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 
-import { createLock } from '../../api/lock';
+import { uploadImage } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import locks from '../../constant/locks';
@@ -40,8 +40,13 @@ const Create = () => {
     }
   };
 
-  const onCreateHandler = () => {
-    createLock(formState);
+  const onCreateHandler = async () => {
+    const formData = new FormData();
+    if (formState.image) {
+      formData.append('image', formState.image);
+    }
+    const res = await uploadImage(formData);
+    console.log(res);
   };
   return (
     <>
