@@ -16,6 +16,16 @@ const Lock: NextPage = () => {
     { top: 0, left: 0 },
     { lockType: 'stripe', top: 15, left: 50 },
   ];
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (Object.keys(router.query).length === 0) {
+      alert('잘못된 접근입니다.');
+      router.push('/');
+      return;
+    }
+  }, [router.isReady]);
 
   return (
     <>
