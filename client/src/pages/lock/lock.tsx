@@ -2,9 +2,10 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
+import places from '../../constant/places';
 
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
@@ -12,6 +13,7 @@ const DynamicContainer = dynamic(
 );
 
 const Lock: NextPage = () => {
+  const [selectedPlace, setSelectedPlace] = useState(0);
   const locks = [
     { top: 0, left: 0 },
     { lockType: 'stripe', top: 15, left: 50 },
@@ -43,11 +45,17 @@ const Lock: NextPage = () => {
             위치
           </label>
           <div className="justify-self-start">
-            <Button label="#서울" btnType="active" btnSize="medium"></Button>
-            <Button label="#광주" btnType="normal" btnSize="medium"></Button>
-            <Button label="#대전" btnType="normal" btnSize="medium"></Button>
-            <Button label="#구미" btnType="normal" btnSize="medium"></Button>
-            <Button label="#부울경" btnType="normal" btnSize="medium"></Button>
+            {places.map((place) => (
+              <Button
+                key={place.id}
+                label={`#${place.name}`}
+                btnType={`${selectedPlace === place.id ? 'active' : 'normal'}`}
+                btnSize="medium"
+                onClick={() => {
+                  setSelectedPlace(place.id);
+                }}
+              />
+            ))}
           </div>
         </div>
       </Board>
