@@ -126,7 +126,7 @@ public class LockerController {
     }
     //swagger
     @Getter
-    public class Swagger_savelocker{
+    public static class Swagger_savelocker{
         @ApiModelProperty(example = "사용자 이메일")
         String email;
         @ApiModelProperty(example = "자물쇠 해쉬값")
@@ -134,7 +134,7 @@ public class LockerController {
 
     }
     @Getter
-    public class Swagger_setlocker{
+    public static class Swagger_setlocker{
         @ApiModelProperty(example = "배경 종류")
         String background;
         @ApiModelProperty(example = "사용자 닉네임")

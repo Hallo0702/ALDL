@@ -1,5 +1,6 @@
 package ALDL.aldl.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,18 +19,23 @@ public class Locker {
     private long id;
 
     @Column
+    @ApiModelProperty(example = "자물쇠 배경")
     private String background;
 
     @Column
+    @ApiModelProperty(example = "자물쇠 디자인")
     private String design;
 
     @Column
+    @ApiModelProperty(example = "사용자 닉네임")
     private String nickname;
 
     @Column
+    @ApiModelProperty(example = "자물쇠 X축")
     private String location_x;
 
     @Column
+    @ApiModelProperty(example = "자물쇠 Y축")
     private String location_y;
 
     @Builder

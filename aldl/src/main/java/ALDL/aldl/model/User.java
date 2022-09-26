@@ -46,7 +46,6 @@ public class User {
         this.password = password;
         this.name = name;
         this.nickname = nickname;
-        this.refreshToken = refreshToken;
         this.authCode = authCode;
     }
 
