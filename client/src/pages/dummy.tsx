@@ -9,7 +9,7 @@ import ListCard from '../components/common/ListCard';
 
 const Dummy: NextPage = ({}) => {
   const [inputValue, setInputValue] = useState('');
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const fetch = async () => {
       try {
