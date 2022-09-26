@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { FC, useEffect, useState } from 'react';
+import places from '../../constant/places';
 
 import Lock, { LockProps } from './Lock';
 
@@ -7,12 +8,14 @@ interface DynamicContainerProps {
   bgWidth: number;
   bgHeight: number;
   locks: Array<LockProps>;
+  placeId: number;
 }
 
 const DynamicContainer: FC<DynamicContainerProps> = ({
   bgWidth,
   bgHeight,
   locks,
+  placeId,
 }) => {
   const [resize, setResize] = useState({
     width: window.innerWidth,
@@ -32,6 +35,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   };
   useEffect(() => {
     window.addEventListener('resize', handleResize);
+    console.log(places.find((place) => place.id === placeId)?.bgImgSrc);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -39,8 +43,11 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
 
   return (
     <main
-      className={`relative bg-[url('/images/landmark/landmark.jpg')] bg-no-repeat bg-cover bg-center`}
+      className={`relative bg-no-repeat bg-cover bg-center`}
       style={{
+        backgroundImage: `url(${
+          places.find((place) => place.id === placeId)?.bgImgSrc
+        })`,
         width: `calc(${resize.width}px - 10rem)`,
         height: `${resize.contentHeight}px`,
       }}

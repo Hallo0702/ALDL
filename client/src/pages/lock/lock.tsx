@@ -59,7 +59,12 @@ const Lock: NextPage = () => {
           </div>
         </div>
       </Board>
-      <DynamicContainer bgHeight={2000} bgWidth={3000} locks={locks} />
+      <DynamicContainer
+        bgHeight={places[selectedPlace].height}
+        bgWidth={places[selectedPlace].width}
+        locks={locks}
+        placeId={selectedPlace}
+      />
       <div className="flex justify-center content-center mt-12">
         <Button label="취소" btnType="normal" btnSize="medium"></Button>
         <Button label="걸기" btnType="active" btnSize="medium"></Button>
