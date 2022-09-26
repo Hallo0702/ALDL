@@ -9,9 +9,9 @@ const places = [
   {
     id: 1,
     name: '광주',
-    bgImgSrc: '/images/landmark/gwanju.png',
-    height: 706,
-    width: 461,
+    bgImgSrc: '/images/landmark/landmark.jpg',
+    height: 2000,
+    width: 3000,
   },
   {
     id: 2,

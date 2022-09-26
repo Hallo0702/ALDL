@@ -19,6 +19,10 @@ const Lock: NextPage = () => {
     { lockType: 'stripe', top: 15, left: 50 },
   ];
   const router = useRouter();
+  const newLock = {
+    ...router.query,
+  };
+  console.log(newLock);
 
   useEffect(() => {
     if (!router.isReady) return;

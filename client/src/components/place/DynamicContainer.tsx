@@ -36,6 +36,10 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
     });
   };
   useEffect(() => {
+    handleResize();
+  }, [bgWidth, bgHeight]);
+
+  useEffect(() => {
     window.addEventListener('resize', handleResize);
     console.log(places.find((place) => place.id === placeId)?.bgImgSrc);
     return () => {

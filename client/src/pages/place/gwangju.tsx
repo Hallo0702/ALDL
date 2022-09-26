@@ -19,11 +19,11 @@ const Gwangju: NextPage = ({}) => {
         <meta name="description" content="알록달록 광주" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <DynamicContainer
+      {/* <DynamicContainer
         bgHeight={2000}
         bgWidth={3000}
         locks={locks}
-      ></DynamicContainer>
+      ></DynamicContainer> */}
     </>
   );
 };
