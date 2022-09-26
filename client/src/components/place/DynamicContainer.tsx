@@ -17,9 +17,18 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   const [resize, setResize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
+    contentHeight: parseInt(
+      ((0.9 * (bgHeight * window.innerWidth)) / bgWidth).toString()
+    ),
   });
   const handleResize = () => {
-    setResize({ width: window.innerWidth, height: window.innerHeight });
+    setResize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      contentHeight: parseInt(
+        ((0.9 * bgHeight * window.innerWidth) / bgWidth).toString()
+      ),
+    });
   };
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -30,21 +39,22 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
 
   return (
     <main
-      className={`relative -left-20 w-[100vw] bg-[url('/images/landmark/seoul.png')] bg-no-repeat bg-cover bg-center`}
+      className={`relative bg-[url('/images/landmark/landmark.jpg')] bg-no-repeat bg-cover bg-center`}
       style={{
-        height: `${parseInt(
-          ((bgHeight * resize.width) / bgWidth).toString()
-        )}px`,
+        width: `calc(${resize.width}px - 10rem)`,
+        height: `${resize.contentHeight}px`,
       }}
     >
-      {locks.map((lock) => (
-        <Lock
-          key={crypto.randomBytes(64).toString('hex')}
-          lockType={lock.lockType}
-          top={lock.top}
-          left={lock.left}
-        />
-      ))}
+      <div className="relative left-[5%] top-[5%] w-[90%] h-[90%] bg-opacity-30 bg-white">
+        {locks.map((lock) => (
+          <Lock
+            key={crypto.randomBytes(64).toString('hex')}
+            lockType={lock.lockType}
+            top={lock.top}
+            left={lock.left}
+          />
+        ))}
+      </div>
     </main>
   );
 };

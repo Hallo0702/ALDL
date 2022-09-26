@@ -10,7 +10,7 @@ const DynamicContainer = dynamic(
 const Gwangju: NextPage = ({}) => {
   const locks = [
     { top: 0, left: 0 },
-    { lockType: 'stripe', top: 5, left: 0 },
+    { lockType: 'stripe', top: 15, left: 50 },
   ];
   return (
     <>
@@ -20,8 +20,8 @@ const Gwangju: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <DynamicContainer
-        bgHeight={706}
-        bgWidth={461}
+        bgHeight={2000}
+        bgWidth={3000}
         locks={locks}
       ></DynamicContainer>
     </>
