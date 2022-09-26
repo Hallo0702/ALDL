@@ -8,6 +8,7 @@ interface DynamicContainerProps {
   bgWidth: number;
   bgHeight: number;
   locks: Array<LockProps>;
+  locksOpacity?: number;
   placeId: number;
 }
 
@@ -15,6 +16,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   bgWidth,
   bgHeight,
   locks,
+  locksOpacity,
   placeId,
 }) => {
   const [resize, setResize] = useState({
@@ -59,6 +61,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
             lockType={lock.lockType}
             top={lock.top}
             left={lock.left}
+            opacity={locksOpacity}
           />
         ))}
       </div>

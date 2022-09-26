@@ -7,6 +7,7 @@ export interface LockProps {
   lockType?: string;
   top: number;
   left: number;
+  opacity?: number;
 }
 const getLockType = (lockType: string | undefined) => {
   if (lockType === 'stripe') return StripeIcon;
@@ -14,7 +15,7 @@ const getLockType = (lockType: string | undefined) => {
 };
 
 //left : 3~100
-const Lock: FC<LockProps> = ({ lockType, top, left }) => {
+const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
   const Lock = getLockType(lockType);
   return (
     <Lock
@@ -25,6 +26,7 @@ const Lock: FC<LockProps> = ({ lockType, top, left }) => {
       style={{
         top: `${top}%`,
         left: `${left}%`,
+        opacity: `${opacity ? opacity : '100'}%`,
       }}
       // todo : 마우스 올리면 제목정도 나오게 출력하면 좋을것 같음.
       onMouseOver={() => console.log(2)}
