@@ -1,9 +1,12 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 
-const lock: NextPage = ({}) => {
+const Lock: NextPage = () => {
+  const router = useRouter();
+  console.log(router);
   return (
     <>
       <Head>
@@ -35,4 +38,4 @@ const lock: NextPage = ({}) => {
     </>
   );
 };
-export default lock;
+export default Lock;
