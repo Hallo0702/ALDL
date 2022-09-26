@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://aldl.kro.kr"},allowCredentials = "true")
 public class S3Controller {
 
     private final S3Uploader s3Uploader;
