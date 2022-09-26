@@ -3,16 +3,21 @@ package ALDL.aldl.controller;
 import ALDL.aldl.auth.UserLoginPostReq;
 import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
+import ALDL.aldl.model.User;
 import ALDL.aldl.service.UserService;
 import ALDL.aldl.service.UserSha256;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Entity;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -313,7 +318,9 @@ public class UserController {
 
     //Swagger 전용 Class
     @Getter
-    public class Swagger_signup{
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Swagger_signup{
         @ApiModelProperty(example = "사용자 이메일")
         String email ;
         @ApiModelProperty(example = "사용자 비밀번호")
@@ -324,15 +331,16 @@ public class UserController {
         String nickname;
     }
     @Getter
-    public class Swagger_Modifypassword{
+    public static class Swagger_Modifypassword{
         @ApiModelProperty(example="사용자 이메일")
         String email;
         @ApiModelProperty(example = "사용자 새로운 비밀번호")
         String new_password;
 
+
     }
     @Getter
-    public class Swagger_ModifyNickname{
+    public static class Swagger_ModifyNickname{
         @ApiModelProperty(example = "사용자 새로운 닉네임")
         String new_nickname;
         @ApiModelProperty(example="사용자 이메일")
@@ -340,7 +348,7 @@ public class UserController {
 
     }
     @Getter
-    public class Swagger_Logout{
+    public static class Swagger_Logout{
         @ApiModelProperty(example="리프레시 토큰")
         String refreshToken;
 

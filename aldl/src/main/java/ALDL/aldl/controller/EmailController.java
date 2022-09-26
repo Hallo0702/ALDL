@@ -5,6 +5,9 @@ import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.service.UserService;
 import ALDL.aldl.service.UserSha256;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -32,10 +32,11 @@ public class EmailController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @PostMapping(path="/sendAuthCode")
-    public ResponseEntity<String> sendAuthCode(@RequestBody Map<String,String> info) throws MessagingException, UnsupportedEncodingException{
-        String email = info.get("email");
-        Message message = new Message();
+    @ApiOperation(value = "이메일로 인증번호 보내기")
+    @CrossOrigin(origins="*")
+    @PatchMapping(path="/sendAuthCode")
+    public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info){
+        String email = info.getEmail();
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
@@ -77,5 +78,10 @@ public class EmailController {
             return new ResponseEntity<>("에러발생",headers,HttpStatus.BAD_REQUEST);
         }
 
+    }
+    @Getter
+    public static class Swagger_email{
+        @ApiModelProperty(example="사용자 이메일")
+        String email;
     }
 }
