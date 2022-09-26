@@ -33,7 +33,7 @@ public class EmailController {
     private JavaMailSender javaMailSender;
 
     @PostMapping(path="/sendAuthCode")
-    public ResponseEntity<?> sendAuthCode(@RequestBody Map<String,String> info) throws MessagingException, UnsupportedEncodingException{
+    public ResponseEntity<String> sendAuthCode(@RequestBody Map<String,String> info) throws MessagingException, UnsupportedEncodingException{
         String email = info.get("email");
         Message message = new Message();
         HttpHeaders headers= new HttpHeaders();
@@ -65,19 +65,16 @@ public class EmailController {
 
                 javaMailSender.send(mimeMessage);
 
-                message.setResponseType("이메일전송완료");
-                message.setStatus(StatusEnum.OK);
-                return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
+                return new ResponseEntity<>("이메일전송완료",headers,HttpStatus.OK);
             }
             else{
-                message.setResponseType("이메일오류");
-                message.setStatus(StatusEnum.BAD_REQUEST);
-                return new ResponseEntity<>(message,headers, HttpStatus.OK);
+
+                return new ResponseEntity<>("이메일오류",headers, HttpStatus.BAD_REQUEST);
             }
         }catch (Exception e){
-            message.setResponseType("에러발생");
-            message.setStatus(StatusEnum.NOT_FOUND);
-            return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
+            return new ResponseEntity<>("에러발생",headers,HttpStatus.BAD_REQUEST);
         }
 
     }
