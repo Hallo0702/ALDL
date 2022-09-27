@@ -21,41 +21,8 @@ const DraggableLock: FC<DraggableLockProps> = ({
   left,
   bgRef,
 }) => {
-  const [curTop, setCurTop] = useState(top);
-  const [curLeft, setCurLeft] = useState(left);
-  const makeDraggable = (e: any) => {
-    // const selectedElement: boolean | HTMLElement = false;
-    const svg = e.target;
-    console.log(svg);
-    // svg.addEventListener('mousedown', startDrag);
-    // svg.addEventListener('mousemove', drag);
-    // svg.addEventListener('mouseup', endDrag);
-    // svg.addEventListener('mouseleave', endDrag);
-    // function startDrag(e) {
-    //   if (e.target.classList.contains('draggable')) {
-    //     selectedElement = e.target;
-    //   }
-    // }
-    // function drag(e) {
-    //   console.log(typeof selectedElement);
-    //   // if (typeof selectedElement) {
-    //   //   e.preventDefault();
-    //   //   const x = parseFloat(selectedElement.getAttributeNS(null, 'x'));
-    //   //   selectedElement.setAttributeNS(null, 'x', x + 0.1);
-    //   // }
-    // }
-    // function endDrag(e) {}
-  };
   const Lock = getLockType(lockType);
   const [isSelected, setIsSelected] = useState(false);
-  const svgRef = useRef(null);
-  const getMousePosition = (e) => {
-    const CTM = e.target.getScreenCTM();
-    return {
-      x: (e.clientX - CTM.e) / CTM.a,
-      y: (e.clientY - CTM.f) / CTM.d,
-    };
-  };
   const startDrag = (e) => {
     setIsSelected(true);
   };
@@ -87,12 +54,10 @@ const DraggableLock: FC<DraggableLockProps> = ({
       alt="basic"
       width={LOCK_SIZE}
       height={LOCK_SIZE}
-      // style={{
-      //   // top: `${curTop}%`,
-      //   // left: `${curLeft}%`,
-      //   top: `${10}%`,
-      //   left: `${10}%`,
-      // }}
+      style={{
+        top: `${top}%`,
+        left: `${left}%`,
+      }}
       onMouseDown={(e) => startDrag(e)}
       onMouseMove={(e) => drag(e)}
       onMouseUp={(e) => endDrag(e)}
