@@ -51,6 +51,35 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
     };
   }, []);
 
+  const [isSelected, setIsSelected] = useState(false);
+  const startDrag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (e.target instanceof Element && e?.target?.parentElement?.id === 'svg') {
+      setIsSelected(true);
+    }
+  };
+  const endDrag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (e.target instanceof Element && e?.target?.parentElement?.id === 'svg') {
+      setIsSelected(false);
+    }
+  };
+  const drag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!isSelected) return;
+    e.preventDefault();
+    const svg = document.querySelector('#svg') as HTMLElement;
+    if (bgRef && bgRef.current) {
+      const x =
+        (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+        Number(bgRef.current.offsetWidth);
+      const y =
+        (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+        Number(bgRef.current.offsetHeight);
+      if (svg && x > 2.5 && x < 97.5 && y > 2.5 && y < 97.5) {
+        svg.style.left = `calc(${x}% - 2.5vw)`;
+        svg.style.top = `calc(${y}% - 2.5vw)`;
+      }
+    }
+  };
+
   return (
     <main
       className={`relative bg-no-repeat bg-cover bg-center`}
@@ -62,6 +91,10 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         height: `${resize.contentHeight}px`,
       }}
       ref={bgRef}
+      onMouseDown={(e) => startDrag(e)}
+      onMouseMove={(e) => drag(e)}
+      onMouseUp={(e) => endDrag(e)}
+      onMouseLeave={(e) => endDrag(e)}
     >
       {/* <div
         className="relative left-[5%] top-[5%] w-[90%] h-[90%] bg-opacity-30 bg-white"
@@ -82,7 +115,6 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         lockType={drggableLock.lockType}
         top={drggableLock.top}
         left={drggableLock.left}
-        bgRef={bgRef}
       />
       {/* </div> */}
     </main>
