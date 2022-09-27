@@ -7,7 +7,7 @@ WORKDIR /var/jenkins_home/workspace/client/client
 
 COPY ./ ./
 
-RUN npm install
+RUN npm install --force
 
 RUN npm run build
 
