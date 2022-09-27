@@ -18,6 +18,8 @@ const Lock: NextPage = () => {
     { top: 0, left: 0 },
     { lockType: 'stripe', top: 15, left: 50 },
   ];
+  const draggableLock = { top: 50, left: 50 };
+
   const router = useRouter();
   const newLock = {
     ...router.query,
@@ -68,6 +70,7 @@ const Lock: NextPage = () => {
         bgWidth={places[selectedPlace].width}
         locks={locks}
         locksOpacity={70}
+        drggableLock={draggableLock}
         placeId={selectedPlace}
       />
       <div className="flex justify-center content-center mt-12">
