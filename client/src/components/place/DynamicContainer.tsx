@@ -60,6 +60,17 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   const endDrag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (e.target instanceof Element && e?.target?.parentElement?.id === 'svg') {
       setIsSelected(false);
+      //todo : 자물쇠 걸기 모달띄워서 걸기진행
+      const res = window.confirm('자물쇠를 거시겠습니까?');
+      if (res && bgRef && bgRef.current) {
+        const x =
+          (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+          Number(bgRef.current.offsetWidth);
+        const y =
+          (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+          Number(bgRef.current.offsetHeight);
+        let title, content, imageSrc;
+      }
     }
   };
   const drag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -74,8 +85,8 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
         Number(bgRef.current.offsetHeight);
       if (svg && x > 2.5 && x < 97.5 && y > 2.5 && y < 97.5) {
-        svg.style.left = `calc(${x}% - 2.5vw)`;
-        svg.style.top = `calc(${y}% - 2.5vw)`;
+        svg.style.left = `${x - 2.5}%`;
+        svg.style.top = `${y - 2.5}%`;
       }
     }
   };
