@@ -6,6 +6,7 @@ import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Board from '../components/common/Board';
 import ListCard from '../components/common/ListCard';
+import { login } from '../api/auth';
 
 const Dummy: NextPage = ({}) => {
   const [inputValue, setInputValue] = useState('');
