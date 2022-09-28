@@ -70,7 +70,7 @@ const Lock: NextPage = () => {
         bgWidth={places[selectedPlace].width}
         locks={locks}
         locksOpacity={70}
-        drggableLock={draggableLock}
+        draggableLock={draggableLock}
         placeId={selectedPlace}
       />
       <div className="flex justify-center content-center mt-12">
