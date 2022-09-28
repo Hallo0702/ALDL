@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
         <section className="flex flex-wrap justify-around gap-32">
           {places.map((place) => (
-            <Link href={`/place/${place.name}`} key={place.id}>
+            <Link href={`/place/${place.placeName}`} key={place.id}>
               <div className="w-1/4">
                 <Card title={`#${place.name}`} imageSrc={place.bgImgSrc}></Card>
               </div>
