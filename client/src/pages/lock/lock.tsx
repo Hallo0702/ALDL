@@ -15,10 +15,10 @@ const DynamicContainer = dynamic(
 const Lock: NextPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(0);
   const locks = [
-    { top: 0, left: 0 },
-    { lockType: 'stripe', top: 15, left: 50 },
+    { lockType: 0, top: 0, left: 0 },
+    { lockType: 1, top: 15, left: 50 },
   ];
-  const draggableLock = { top: 50, left: 50 };
+  const draggableLock = { lockType: 0, top: 50, left: 50 };
 
   const router = useRouter();
   const newLock = {

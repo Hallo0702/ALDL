@@ -6,19 +6,21 @@ import React, { useRef, useState } from 'react';
 import { uploadImage } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
+import LockSvg from '../../components/common/LockSvg';
 import locks from '../../constant/locks';
+
 interface FormState {
   title: string;
   content: string;
   image: File | null;
-  lock_design: number;
+  type: number;
 }
 const Create = () => {
   const [formState, setFormState] = useState<FormState>({
     title: '',
     content: '',
     image: null,
-    lock_design: 1,
+    type: 1,
   });
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -34,10 +36,10 @@ const Create = () => {
 
   const onLockClickHandler = (e: React.MouseEvent) => {
     if (e.currentTarget) {
-      const lock_design = Number(e.currentTarget.getAttribute('data-key'));
+      const type = Number(e.currentTarget.getAttribute('data-key'));
       setFormState((prev) => ({
         ...prev,
-        lock_design: lock_design,
+        type: type,
       }));
     }
   };
@@ -56,7 +58,7 @@ const Create = () => {
               query: {
                 title: formState.title,
                 content: formState.content,
-                lock_design: formState.lock_design,
+                type: formState.type,
                 image: imageUrl,
               },
             },
@@ -70,7 +72,7 @@ const Create = () => {
             query: {
               title: formState.title,
               content: formState.content,
-              lock_design: formState.lock_design,
+              type: formState.type,
             },
           },
           '/lock/lock'
@@ -162,7 +164,6 @@ const Create = () => {
               }}
             ></Button>
           </div>
-          {/* todo : 자물쇠 선택 */}
           <div className="flex mb-4 w-full h-48 items-center text-xl font-bold">
             <label htmlFor="lock" className="w-20 self-start">
               자물쇠*
@@ -170,22 +171,20 @@ const Create = () => {
             <div id="lock" className="flex gap-4 self-start">
               {locks.map((lock) => (
                 <div
-                  key={lock.lock_design}
-                  data-key={lock.lock_design}
+                  key={lock.type}
+                  data-key={lock.type}
                   className={`w-32 h-32 relative ${
-                    formState.lock_design === lock.lock_design
+                    formState.type === lock.type
                       ? 'border-peach border-2'
                       : 'border-black border'
                   } cursor-pointer hover:border-peach`}
                   onClick={onLockClickHandler}
                 >
-                  <Image
-                    src={lock.image_src}
-                    alt={lock.image_src}
-                    layout="fill"
-                    objectFit="contain"
-                    objectPosition="center"
-                  ></Image>
+                  <LockSvg
+                    type={lock.type}
+                    width="100%"
+                    height="100%"
+                  ></LockSvg>
                 </div>
               ))}
             </div>
