@@ -40,7 +40,7 @@ const Signup: NextPage = ({}) => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
-  const { status } = useSession();
+  // const { status } = useSession();
   const router = useRouter();
 
   const [emailInputValue, setEmailInputValue] = useState('');
