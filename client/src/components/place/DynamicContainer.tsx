@@ -10,7 +10,7 @@ interface DynamicContainerProps {
   bgHeight: number;
   locks: Array<LockProps>;
   locksOpacity?: number;
-  drggableLock: LockProps;
+  draggableLock?: LockProps;
   placeId: number;
 }
 
@@ -19,7 +19,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   bgHeight,
   locks,
   locksOpacity,
-  drggableLock,
+  draggableLock,
   placeId,
 }) => {
   const bgRef = useRef<HTMLElement | null>(null);
@@ -122,12 +122,13 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
           opacity={locksOpacity}
         />
       ))}
-      <DraggableLock
-        lockType={drggableLock.lockType}
-        top={drggableLock.top}
-        left={drggableLock.left}
-      />
-      {/* </div> */}
+      {draggableLock && (
+        <DraggableLock
+          lockType={draggableLock.lockType}
+          top={draggableLock.top}
+          left={draggableLock.left}
+        />
+      )}
     </main>
   );
 };
