@@ -1,24 +1,25 @@
-import type { FC } from 'react';
+import { FC, MutableRefObject, useRef, useState } from 'react';
 import BasicIcon from '../../../assets/locks/basic.svg';
 import StripeIcon from '../../../assets/locks/stripe.svg';
 
 const LOCK_SIZE = '5vw';
-export interface LockProps {
+interface DraggableLockProps {
   lockType?: string;
   top: number;
   left: number;
-  opacity?: number;
 }
+
 const getLockType = (lockType: string | undefined) => {
   if (lockType === 'stripe') return StripeIcon;
   return BasicIcon;
 };
 
-//left : 3~100
-const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
+const DraggableLock: FC<DraggableLockProps> = ({ lockType, top, left }) => {
   const Lock = getLockType(lockType);
+
   return (
     <Lock
+      id="svg"
       className="absolute"
       alt="basic"
       width={LOCK_SIZE}
@@ -26,11 +27,8 @@ const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
       style={{
         top: `${top}%`,
         left: `${left}%`,
-        opacity: `${opacity ? opacity : '100'}%`,
       }}
-      // todo : 마우스 올리면 제목정도 나오게 출력하면 좋을것 같음.
-      onMouseOver={() => console.log(2)}
     ></Lock>
   );
 };
-export default Lock;
+export default DraggableLock;
