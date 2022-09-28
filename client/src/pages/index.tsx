@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
+import places from '../constant/places';
 const Home: NextPage = () => {
   return (
     <>
@@ -34,7 +35,14 @@ const Home: NextPage = () => {
         </section>
 
         <section className="flex flex-wrap justify-around gap-32">
-          <Link href="/place/gwangju">
+          {places.map((place) => (
+            <Link href={`/place/${place.name}`} key={place.id}>
+              <div className="w-1/4">
+                <Card title={`#${place.name}`} imageSrc={place.bgImgSrc}></Card>
+              </div>
+            </Link>
+          ))}
+          {/* <Link href="/place/gwangju">
             <div className="w-1/4">
               <Card title="#광주" imageSrc="/images/landmark/seoul.png"></Card>
             </div>
@@ -50,7 +58,7 @@ const Home: NextPage = () => {
           </div>
           <div className="w-1/4">
             <Card title="#대전" imageSrc="/images/landmark/seoul.png"></Card>
-          </div>
+          </div> */}
         </section>
         <div className="h-56"></div>
       </main>

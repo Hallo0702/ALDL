@@ -9,7 +9,7 @@ const places = [
   {
     id: 1,
     name: '광주',
-    bgImgSrc: '/images/landmark/gwangju.jpg',
+    bgImgSrc: '/images/landmark/gwangju.png',
     height: 934,
     width: 1338,
   },
