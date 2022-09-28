@@ -1,11 +1,19 @@
 const locks = [
   {
-    lock_design: 1,
-    image_src: '/images/locks/1.png',
+    type: 0,
+    imageSrc: '/images/locks/lock0.svg',
   },
   {
-    lock_design: 2,
-    image_src: '/images/locks/2.png',
+    type: 1,
+    imageSrc: '/images/locks/lock1.svg',
+  },
+  {
+    type: 2,
+    imageSrc: '/images/locks/lock2.svg',
+  },
+  {
+    type: 3,
+    imageSrc: '/images/locks/lock3.svg',
   },
 ];
 

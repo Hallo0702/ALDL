@@ -1,34 +1,25 @@
-import { FC, MutableRefObject, useRef, useState } from 'react';
-import BasicIcon from '../../../assets/locks/basic.svg';
-import StripeIcon from '../../../assets/locks/stripe.svg';
+import { FC } from 'react';
+import LockSvg from '../common/LockSvg';
 
 const LOCK_SIZE = '5vw';
 interface DraggableLockProps {
-  lockType?: string;
+  lockType: number;
   top: number;
   left: number;
 }
-
-const getLockType = (lockType: string | undefined) => {
-  if (lockType === 'stripe') return StripeIcon;
-  return BasicIcon;
-};
-
 const DraggableLock: FC<DraggableLockProps> = ({ lockType, top, left }) => {
-  const Lock = getLockType(lockType);
-
   return (
-    <Lock
+    <LockSvg
+      type={lockType}
       id="svg"
       className="absolute"
-      alt="basic"
       width={LOCK_SIZE}
       height={LOCK_SIZE}
       style={{
         top: `${top}%`,
         left: `${left}%`,
       }}
-    ></Lock>
+    ></LockSvg>
   );
 };
 export default DraggableLock;
