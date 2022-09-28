@@ -2,9 +2,9 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
-import { login, refresh } from '../../api/auth';
+import { login } from '../../api/auth';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import API from '../../api/index';
@@ -24,11 +24,6 @@ const Login: NextPage = ({}) => {
     const enteredPassword = (passwordInputRef.current as HTMLInputElement)
       .value;
 
-    // const result = await signIn('credentials', {
-    //   redirect: false,
-    //   email: enteredEmail,
-    //   password: enteredPassword,
-    // });
     if (!user.isLogined) {
       const response = await login({
         email: enteredEmail,

@@ -1,11 +1,9 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import { useRef, useState } from 'react';
 import Head from 'next/head';
 import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
-import { useSession } from 'next-auth/react';
 import { signup } from '../../api/auth';
 import Link from 'next/link';
 
@@ -16,31 +14,14 @@ async function createUser(
   nickname: string
 ): Promise<any> {
   const response = signup({ email, password, name, nickname });
-  console.log(response);
-  // const response = await fetch('/api/auth/signup', {
-  //   method: 'POST',
-  //   body: JSON.stringify({ email, password, name, nickname }),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
-  // const data = await response.json();
-
-  // if (!response.ok) {
-  //   throw new Error(data.message || 'Something went wrong!');
-  // }
-
-  // return data;
 }
 
 const Signup: NextPage = ({}) => {
-  const [formStatus, setFormStatus] = useState<string>('');
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
-  // const { status } = useSession();
   const router = useRouter();
 
   const [emailInputValue, setEmailInputValue] = useState('');
@@ -48,21 +29,6 @@ const Signup: NextPage = ({}) => {
   const [repasswordInputValue, setRepasswordInputValue] = useState('');
   const [nameInputValue, setNameInputValue] = useState('');
   const [nicknameInputValue, setNicknameInputValue] = useState('');
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         'https://aldl.kro.kr/api/emailduplicate?email=asfasd'
-  //       );
-  //       console.log(res);
-  //     } catch (err) {
-  //       if (axios.isAxiosError(err)) {
-  //         console.log(err.response?.data);
-  //       }
-  //     }
-  //   };
-  //   fetch();
-  // }, []);
 
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -72,24 +38,18 @@ const Signup: NextPage = ({}) => {
     const enteredName = nameInputRef.current?.value || '';
     const enteredNickname = nicknameInputRef.current?.value || '';
 
-    // optional: Add validation
-
     try {
-      const result = await createUser(
+      const response = await createUser(
         enteredEmail,
         enteredPassword,
         enteredName,
         enteredNickname
       );
-      console.log(result);
-      // setFormStatus(`Sign up Success: ${result.message}`);
-      // window.location.href = "/";
       router.replace('/auth/login');
     } catch (error) {
       console.log(error);
-      // setFormStatus(`Error Occured: ${error.message}`);
     }
-  } // end of submitHandler function
+  }
 
   if (status === 'authenticated') {
     router.replace('/');
