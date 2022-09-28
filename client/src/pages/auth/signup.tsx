@@ -6,6 +6,8 @@ import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
 import { signup } from '../../api/auth';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/states';
 
 async function createUser(
   email: string,
@@ -29,37 +31,30 @@ const Signup: NextPage = ({}) => {
   const [repasswordInputValue, setRepasswordInputValue] = useState('');
   const [nameInputValue, setNameInputValue] = useState('');
   const [nicknameInputValue, setNicknameInputValue] = useState('');
+  const [user, setUserstate] = useRecoilState(userState);
 
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
-
     const enteredEmail = emailInputRef.current?.value || '';
     const enteredPassword = passwordInputRef.current?.value || '';
     const enteredName = nameInputRef.current?.value || '';
     const enteredNickname = nicknameInputRef.current?.value || '';
 
     try {
-      const response = await createUser(
-        enteredEmail,
-        enteredPassword,
-        enteredName,
-        enteredNickname
-      );
-      router.replace('/auth/login');
+      if (user.isLogined) {
+        router.replace('/');
+      } else {
+        const response = await createUser(
+          enteredEmail,
+          enteredPassword,
+          enteredName,
+          enteredNickname
+        );
+        router.replace('/auth/login');
+      }
     } catch (error) {
       console.log(error);
     }
-  }
-
-  if (status === 'authenticated') {
-    router.replace('/');
-    return (
-      <div>
-        <h1>회원가입</h1>
-        <div>이미 가입된 회원입니다.</div>
-        <div>메인 페이지로 이동합니다.</div>
-      </div>
-    );
   }
 
   return (
