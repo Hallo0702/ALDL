@@ -4,15 +4,18 @@ import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
-import { login, refresh } from '../../api/auth';
+import { login } from '../../api/auth';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import API from '../../api/index';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/states';
 
 const Login: NextPage = ({}) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const [user, setUserstate] = useRecoilState(userState);
 
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -21,23 +24,24 @@ const Login: NextPage = ({}) => {
     const enteredPassword = (passwordInputRef.current as HTMLInputElement)
       .value;
 
-    // const result = await signIn('credentials', {
-    //   redirect: false,
-    //   email: enteredEmail,
-    //   password: enteredPassword,
-    // });
-    const response = await login({
-      email: enteredEmail,
-      password: enteredPassword,
-    });
-    console.log(response);
-    if (response.status === 200) {
-      const { accessToken } = response.data;
-      Cookies.set('refreshToken', response.data.refreshToken);
-      API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      router.replace('/');
+    if (!user.isLogined) {
+      const response = await login({
+        email: enteredEmail,
+        password: enteredPassword,
+      });
+      console.log(response);
+      if (response.data.status === 'OK') {
+        const { accessToken } = response.data;
+        Cookies.set('refreshToken', response.data.refreshToken);
+        API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        setUserstate({ isLogined: true });
+        router.replace('/');
+      } else {
+        console.log('error');
+      }
     } else {
-      console.log('error');
+      router.replace('/');
+      return <div>이미 로그인된 상태입니다. 메인 페이지로 이동합니다.</div>;
     }
   }
 

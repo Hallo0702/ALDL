@@ -15,9 +15,11 @@ export const signup = async (body: {
   return res;
 };
 
-export const logout = async () => {
+export const logout = async (body: { refreshToken: string }) => {
   try {
-    const res = await API.delete('/auth/logout');
+    const res = await API.delete('/auth/logout', { data: body });
+    console.log(res);
+
     return res;
   } catch (err) {
     throw err;
