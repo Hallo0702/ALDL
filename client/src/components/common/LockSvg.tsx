@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
-import Lock0Icon from '../../../assets/locks/lock0.svg';
-import Lock1Icon from '../../../assets/locks/lock1.svg';
-import Lock2Icon from '../../../assets/locks/lock2.svg';
-import Lock3Icon from '../../../assets/locks/lock3.svg';
+import Lock0Icon from '../../assets/locks/lock0.svg';
+import Lock1Icon from '../../assets/locks/lock1.svg';
+import Lock2Icon from '../../assets/locks/lock2.svg';
+import Lock3Icon from '../../assets/locks/lock3.svg';
 
 interface LockSvgProps {
   type: number;
