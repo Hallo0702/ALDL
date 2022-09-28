@@ -1,26 +1,20 @@
 import type { FC } from 'react';
-import BasicIcon from '../../../assets/locks/basic.svg';
-import StripeIcon from '../../../assets/locks/stripe.svg';
+import LockSvg from '../common/LockSvg';
 
 const LOCK_SIZE = '5vw';
 export interface LockProps {
-  lockType?: string;
+  lockType: number;
   top: number;
   left: number;
   opacity?: number;
 }
-const getLockType = (lockType: string | undefined) => {
-  if (lockType === 'stripe') return StripeIcon;
-  return BasicIcon;
-};
 
 //left : 3~100
 const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
-  const Lock = getLockType(lockType);
   return (
-    <Lock
+    <LockSvg
+      type={lockType}
       className="absolute"
-      alt="basic"
       width={LOCK_SIZE}
       height={LOCK_SIZE}
       style={{
@@ -30,7 +24,7 @@ const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
       }}
       // todo : 마우스 올리면 제목정도 나오게 출력하면 좋을것 같음.
       onMouseOver={() => console.log(2)}
-    ></Lock>
+    ></LockSvg>
   );
 };
 export default Lock;
