@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getLocksByBackground } from '../../api/lock';
+import { getLocksByBackground, setLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import { LockProps } from '../../components/place/Lock';
@@ -20,6 +20,20 @@ const Lock: NextPage = () => {
 
   const router = useRouter();
   const [locks, setLocks] = useState([]);
+
+  const onAction = async (locationX: number, locationY: number) => {
+    // todo : web3js로 자물쇠 걸고 해쉬값받아서 API요청
+    const lockerHash = 'temp';
+    const res = await setLocker({
+      background: selectedPlace,
+      lockType: draggableLock?.lockType,
+      locationX,
+      locationY,
+      lockerHash,
+    });
+    console.log(res);
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(selectedPlace);
@@ -81,6 +95,7 @@ const Lock: NextPage = () => {
         locksOpacity={70}
         draggableLock={draggableLock}
         placeId={selectedPlace}
+        onAction={onAction}
       />
       <div className="flex justify-center content-center mt-12">
         <Button label="취소" btnType="normal" btnSize="medium"></Button>

@@ -22,7 +22,7 @@ export const getLocksByBackground = async (background: number) => {
 
 export const setLocker = async (body: {
   background: number;
-  lockType: number;
+  lockType?: number;
   locationX: number;
   locationY: number;
   lockerHash: string;
