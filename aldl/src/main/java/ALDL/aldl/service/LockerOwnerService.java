@@ -13,13 +13,13 @@ public class LockerOwnerService {
     @Autowired
     private LockerOwnerRepository lockerOwnerRepository;
 
-    public void saveLockerOwner(String email,String lockerHash,String lockerTitle,String background,String design){
+    public void saveLockerOwner(String email,String lockerHash,String lockerTitle,String background,Integer lockType){
         LockerOwnerForm lockerOwnerForm = new LockerOwnerForm();
         lockerOwnerForm.setEmail(email);
         lockerOwnerForm.setLockerHash(lockerHash);
         lockerOwnerForm.setLockerTitle(lockerTitle);
         lockerOwnerForm.setBackground(background);
-        lockerOwnerForm.setDesign(design);
+        lockerOwnerForm.setLockType(lockType);
 
         LockerOwner lockerOwner = lockerOwnerForm.toEntity();
         lockerOwnerRepository.save(lockerOwner);

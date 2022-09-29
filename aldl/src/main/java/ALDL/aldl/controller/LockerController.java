@@ -46,24 +46,24 @@ public class LockerController {
         ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
 
         String background = info.getBackground();
-        String design = info.getDesign();
+        Integer lockType = info.getLockType();
         String lockerHash = info.getLockerHash();
-        String location_x = info.getLocation_x();
-        String location_y = info.getLocation_y();
+        Double locationX = info.getLocationX();
+        Double locationY = info.getLocationY();
         try{
             String email = aldlUserDetails.getEmail();
 
             if (background == ""||background ==null||
-                    design == ""||design==null||
+                    lockType==null||
                     lockerHash==""||lockerHash==null||
-                    location_x==""||location_x==null||
-                    location_y==""||location_y==null
+                    locationX==null||
+                    locationY==null
             ){
 
                 return new ResponseEntity<>("정보가 비어있습니다.",headers, HttpStatus.BAD_REQUEST);
             }
 
-            lockerService.saveLocker(background,design,lockerHash,location_x,location_y);
+            lockerService.saveLocker(background,lockType,lockerHash,locationX,locationY);
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
 
@@ -86,7 +86,7 @@ public class LockerController {
         String lockerHash = info.getLockerHash();
         String lockerTitle = info.getLockerTitle();
         String background = info.getBackground();
-        String design = info.getDesign();
+        Integer lockType = info.getLockType();
         try{
             String email = aldlUserDetails.getEmail();
             System.out.println("User email : " + email);
@@ -95,7 +95,7 @@ public class LockerController {
             lockerHash==""||lockerHash==null||
             lockerTitle==""||lockerTitle==null||
                     background == ""||background==null||
-                    design==""||design==null
+                    lockType==null
             ){
                 return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
 
@@ -104,7 +104,7 @@ public class LockerController {
 
                 return new ResponseEntity<>("이미 등록된 자물쇠",headers, HttpStatus.FORBIDDEN);
             }
-            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle,background,design);
+            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle,background,lockType);
 
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
@@ -166,7 +166,7 @@ public class LockerController {
         String background;
 
         @ApiModelProperty(example = "자물쇠 디자인")
-        String design;
+        Integer lockType;
 
     }
     @Getter
@@ -176,11 +176,11 @@ public class LockerController {
         @ApiModelProperty(example = "자물쇠 해시")
         String lockerHash;
         @ApiModelProperty(example = "자물쇠 X축")
-        String location_x;
+        Double locationX;
         @ApiModelProperty(example = "자물쇠 Y축")
-        String location_y;
+        Double locationY;
         @ApiModelProperty(example = "자물쇠 디자인")
-        String design;
+        Integer lockType;
 
     }
 

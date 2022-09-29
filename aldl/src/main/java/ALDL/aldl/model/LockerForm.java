@@ -6,18 +6,18 @@ import lombok.Data;
 public class LockerForm {
     private long id;
     private String background;
-    private String design;
+    private Integer lockType;
     private String lockerHash;
-    private String location_x;
-    private String location_y;
+    private Double locationX;
+    private Double locationY;
 
     public Locker toEntity(){
         return Locker.builder()
                 .background(background)
-                .design(design)
+                .lockType(lockType)
                 .lockerHash(lockerHash)
-                .location_x(location_x)
-                .location_y(location_y)
+                .locationX(locationX)
+                .locationY(locationY)
                 .build();
     }
 }

@@ -29,15 +29,15 @@ public class LockerOwner {
     private String background;
 
     @Column
-    private String design;
+    private Integer lockType;
 
     @Builder
-    public LockerOwner(String email,String lockerHash,String lockerTitle,String background, String design){
+    public LockerOwner(String email,String lockerHash,String lockerTitle,String background, Integer lockType){
         this.email=email;
         this.lockerHash = lockerHash;
         this.lockerTitle = lockerTitle;
         this.background = background;
-        this.design = design;
+        this.lockType = lockType;
 
     }
 }
