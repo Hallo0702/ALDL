@@ -71,7 +71,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         const y =
           (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
           Number(bgRef.current.offsetHeight);
-        onAction(x, y);
+        onAction(x - 2.5, y - 2.5);
       }
     }
   };
