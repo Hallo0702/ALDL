@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
+import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
 
 const DynamicContainer = dynamic(
@@ -14,20 +15,15 @@ const DynamicContainer = dynamic(
 
 const Lock: NextPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(0);
-  const draggableLock = { lockType: 0, top: 50, left: 50 };
+  const [draggableLock, setDraggableLock] = useState<LockProps>();
 
   const router = useRouter();
-  const newLock = {
-    ...router.query,
-  };
-  console.log(newLock);
-
   const [locks, setLocks] = useState([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = await getLocksByBackground(selectedPlace.id);
-      console.log(res.data);
-      setLocks(res.data);
+      // const res = await getLocksByBackground(selectedPlace);
+      // console.log(res.data);
+      // setLocks(res.data);
     };
     fetch();
   }, [selectedPlace]);
@@ -39,7 +35,13 @@ const Lock: NextPage = () => {
       router.push('/');
       return;
     }
-  }, [router.isReady]);
+    setDraggableLock({
+      lockType: Number(router.query.lockType),
+      top: 50,
+      left: 50,
+    });
+    console.log(router.query);
+  }, [router]);
 
   return (
     <>
