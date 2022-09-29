@@ -68,9 +68,11 @@ public class LockerController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         String email = info.getEmail();
         String lockerHash = info.getLockerHash();
+        String lockerTitle = info.getLockerTitle();
         try{
             if(email==""||email==null||
-            lockerHash==""||lockerHash==null){
+            lockerHash==""||lockerHash==null||
+            lockerTitle==""||lockerTitle==null){
                 return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
 
             }
@@ -78,7 +80,7 @@ public class LockerController {
 
                 return new ResponseEntity<>("이미 등록된 자물쇠",headers, HttpStatus.FORBIDDEN);
             }
-            lockerOwnerService.saveLockerOwner(email,lockerHash);
+            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle);
 
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
@@ -128,6 +130,9 @@ public class LockerController {
         String email;
         @ApiModelProperty(example = "자물쇠 해쉬값")
         String lockerHash;
+
+        @ApiModelProperty(example = "자물쇠 제목")
+        String lockerTitle;
 
     }
     @Getter
