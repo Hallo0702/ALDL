@@ -82,6 +82,7 @@ public class WalletService {
             Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
             URL url = getClass().getClassLoader().getResource("admin.wallet");
             String filepath = url.getFile();
+            System.out.println(filepath);
             Credentials credentials = WalletUtils.loadCredentials(PASSWORD, filepath);
             Transfer transfer = new Transfer(web3, new RawTransactionManager(web3, credentials, 921));
             TransactionReceipt transactionReceipt = transfer.sendFunds(address, new BigDecimal(1), Convert.Unit.ETHER).send();
