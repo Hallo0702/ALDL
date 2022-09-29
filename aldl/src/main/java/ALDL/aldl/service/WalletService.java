@@ -81,11 +81,11 @@ public class WalletService {
             }
             System.out.println("33");
             Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
-            URL url = getClass().getClassLoader().getResource("admin.wallet");
-            File filepath = new File(url.getPath());
-            System.out.println(url);
-            System.out.println(filepath);
-            Credentials credentials = WalletUtils.loadCredentials(PASSWORD, filepath);
+//            URL url = getClass().getClassLoader().getResource("admin.wallet");
+//            File filepath = new File(url.getPath());
+//            System.out.println(url);
+//            System.out.println(filepath);
+            Credentials credentials = WalletUtils.loadCredentials(PASSWORD, "/jenkins/workspace/server/aldl/src/main/resources/admin.wallet");
             Transfer transfer = new Transfer(web3, new RawTransactionManager(web3, credentials, 921));
             TransactionReceipt transactionReceipt = transfer.sendFunds(address, new BigDecimal(1), Convert.Unit.ETHER).send();
             if (transactionReceipt == null || transactionReceipt.equals("")){
