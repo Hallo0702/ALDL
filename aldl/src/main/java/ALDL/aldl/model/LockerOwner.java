@@ -25,11 +25,19 @@ public class LockerOwner {
     @Column
     private String lockerTitle;
 
+    @Column
+    private String background;
+
+    @Column
+    private String design;
+
     @Builder
-    public LockerOwner(String email,String lockerHash,String lockerTitle){
+    public LockerOwner(String email,String lockerHash,String lockerTitle,String background, String design){
         this.email=email;
         this.lockerHash = lockerHash;
         this.lockerTitle = lockerTitle;
+        this.background = background;
+        this.design = design;
 
     }
 }

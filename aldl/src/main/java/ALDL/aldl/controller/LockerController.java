@@ -69,10 +69,15 @@ public class LockerController {
         String email = info.getEmail();
         String lockerHash = info.getLockerHash();
         String lockerTitle = info.getLockerTitle();
+        String background = info.getBackground();
+        String design = info.getDesign();
         try{
             if(email==""||email==null||
             lockerHash==""||lockerHash==null||
-            lockerTitle==""||lockerTitle==null){
+            lockerTitle==""||lockerTitle==null||
+                    background == ""||background==null||
+                    design==""||design==null
+            ){
                 return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
 
             }
@@ -80,7 +85,7 @@ public class LockerController {
 
                 return new ResponseEntity<>("이미 등록된 자물쇠",headers, HttpStatus.FORBIDDEN);
             }
-            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle);
+            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle,background,design);
 
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
@@ -97,7 +102,6 @@ public class LockerController {
 
         try{
             if (background==null||background==""){
-
                 return new ResponseEntity<>(null,headers, HttpStatus.BAD_REQUEST);
             }
             List<Locker> lockers = lockerService.backgroundLocker(background);
@@ -133,6 +137,12 @@ public class LockerController {
 
         @ApiModelProperty(example = "자물쇠 제목")
         String lockerTitle;
+
+        @ApiModelProperty(example = "자물쇠 배경")
+        String background;
+
+        @ApiModelProperty(example = "자물쇠 디자인")
+        String design;
 
     }
     @Getter
