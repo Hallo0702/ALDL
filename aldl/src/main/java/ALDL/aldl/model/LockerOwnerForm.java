@@ -12,7 +12,7 @@ public class LockerOwnerForm {
 
     private String background;
 
-    private String design;
+    private Integer lockType;
 
 
     public LockerOwner toEntity(){
@@ -22,7 +22,7 @@ public class LockerOwnerForm {
                 .lockerHash(lockerHash)
                 .lockerTitle(lockerTitle)
                 .background(background)
-                .design(design)
+                .lockType(lockType)
                 .build();
     }
 }

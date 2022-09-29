@@ -15,13 +15,13 @@ public class LockerService {
     @Autowired
     private LockerRepository lockerRepository;
 
-    public void saveLocker(String background, String design, String lockerHash, String location_x,String location_y){
+    public void saveLocker(String background, Integer lockType, String lockerHash, Double locationX,Double locationY){
         LockerForm lockerForm = new LockerForm();
         lockerForm.setBackground(background);
-        lockerForm.setDesign(design);
+        lockerForm.setLockType(lockType);
         lockerForm.setLockerHash(lockerHash);
-        lockerForm.setLocation_x(location_x);
-        lockerForm.setLocation_y(location_y);
+        lockerForm.setLocationX(locationX);
+        lockerForm.setLocationY(locationY);
 
         Locker locker = lockerForm.toEntity();
         lockerRepository.save(locker);
