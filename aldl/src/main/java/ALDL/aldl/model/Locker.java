@@ -38,13 +38,18 @@ public class Locker {
     @ApiModelProperty(example = "자물쇠 Y축")
     private Double locationY;
 
+    @Column
+    @ApiModelProperty(example = "자물쇠 타이틀")
+    private String lockerTitle;
+;
     @Builder
-    public Locker(String background, Integer lockType, String lockerHash, Double locationX, Double locationY){
+    public Locker(String background, Integer lockType, String lockerHash, Double locationX, Double locationY,String lockerTitle){
         this.background=background;
         this.lockType=lockType;
         this.lockerHash=lockerHash;
         this.locationX=locationX;
         this.locationY=locationY;
+        this.lockerTitle=lockerTitle;
     }
 }
 

@@ -10,6 +10,7 @@ public class LockerForm {
     private String lockerHash;
     private Double locationX;
     private Double locationY;
+    private String lockerTitle;
 
     public Locker toEntity(){
         return Locker.builder()
@@ -18,6 +19,7 @@ public class LockerForm {
                 .lockerHash(lockerHash)
                 .locationX(locationX)
                 .locationY(locationY)
+                .lockerTitle(lockerTitle)
                 .build();
     }
 }
