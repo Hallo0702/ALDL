@@ -43,6 +43,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	//s3 server
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+
+	// https://mvnrepository.com/artifact/org.web3j/core
+	implementation group: 'org.web3j', name: 'core', version: '4.9.4'
+
 }
 bootJar{
 	mainClass = 'ALDL.aldl.AldlApplication'

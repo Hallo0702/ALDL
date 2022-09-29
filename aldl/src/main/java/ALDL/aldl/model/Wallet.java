@@ -19,10 +19,10 @@ public class Wallet {
     private String address;
 
     @Column
-    private BigDecimal balance;
+    private String balance;
 
     @Column
-    private int receivingCount;
+    private int receiving_count;
 
     @Column
     private String email;
@@ -30,17 +30,14 @@ public class Wallet {
     @Column
     private String privateKey;
 
-    @Column
-    private int cash;
-
     @Builder
-    public Wallet(String address, String email, String privateKey, int receivingCount, BigDecimal balance, int cash){
+    public Wallet(String email,String address,String privateKey){
+        this.email = email;
         this.address = address;
-        this. email = email;
         this.privateKey = privateKey;
-        this.receivingCount = receivingCount;
-        this.balance = balance;
-        this.cash = cash;
+        this.receiving_count = 0;
+        this.balance = "0";
+
     }
 
 }
