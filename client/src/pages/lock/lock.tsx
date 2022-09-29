@@ -14,10 +14,6 @@ const DynamicContainer = dynamic(
 
 const Lock: NextPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(0);
-  const locks = [
-    { lockType: 0, top: 0, left: 0 },
-    { lockType: 1, top: 15, left: 50 },
-  ];
   const draggableLock = { lockType: 0, top: 50, left: 50 };
 
   const router = useRouter();
@@ -25,6 +21,16 @@ const Lock: NextPage = () => {
     ...router.query,
   };
   console.log(newLock);
+
+  const [locks, setLocks] = useState([]);
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getLocksByBackground(selectedPlace.id);
+      console.log(res.data);
+      setLocks(res.data);
+    };
+    fetch();
+  }, [selectedPlace]);
 
   useEffect(() => {
     if (!router.isReady) return;
