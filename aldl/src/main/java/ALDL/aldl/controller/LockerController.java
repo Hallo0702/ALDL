@@ -1,6 +1,7 @@
 package ALDL.aldl.controller;
 
 import ALDL.aldl.auth.ALDLUserDetails;
+import ALDL.aldl.auth.JwtTokenProvider;
 import ALDL.aldl.model.Locker;
 import ALDL.aldl.model.LockerOwner;
 import ALDL.aldl.service.LockerOwnerService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -29,14 +31,19 @@ public class LockerController {
     LockerService lockerService;
     @Autowired
     LockerOwnerService lockerOwnerService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @ApiOperation(value = "자물쇠 정보 등록") //Swagger
     @PostMapping(path="/setlocker")
-    public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info, @ApiIgnore Authentication authentication){
+    public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info, HttpServletRequest httpServletRequest){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        ALDLUserDetails aldlUserDetails = (ALDLUserDetails)authentication.getDetails();
+        String refreshToken = httpServletRequest.getHeader("Authorization");
+
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
 
         String background = info.getBackground();
         String design = info.getDesign();
@@ -66,10 +73,13 @@ public class LockerController {
 
     @ApiOperation(value = "자물쇠 소유자 등록")
     @PostMapping(path="/savelocker")
-    public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info, @ApiIgnore Authentication authentication){
+    public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info, HttpServletRequest httpServletRequest){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
+        String refreshToken = httpServletRequest.getHeader("Authorization");
+
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
         ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
 
         //String email = info.getEmail();
@@ -79,6 +89,7 @@ public class LockerController {
         String design = info.getDesign();
         try{
             String email = aldlUserDetails.getEmail();
+            System.out.println("User email : " + email);
 
             if(email==""||email==null||
             lockerHash==""||lockerHash==null||
@@ -121,11 +132,14 @@ public class LockerController {
     }
     @ApiOperation(value = "사용자가 보유중인 자물쇠 반환",response = LockerOwner.class)
     @GetMapping("/mylockers")
-    public ResponseEntity<List<LockerOwner>> mylockers(@ApiIgnore Authentication authentication){
+    public ResponseEntity<List<LockerOwner>> mylockers(HttpServletRequest httpServletRequest){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
+        String refreshToken = httpServletRequest.getHeader("Authorization");
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
         ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
+
         try{
             String email = aldlUserDetails.getEmail();
             if (email==""||email==null){

@@ -1,5 +1,6 @@
 package ALDL.aldl.auth;
 
+import ALDL.aldl.db.UserLoginRepo;
 import ALDL.aldl.db.UserRepository;
 import ALDL.aldl.model.User;
 import ALDL.aldl.model.UserForm;
@@ -42,6 +43,7 @@ public class JwtTokenProvider {
     public static final String ISSUER = "aldl.com";
 
     private final UserRepository userRepository;
+    private final UserLoginRepo userLoginRepo;
 
     public String createToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
@@ -79,8 +81,8 @@ public class JwtTokenProvider {
                 .require(Algorithm.HMAC512(secretKey.getEncoded()))
                 .withIssuer(ISSUER)
                 .build();
-        System.out.println(ISSUER);
-        System.out.println(secretKey.getEncoded().toString());
+//        System.out.println(ISSUER+"handleError");
+//        System.out.println(secretKey.getEncoded().toString());
         try {
             verifier.verify(token.replace("Bearer ", ""));
         }         catch (Exception ex) {
@@ -98,7 +100,8 @@ public class JwtTokenProvider {
             String userEmail = decodedJWT.getSubject();
             if (userEmail != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-                User user = userRepository.findByUserEmail(userEmail).orElse(null);
+//                User user = userRepository.findByUserEmail(userEmail).orElse(null);
+                User user = userLoginRepo.findByEmail(userEmail);
                 if (user != null) {
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     ALDLUserDetails userDetails = new ALDLUserDetails(user);
