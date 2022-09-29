@@ -10,12 +10,19 @@ public class LockerOwnerForm {
 
     private String lockerTitle;
 
+    private String background;
+
+    private String design;
+
+
     public LockerOwner toEntity(){
 
         return LockerOwner.builder()
                 .email(email)
                 .lockerHash(lockerHash)
                 .lockerTitle(lockerTitle)
+                .background(background)
+                .design(design)
                 .build();
     }
 }
