@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getLocksByBackground } from '../../api/lock';
 import places from '../../constant/places';
 
@@ -16,21 +16,19 @@ const PlaceName: NextPage = ({}) => {
   const place =
     places.find((place) => place.placeName === router.query.placeName) ||
     places[0];
-  const locks = [
-    { lockType: 1, top: 0, left: 0 },
-    { lockType: 0, top: 15, left: 50 },
-  ];
+  const [locks, setLocks] = useState([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = getLocksByBackground(place.id);
-      console.log(res);
+      const res = await getLocksByBackground(place.id);
+      console.log(res.data);
+      setLocks(res.data);
     };
     fetch();
   }, [place]);
   return (
     <>
       <Head>
-        <title>{place?.name}</title>
+        <title>{place.name}</title>
         <meta name="description" content={`알록달록 ${place.name}`} />
         <link rel="icon" href="/images/logo.png" />
       </Head>
