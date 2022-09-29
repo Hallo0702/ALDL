@@ -1,6 +1,7 @@
 package ALDL.aldl.controller;
 
 
+import ALDL.aldl.auth.ALDLUserDetails;
 import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.service.UserService;
@@ -15,8 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -35,12 +38,14 @@ public class EmailController {
 
     @ApiOperation(value = "이메일로 인증번호 보내기")
     @PatchMapping(path="/sendAuthCode")
-    public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info){
-        String email = info.getEmail();
+    public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info, @ApiIgnore Authentication authentication){
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails)authentication.getDetails();
+        //String email = aldlUserDetails.getEmail();
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try{
+            String email = aldlUserDetails.getEmail();
             if (email !=null && !email.equals("")){
                 Integer v = (int)Math.floor(Math.random() * 1000000);
                 String authCode = v.toString();
