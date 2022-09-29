@@ -3,8 +3,10 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getLocksByBackground, setLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
+import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
 
 const DynamicContainer = dynamic(
@@ -14,17 +16,32 @@ const DynamicContainer = dynamic(
 
 const Lock: NextPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(0);
-  const locks = [
-    { lockType: 0, top: 0, left: 0 },
-    { lockType: 1, top: 15, left: 50 },
-  ];
-  const draggableLock = { lockType: 0, top: 50, left: 50 };
+  const [draggableLock, setDraggableLock] = useState<LockProps>();
 
   const router = useRouter();
-  const newLock = {
-    ...router.query,
+  const [locks, setLocks] = useState([]);
+
+  const onAction = async (locationX: number, locationY: number) => {
+    // todo : web3js로 자물쇠 걸고 해쉬값받아서 API요청
+    const lockerHash = 'temp';
+    const res = await setLocker({
+      background: selectedPlace,
+      lockType: draggableLock?.lockType,
+      locationX,
+      locationY,
+      lockerHash,
+    });
+    console.log(res);
   };
-  console.log(newLock);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getLocksByBackground(selectedPlace);
+      console.log(res.data);
+      setLocks(res.data);
+    };
+    fetch();
+  }, [selectedPlace]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -33,7 +50,13 @@ const Lock: NextPage = () => {
       router.push('/');
       return;
     }
-  }, [router.isReady]);
+    setDraggableLock({
+      lockType: Number(router.query.lockType),
+      locationY: 50,
+      locationX: 50,
+    });
+    console.log(router.query);
+  }, [router]);
 
   return (
     <>
@@ -72,6 +95,7 @@ const Lock: NextPage = () => {
         locksOpacity={70}
         draggableLock={draggableLock}
         placeId={selectedPlace}
+        onAction={onAction}
       />
       <div className="flex justify-center content-center mt-12">
         <Button label="취소" btnType="normal" btnSize="medium"></Button>

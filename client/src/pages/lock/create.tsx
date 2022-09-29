@@ -13,14 +13,14 @@ interface FormState {
   title: string;
   content: string;
   image: File | null;
-  type: number;
+  lockType: number;
 }
 const Create = () => {
   const [formState, setFormState] = useState<FormState>({
     title: '',
     content: '',
     image: null,
-    type: 1,
+    lockType: 0,
   });
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -36,10 +36,10 @@ const Create = () => {
 
   const onLockClickHandler = (e: React.MouseEvent) => {
     if (e.currentTarget) {
-      const type = Number(e.currentTarget.getAttribute('data-key'));
+      const lockType = Number(e.currentTarget.getAttribute('data-key'));
       setFormState((prev) => ({
         ...prev,
-        type: type,
+        lockType: lockType,
       }));
     }
   };
@@ -58,7 +58,7 @@ const Create = () => {
               query: {
                 title: formState.title,
                 content: formState.content,
-                type: formState.type,
+                lockType: formState.lockType,
                 image: imageUrl,
               },
             },
@@ -72,7 +72,7 @@ const Create = () => {
             query: {
               title: formState.title,
               content: formState.content,
-              type: formState.type,
+              lockType: formState.lockType,
             },
           },
           '/lock/lock'
@@ -171,17 +171,17 @@ const Create = () => {
             <div id="lock" className="flex gap-4 self-start">
               {locks.map((lock) => (
                 <div
-                  key={lock.type}
-                  data-key={lock.type}
+                  key={lock.lockType}
+                  data-key={lock.lockType}
                   className={`w-32 h-32 relative ${
-                    formState.type === lock.type
+                    formState.lockType === lock.lockType
                       ? 'border-peach border-2'
                       : 'border-black border'
                   } cursor-pointer hover:border-peach`}
                   onClick={onLockClickHandler}
                 >
                   <LockSvg
-                    type={lock.type}
+                    type={lock.lockType}
                     width="100%"
                     height="100%"
                   ></LockSvg>

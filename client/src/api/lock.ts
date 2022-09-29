@@ -19,3 +19,14 @@ export const getLocksByBackground = async (background: number) => {
   const res = await API.get(`/backgroundlocker?background=${background}`);
   return res;
 };
+
+export const setLocker = async (body: {
+  background: number;
+  lockType?: number;
+  locationX: number;
+  locationY: number;
+  lockerHash: string;
+}) => {
+  const res = await API.post('/setlocker', body);
+  return res;
+};
