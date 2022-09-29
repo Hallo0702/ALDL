@@ -79,18 +79,19 @@ public class WalletService {
             if (wallet == null){
                 throw new NotFoundException("지갑이 존재하지 않습니다.");
             }
-
+            System.out.println("33");
             Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
             URL url = getClass().getClassLoader().getResource("admin.wallet");
             File filepath = new File(url.getPath());
             System.out.println(url);
-            System.out.println(filepate);
+            System.out.println(filepath);
             Credentials credentials = WalletUtils.loadCredentials(PASSWORD, filepath);
             Transfer transfer = new Transfer(web3, new RawTransactionManager(web3, credentials, 921));
             TransactionReceipt transactionReceipt = transfer.sendFunds(address, new BigDecimal(1), Convert.Unit.ETHER).send();
             if (transactionReceipt == null || transactionReceipt.equals("")){
                 throw new ApplicationContextException("트랜잭션을 보낼 수 없습니다.");
             }
+            System.out.println(44);
 
             return syncBalance(address, getBalance(address));
 
