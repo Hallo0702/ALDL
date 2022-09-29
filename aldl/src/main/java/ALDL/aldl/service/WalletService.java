@@ -21,6 +21,7 @@ import org.web3j.tx.RawTransactionManager;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -81,8 +82,7 @@ public class WalletService {
 
             Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
             URL url = getClass().getClassLoader().getResource("admin.wallet");
-            String filepath = url.getFile();
-            System.out.println(filepath);
+            File filepath = new File(url.getPath());
             Credentials credentials = WalletUtils.loadCredentials(PASSWORD, filepath);
             Transfer transfer = new Transfer(web3, new RawTransactionManager(web3, credentials, 921));
             TransactionReceipt transactionReceipt = transfer.sendFunds(address, new BigDecimal(1), Convert.Unit.ETHER).send();
