@@ -7,7 +7,7 @@ public class LockerForm {
     private long id;
     private String background;
     private String design;
-    private String nickname;
+    private String lockerHash;
     private String location_x;
     private String location_y;
 
@@ -15,7 +15,7 @@ public class LockerForm {
         return Locker.builder()
                 .background(background)
                 .design(design)
-                .nickname(nickname)
+                .lockerHash(lockerHash)
                 .location_x(location_x)
                 .location_y(location_y)
                 .build();

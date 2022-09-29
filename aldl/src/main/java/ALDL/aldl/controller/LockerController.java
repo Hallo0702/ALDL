@@ -39,13 +39,13 @@ public class LockerController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         String background = info.getBackground();
         String design = info.getDesign();
-        String nickname = info.getNickname();
+        String lockerHash = info.getLockerHash();
         String location_x = info.getLocation_x();
         String location_y = info.getLocation_y();
         try{
             if (background == ""||background ==null||
                     design == ""||design==null||
-                    nickname==""||nickname==null||
+                    lockerHash==""||lockerHash==null||
                     location_x==""||location_x==null||
                     location_y==""||location_y==null
             ){
@@ -53,7 +53,7 @@ public class LockerController {
                 return new ResponseEntity<>("정보가 비어있습니다.",headers, HttpStatus.BAD_REQUEST);
             }
 
-            lockerService.saveLocker(background,design,nickname,location_x,location_y);
+            lockerService.saveLocker(background,design,lockerHash,location_x,location_y);
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
 
@@ -139,8 +139,8 @@ public class LockerController {
     public static class Swagger_setlocker{
         @ApiModelProperty(example = "배경 종류")
         String background;
-        @ApiModelProperty(example = "사용자 닉네임")
-        String nickname;
+        @ApiModelProperty(example = "자물쇠 해시")
+        String lockerHash;
         @ApiModelProperty(example = "자물쇠 X축")
         String location_x;
         @ApiModelProperty(example = "자물쇠 Y축")

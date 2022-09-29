@@ -27,8 +27,8 @@ public class Locker {
     private String design;
 
     @Column
-    @ApiModelProperty(example = "사용자 닉네임")
-    private String nickname;
+    @ApiModelProperty(example = "자물쇠 해쉬")
+    private String lockerHash;
 
     @Column
     @ApiModelProperty(example = "자물쇠 X축")
@@ -39,10 +39,10 @@ public class Locker {
     private String location_y;
 
     @Builder
-    public Locker(String background, String design, String nickname, String location_x, String location_y){
+    public Locker(String background, String design, String lockerHash, String location_x, String location_y){
         this.background=background;
         this.design=design;
-        this.nickname=nickname;
+        this.lockerHash=lockerHash;
         this.location_x=location_x;
         this.location_y=location_y;
     }
