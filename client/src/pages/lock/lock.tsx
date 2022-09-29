@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getLocksByBackground } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import { LockProps } from '../../components/place/Lock';
@@ -21,9 +22,9 @@ const Lock: NextPage = () => {
   const [locks, setLocks] = useState([]);
   useEffect(() => {
     const fetch = async () => {
-      // const res = await getLocksByBackground(selectedPlace);
-      // console.log(res.data);
-      // setLocks(res.data);
+      const res = await getLocksByBackground(selectedPlace);
+      console.log(res.data);
+      setLocks(res.data);
     };
     fetch();
   }, [selectedPlace]);
@@ -37,8 +38,8 @@ const Lock: NextPage = () => {
     }
     setDraggableLock({
       lockType: Number(router.query.lockType),
-      top: 50,
-      left: 50,
+      locationY: 50,
+      locationX: 50,
     });
     console.log(router.query);
   }, [router]);
