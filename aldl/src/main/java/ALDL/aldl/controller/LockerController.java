@@ -50,6 +50,8 @@ public class LockerController {
         String lockerHash = info.getLockerHash();
         Double locationX = info.getLocationX();
         Double locationY = info.getLocationY();
+        String lockerTitle = info.getLockerTitle();
+
         try{
             String email = aldlUserDetails.getEmail();
 
@@ -63,7 +65,7 @@ public class LockerController {
                 return new ResponseEntity<>("정보가 비어있습니다.",headers, HttpStatus.BAD_REQUEST);
             }
 
-            lockerService.saveLocker(background,lockType,lockerHash,locationX,locationY);
+            lockerService.saveLocker(background,lockType,lockerHash,locationX,locationY,lockerTitle);
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
 
@@ -181,6 +183,8 @@ public class LockerController {
         Double locationY;
         @ApiModelProperty(example = "자물쇠 디자인")
         Integer lockType;
+        @ApiModelProperty(example = "자물쇠 제목")
+        String lockerTitle;
 
     }
 
