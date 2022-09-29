@@ -12,7 +12,7 @@ interface DynamicContainerProps {
   locksOpacity?: number;
   draggableLock?: LockProps;
   placeId: number;
-  onAction(locationX: number, locationY: number): void;
+  onAction?(locationX: number, locationY: number): void;
 }
 
 const DynamicContainer: FC<DynamicContainerProps> = ({
@@ -71,7 +71,9 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         const y =
           (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
           Number(bgRef.current.offsetHeight);
-        onAction(x - 2.5, y - 2.5);
+        if (onAction) {
+          onAction(x - 2.5, y - 2.5);
+        }
       }
     }
   };
