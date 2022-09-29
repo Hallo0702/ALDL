@@ -117,16 +117,16 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
         <Lock
           key={crypto.randomBytes(64).toString('hex')}
           lockType={lock.lockType}
-          top={lock.top}
-          left={lock.left}
+          locationY={lock.locationY}
+          locationX={lock.locationX}
           opacity={locksOpacity}
         />
       ))}
       {draggableLock && (
         <DraggableLock
           lockType={draggableLock.lockType}
-          top={draggableLock.top}
-          left={draggableLock.left}
+          locationY={draggableLock.locationY}
+          locationX={draggableLock.locationX}
         />
       )}
     </main>

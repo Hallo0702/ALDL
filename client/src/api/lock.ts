@@ -14,3 +14,8 @@ export const uploadImage = async (formData: FormData) => {
   const res = await API.post('/upload', formData);
   return res;
 };
+
+export const getLocksByBackground = async (background: number) => {
+  const res = await API.get(`/backgroundlocker?background=${background}`);
+  return res;
+};

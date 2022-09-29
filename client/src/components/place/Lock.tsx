@@ -4,13 +4,12 @@ import LockSvg from '../common/LockSvg';
 const LOCK_SIZE = '5vw';
 export interface LockProps {
   lockType: number;
-  top: number;
-  left: number;
+  locationY: number;
+  locationX: number;
   opacity?: number;
 }
 
-//left : 3~100
-const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
+const Lock: FC<LockProps> = ({ lockType, locationY, locationX, opacity }) => {
   return (
     <LockSvg
       type={lockType}
@@ -18,8 +17,8 @@ const Lock: FC<LockProps> = ({ lockType, top, left, opacity }) => {
       width={LOCK_SIZE}
       height={LOCK_SIZE}
       style={{
-        top: `${top}%`,
-        left: `${left}%`,
+        top: `${locationY}%`,
+        left: `${locationX}%`,
         opacity: `${opacity ? opacity : '100'}%`,
       }}
       // todo : 마우스 올리면 제목정도 나오게 출력하면 좋을것 같음.
