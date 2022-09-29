@@ -119,7 +119,7 @@ public class JwtTokenProvider {
     public String createRefreshToken(String userEmail) throws UnsupportedEncodingException {
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payLood에 저장되는 정보 단위
         claims.put("roles", "User"); // 정보는 key-value 쌍으로 저장
-        claims.put("userId",userEmail);
+        claims.put("email",userEmail);
         Date now = new Date();
 
         System.out.println("createRefreshToken 완료");

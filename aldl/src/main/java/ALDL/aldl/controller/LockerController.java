@@ -1,27 +1,25 @@
 package ALDL.aldl.controller;
 
+import ALDL.aldl.auth.ALDLUserDetails;
 import ALDL.aldl.model.Locker;
 import ALDL.aldl.model.LockerOwner;
-import ALDL.aldl.model.Message;
-import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.service.LockerOwnerService;
 import ALDL.aldl.service.LockerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Api(value = "LOCKER API", tags = {"Locker"})
 @RestController
@@ -34,15 +32,20 @@ public class LockerController {
 
     @ApiOperation(value = "자물쇠 정보 등록") //Swagger
     @PostMapping(path="/setlocker")
-    public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info){
+    public ResponseEntity<String> setlocker(@RequestBody Swagger_setlocker info, @ApiIgnore Authentication authentication){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails)authentication.getDetails();
+
         String background = info.getBackground();
         String design = info.getDesign();
         String nickname = info.getNickname();
         String location_x = info.getLocation_x();
         String location_y = info.getLocation_y();
         try{
+            String email = aldlUserDetails.getEmail();
+
             if (background == ""||background ==null||
                     design == ""||design==null||
                     nickname==""||nickname==null||
@@ -63,13 +66,18 @@ public class LockerController {
 
     @ApiOperation(value = "자물쇠 소유자 등록")
     @PostMapping(path="/savelocker")
-    public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info){
+    public ResponseEntity<String> savelocker(@RequestBody Swagger_savelocker info, @ApiIgnore Authentication authentication){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        String email = info.getEmail();
+
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
+
+        //String email = info.getEmail();
         String lockerHash = info.getLockerHash();
         String lockerTitle = info.getLockerTitle();
         try{
+            String email = aldlUserDetails.getEmail();
+
             if(email==""||email==null||
             lockerHash==""||lockerHash==null||
             lockerTitle==""||lockerTitle==null){
@@ -109,11 +117,13 @@ public class LockerController {
     }
     @ApiOperation(value = "사용자가 보유중인 자물쇠 반환",response = LockerOwner.class)
     @GetMapping("/mylockers")
-    public ResponseEntity<List<LockerOwner>> mylockers(@RequestParam String email){
+    public ResponseEntity<List<LockerOwner>> mylockers(@ApiIgnore Authentication authentication){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
         try{
+            String email = aldlUserDetails.getEmail();
             if (email==""||email==null){
                 return new ResponseEntity<>(null,headers, HttpStatus.BAD_REQUEST);
             }

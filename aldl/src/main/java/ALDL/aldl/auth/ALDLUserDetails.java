@@ -27,7 +27,7 @@ public class ALDLUserDetails implements UserDetails {
     public User getUser() {
         return this.user;
     }
-    public String getUserEmail() { return this.user.getEmail(); }
+    public String getEmail() { return this.user.getEmail(); }
     @Override
     public String getPassword() {
         return this.user.getPassword();
