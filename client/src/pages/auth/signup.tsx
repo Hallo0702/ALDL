@@ -5,7 +5,10 @@ import Head from 'next/head';
 import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
 import { signup } from '../../api/auth';
+import { createWallet } from '../../api/wallet';
+import { requestEth } from '../../api/wallet';
 import Link from 'next/link';
+import Web3 from 'web3';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
 
@@ -50,6 +53,20 @@ const Signup: NextPage = ({}) => {
           enteredName,
           enteredNickname
         );
+
+        const web3 = new Web3(
+          new Web3.providers.HttpProvider('http://43.200.253.174:3000')
+        );
+        const account = await web3.eth.accounts.create();
+        const res = await web3.eth.accounts.privateKeyToAccount(
+          account.privateKey
+        );
+        await createWallet({
+          email: enteredEmail,
+          address: res.address,
+          privateKey: res.privateKey,
+        });
+        requestEth(res.address);
         router.replace('/auth/login');
       }
     } catch (error) {
