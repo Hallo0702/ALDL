@@ -20,7 +20,7 @@ const Create = () => {
     title: '',
     content: '',
     image: null,
-    lockType: 1,
+    lockType: 0,
   });
 
   const fileRef = useRef<HTMLInputElement>(null);
