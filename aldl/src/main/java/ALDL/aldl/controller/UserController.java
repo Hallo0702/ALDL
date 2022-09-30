@@ -78,7 +78,7 @@ public class UserController {
         try{
             if (email != null && !email.equals("")){
                 if (userService.checkEmail(email) != null){
-                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
                 }
                 else{
                     return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
@@ -103,7 +103,7 @@ public class UserController {
         try{
             if (nickname != null && !nickname.equals("")){
                 if (userService.checkNickname(nickname) != null){
-                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
                 }
                 else{
                     return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
