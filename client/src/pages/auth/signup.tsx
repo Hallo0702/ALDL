@@ -5,7 +5,6 @@ import Head from 'next/head';
 import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
 import { emailduplicate, signup } from '../../api/auth';
-import { signup } from '../../api/auth';
 import { createWallet } from '../../api/wallet';
 import { requestEth } from '../../api/wallet';
 import Link from 'next/link';
@@ -80,7 +79,7 @@ const Signup: NextPage = ({}) => {
     event: React.ChangeEvent<HTMLInputElement>,
     select: string
   ) {
-    // event.preventDefault();
+    event.preventDefault();
     const enteredEmail = emailInputRef.current?.value || '';
     const enteredPassword = passwordInputRef.current?.value || '';
     const enteredPasswordCk = passwordCkInputRef.current?.value || '';
