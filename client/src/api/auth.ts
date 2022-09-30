@@ -42,6 +42,15 @@ export const emailduplicate = async (params: { email: string }) => {
   }
 };
 
+export const nicknameduplicate = async (params: { nickname: string }) => {
+  try {
+    const res = await API.get('/auth/nicknameduplicate', { params });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const checkAuthCode = async (params: {
   email: string;
   authcode: string;
