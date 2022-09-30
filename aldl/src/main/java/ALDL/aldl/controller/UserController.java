@@ -71,24 +71,24 @@ public class UserController {
     @ApiOperation(value = "이메일 중복확인")
     @GetMapping("/emailduplicate")
     @ResponseBody
-    public ResponseEntity<String> validemail(@RequestParam String email){
+    public ResponseEntity<Boolean> validemail(@RequestParam String email){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try{
             if (email != null && !email.equals("")){
                 if (userService.checkEmail(email) != null){
-                    return new ResponseEntity<>("존재하는 이메일",headers,HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
                 }
                 else{
-                    return new ResponseEntity<>("존재하지 않는 이메일!",headers,HttpStatus.OK);
+                    return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
                 }
             }
             else{
-                return new ResponseEntity<>("비어있는 이메일",headers,HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
             }
         }catch(Exception e){
-            return new ResponseEntity<>("에러 발생",headers,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.NOT_FOUND);
         }
     }
     //닉네임(별명) 중복확인
@@ -96,25 +96,24 @@ public class UserController {
     @ApiOperation(value = "닉네임 중복확인")
     @GetMapping("/nicknameduplicate")
     @ResponseBody
-    public ResponseEntity<String> validnickname(@RequestParam String nickname){
+    public ResponseEntity<Boolean> validnickname(@RequestParam String nickname){
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
         try{
             if (nickname != null && !nickname.equals("")){
                 if (userService.checkNickname(nickname) != null){
-                    return new ResponseEntity<>("존재하는 닉네임",headers,HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
                 }
                 else{
-                    return new ResponseEntity<>("존재하지 않는 닉네임!",headers,HttpStatus.OK);
+                    return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
                 }
             }
             else{
-                return new ResponseEntity<>("비어있는 닉네임",headers,HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
             }
         }catch(Exception e){
-            return new ResponseEntity<>("에러 발생",headers,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.NOT_FOUND);
         }
     }
     //로그인

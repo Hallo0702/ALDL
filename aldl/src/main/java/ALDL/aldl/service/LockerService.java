@@ -33,5 +33,7 @@ public class LockerService {
     }
 
 
-
+    public boolean isMyLocker(List<Locker> lockers,String hash){
+        // 리스트 안에 해쉬값이 존제하면
+    }
 }
