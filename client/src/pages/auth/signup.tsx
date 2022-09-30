@@ -1,9 +1,10 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import FormInput from '../../components/common/FormInput';
 import Button from '../../components/common/Button';
+import { emailduplicate, signup } from '../../api/auth';
 import { signup } from '../../api/auth';
 import { createWallet } from '../../api/wallet';
 import { requestEth } from '../../api/wallet';
@@ -24,17 +25,18 @@ async function createUser(
 const Signup: NextPage = ({}) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+  const passwordCkInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
-  const [emailInputValue, setEmailInputValue] = useState('');
-  const [passwordInputValue, setPasswordInputValue] = useState('');
-  const [repasswordInputValue, setRepasswordInputValue] = useState('');
-  const [nameInputValue, setNameInputValue] = useState('');
-  const [nicknameInputValue, setNicknameInputValue] = useState('');
   const [user, setUserstate] = useRecoilState(userState);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [isPasswordCkError, setIsPasswordCkError] = useState(false);
+  const [isNameError, setIsNameError] = useState(false);
+  const [isNicknameError, setIsNicknameError] = useState(false);
 
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -44,9 +46,7 @@ const Signup: NextPage = ({}) => {
     const enteredNickname = nicknameInputRef.current?.value || '';
 
     try {
-      if (user.isLogined) {
-        router.replace('/');
-      } else {
+      if (!user.isLogined) {
         const response = await createUser(
           enteredEmail,
           enteredPassword,
@@ -68,9 +68,65 @@ const Signup: NextPage = ({}) => {
         });
         requestEth(res.address);
         router.replace('/auth/login');
+      } else {
+        router.replace('/');
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function checkHandler(
+    event: React.ChangeEvent<HTMLInputElement>,
+    select: string
+  ) {
+    // event.preventDefault();
+    const enteredEmail = emailInputRef.current?.value || '';
+    const enteredPassword = passwordInputRef.current?.value || '';
+    const enteredPasswordCk = passwordCkInputRef.current?.value || '';
+    const enteredName = nameInputRef.current?.value || '';
+    const enteredNickname = nicknameInputRef.current?.value || '';
+
+    switch (select) {
+      case 'email':
+        if (
+          /^[A-Za-z0-9.\-_]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,6}$/.test(
+            enteredEmail
+          )
+        ) {
+          setIsEmailError(false);
+        } else {
+          setIsEmailError(true);
+        }
+        break;
+      case 'password':
+        if (/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/.test(enteredPassword)) {
+          setIsPasswordError(false);
+        } else {
+          setIsPasswordError(true);
+        }
+        break;
+      case 'passwordCk':
+        if (enteredPassword === enteredPasswordCk) {
+          setIsPasswordCkError(false);
+        } else {
+          setIsPasswordCkError(true);
+        }
+        break;
+      case 'name':
+        if (/^[가-힣]+$/.test(enteredName)) {
+          setIsNameError(false);
+        } else {
+          setIsNameError(true);
+        }
+        break;
+      case 'nickname':
+        if (/^[a-zA-Zㄱ-힣0-9-_.]{2,8}$/.test(enteredNickname)) {
+          setIsNicknameError(false);
+        } else {
+          setIsNicknameError(true);
+        }
+        break;
     }
   }
 
@@ -89,57 +145,51 @@ const Signup: NextPage = ({}) => {
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          {/* todo: 이메일 인증 */}
           <FormInput
             label="이메일"
             id="email"
-            isError
-            errMsg="* 올바른 이메일 형식을 확인하세요."
-            value={emailInputValue}
-            onChange={(e) => {
-              setEmailInputValue(e.target.value);
-            }}
+            isError={isEmailError}
+            errMsg="* 올바른 이메일 형식을 입력해주세요."
+            // value={emailInputValue}
+            onChange={(e) => checkHandler(e, 'email')}
             ref={emailInputRef}
           ></FormInput>
           <FormInput
             label="비밀번호"
             id="password"
             type="password"
-            value={passwordInputValue}
-            onChange={(e) => {
-              setPasswordInputValue(e.target.value);
-            }}
+            isError={isPasswordError}
+            errMsg="* 영어, 숫자 혼합 8글자 이상의 비밀번호를 입력해주세요"
+            // value={passwordInputValue}
+            onChange={(e) => checkHandler(e, 'password')}
             ref={passwordInputRef}
           ></FormInput>
           <FormInput
             label="비밀번호 확인"
-            id="passwordConfirm"
+            id="passwordCk"
             type="password"
-            isError
+            isError={isPasswordCkError}
             errMsg="* 비밀번호를 다시 확인해주세요."
-            value={repasswordInputValue}
-            onChange={(e) => {
-              setRepasswordInputValue(e.target.value);
-            }}
+            // value={passwordCkInputValue}
+            onChange={(e) => checkHandler(e, 'passwordCk')}
+            ref={passwordCkInputRef}
           ></FormInput>
           <FormInput
             label="이름"
             id="name"
-            value={nameInputValue}
-            onChange={(e) => {
-              setNameInputValue(e.target.value);
-            }}
+            isError={isNameError}
+            errMsg="* 한글을 입력해주세요."
+            // value={nameInputValue}
+            onChange={(e) => checkHandler(e, 'name')}
             ref={nameInputRef}
           ></FormInput>
           <FormInput
             label="닉네임"
             id="nickname"
-            isError
-            errMsg="* 중복된 닉네임입니다."
-            value={nicknameInputValue}
-            onChange={(e) => {
-              setNicknameInputValue(e.target.value);
-            }}
+            isError={isNicknameError}
+            errMsg="* 2~8글자의 닉네임을 입력해주세요."
+            // value={nicknameInputValue}
+            onChange={(e) => checkHandler(e, 'nickname')}
             ref={nicknameInputRef}
           ></FormInput>
           <div className="flex justify-center content-center">

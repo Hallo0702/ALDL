@@ -18,8 +18,6 @@ export const signup = async (body: {
 export const logout = async (body: { refreshToken: string }) => {
   try {
     const res = await API.delete('/auth/logout', { data: body });
-    console.log(res);
-
     return res;
   } catch (err) {
     throw err;
@@ -30,6 +28,36 @@ export const refresh = async (body: { refreshToken: string }) => {
   try {
     const res = await API.post('/token/refresh', body);
     return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const emailduplicate = async (params: { email: string }) => {
+  try {
+    const res = await API.get('/auth/emailduplicate', { params });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const checkAuthCode = async (params: {
+  email: string;
+  authcode: string;
+}) => {
+  try {
+    const res = await API.get('/auth/checkAuthCode', { params });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const sendAuthCode = async (body: { email: string }) => {
+  try {
+    const res = await API.patch('/sendAuthCode', body);
+    return res;
   } catch (err) {
     throw err;
   }
