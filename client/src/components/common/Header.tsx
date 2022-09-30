@@ -30,23 +30,23 @@ const Header: NextPage = () => {
         </Link>
       </div>
       <nav className="flex font-medium text-lg">
-        <Link href="about">
+        <Link href="/about">
           <div className="mr-10 cursor-pointer">· about</div>
         </Link>
         {user.isLogined ? (
           <>
-            <Link href="logout">
+            <Link href="/logout">
               <div className="mr-10 cursor-pointer" onClick={signoutHandler}>
                 · logout
               </div>
             </Link>
-            <Link href="mypage">
+            <Link href="/mypage">
               <div className="mr-24 cursor-pointer">· mypage</div>
             </Link>
           </>
         ) : (
           <>
-            <Link href="auth/login">
+            <Link href="/auth/login">
               <div className="mr-24 cursor-pointer">· login</div>
             </Link>
           </>
