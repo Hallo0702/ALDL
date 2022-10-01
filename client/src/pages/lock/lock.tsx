@@ -28,6 +28,8 @@ const Lock: NextPage = () => {
 
   const onAction = async (locationX: number, locationY: number) => {
     const { content, title, image } = router.query;
+
+    //privateKey,walletAddress 받아야함.
     const storeRes = await store(
       '0xc3358af8becbab80cd6e3c6b2425368a6b6ac8f4aa8807e73ca1fd62347f39b5',
       '0xa6Af487111486Af3FEeEa15631EFaB3168801273',
