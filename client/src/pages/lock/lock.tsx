@@ -51,7 +51,7 @@ const Lock: NextPage = () => {
           console.info('receipt', receipt);
           const startContract = new web3.eth.Contract(ABI as AbiItem[], receipt.contractAddress);
           console.log("1", startContract);
-          const res = await startContract.methods.store(image, title, content).send({
+          const res = await startContract.methods.store(image, title, content, selectedPlace, draggableLock?.lockType).send({
             // 사용자의 address값을 from에 적용
             from : "0xa6Af487111486Af3FEeEa15631EFaB3168801273",
             gas: 1000000,
