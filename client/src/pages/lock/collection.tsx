@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
-import { saveLocker } from '../../api/lock';
+import { useEffect, useState } from 'react';
+import { getMyLockers, saveLocker } from '../../api/lock';
 
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
@@ -12,12 +12,23 @@ const Collection: NextPage = ({}) => {
   const [selectedPlace, setSelectedPlace] = useState('all');
   const [toAddLockerHash, setToAddLokcerHash] = useState('');
   const [locks, setLocks] = useState([]);
+  const [lockHashs, setLockHashs] = useState<string[]>([]);
+
   const saveLockerHandler = async () => {
     if (!toAddLockerHash) return;
     const res = await saveLocker(toAddLockerHash);
-
-    //todo : toAddLockerHash로 retrieve한 제목
+    setLockHashs((prev) => [...prev, toAddLockerHash]);
   };
+
+  useEffect(() => {
+    const fetchLockHashs = async () => {
+      const res = await getMyLockers();
+      setLockHashs(res.data);
+    };
+    fetchLockHashs();
+  }, []);
+  //lockHashs retrieve해서 locks채우기
+  //selectedPlace로 필터링해서 showedLocks 만들기
   return (
     <>
       <Head>
