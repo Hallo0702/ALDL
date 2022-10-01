@@ -193,12 +193,13 @@ public class UserController {
     public ResponseEntity<String> ModifyPassword(@RequestBody Swagger_Modifypassword info){
         String email = info.getEmail();
         String new_password = UserSha256.encrypt(info.getNew_password());
+        String current_password = UserSha256.encrypt(info.getCurrent_password());
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try {
             if (userService.checkEmail(email) != null){
-                if (userService.checkPassword(email,new_password)!=null){
+                if (userService.checkPassword(email,current_password)!=null){
                     userService.ModifingPassword(email,new_password);
                     return new ResponseEntity<>("비밀번호 수정완료",headers,HttpStatus.OK);
                 }
@@ -328,6 +329,8 @@ public class UserController {
         String email;
         @ApiModelProperty(example = "사용자 새로운 비밀번호")
         String new_password;
+        @ApiModelProperty(example = "사용자 기존 비밀번호")
+        String current_password;
 
 
     }
