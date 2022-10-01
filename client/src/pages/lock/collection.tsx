@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
+import { saveLocker } from '../../api/lock';
 
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
@@ -9,6 +10,14 @@ import places from '../../constant/places';
 
 const Collection: NextPage = ({}) => {
   const [selectedPlace, setSelectedPlace] = useState('all');
+  const [toAddLockerHash, setToAddLokcerHash] = useState('');
+  const [locks, setLocks] = useState([]);
+  const saveLockerHandler = async () => {
+    if (!toAddLockerHash) return;
+    const res = await saveLocker(toAddLockerHash);
+
+    //todo : toAddLockerHash로 retrieve한 제목
+  };
   return (
     <>
       <Head>
@@ -25,6 +34,10 @@ const Collection: NextPage = ({}) => {
           <input
             type="text"
             className="w-96 h-10 rounded-full border-black border-2 p-4"
+            value={toAddLockerHash}
+            onChange={(e) => {
+              setToAddLokcerHash(e.target.value);
+            }}
           />
           <p className="text-center py-2 font-medium">
             공유받은 자물쇠 주소를 입력해주세요
@@ -35,6 +48,7 @@ const Collection: NextPage = ({}) => {
           btnType="dark"
           btnSize="medium"
           customstyle="mt-0"
+          onClick={saveLockerHandler}
         ></Button>
       </div>
       <Board>
