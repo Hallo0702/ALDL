@@ -3,16 +3,12 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AbiItem } from 'web3-utils';
 
 import { getLocksByBackground, setLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
-import { ABI } from '../../contract/ABI';
-import { Bytecode } from '../../contract/Bytecode';
-import Web3 from 'web3';
 import { store } from '../../utils/contract';
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
