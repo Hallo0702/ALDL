@@ -4,6 +4,7 @@ import ALDL.aldl.auth.UserLoginPostReq;
 import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.model.User;
+import ALDL.aldl.service.InputSecurityService;
 import ALDL.aldl.service.UserService;
 import ALDL.aldl.service.UserSha256;
 import io.swagger.annotations.Api;
@@ -28,6 +29,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    InputSecurityService inputSecurityService;
 
     //회원가입
     @ApiOperation(value = "사용자회원가입")
@@ -74,16 +77,20 @@ public class UserController {
     public ResponseEntity<Boolean> validemail(@RequestParam String email){
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
         try{
             if (email != null && !email.equals("")){
-                if (userService.checkEmail(email) != null){
+                if(inputSecurityService.inputEmailCheck(email) && inputSecurityService.sqlInjectionCheck(email)){
+                    if (userService.checkEmail(email) != null){
+                        return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
+                    }
+                    else{
+                        return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
+                    }
+                }else{
                     return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
-                }
-                else{
-                    return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
-                }
-            }
+
+
+                }            }
             else{
                 return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.BAD_REQUEST);
             }
@@ -106,7 +113,11 @@ public class UserController {
                     return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
                 }
                 else{
-                    return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
+                    if(inputSecurityService.sqlInjectionCheck(nickname)){
+                        return new ResponseEntity<>(Boolean.TRUE,headers,HttpStatus.OK);
+                    }else{
+                    return new ResponseEntity<>(Boolean.FALSE,headers,HttpStatus.OK);
+                    }
                 }
             }
             else{
@@ -132,20 +143,27 @@ public class UserController {
             if (email != null && !email.equals("")){
 
                 if (userService.checkEmail(email) != null){
-                    String password_encrypt = UserSha256.encrypt(password);
-                    if (userService.checkPassword(email,password_encrypt)!=null){
-                        UserLoginPostReq loginPostReq  = userService.userLogin(email);
-                        message.setAccessToken(loginPostReq.getAccessToken());
-                        message.setRefreshToken(loginPostReq.getRefreshToken());
-                        message.setStatus(StatusEnum.OK);
-                        message.setResponseType("Login:로그인성공");
-                        return new ResponseEntity<>(message,headers, HttpStatus.OK);
-                    }
-                    else{
+                    if(inputSecurityService.inputEmailCheck(email) && inputSecurityService.sqlInjectionCheck(email)){
+                        String password_encrypt = UserSha256.encrypt(password);
+                        if (userService.checkPassword(email,password_encrypt)!=null){
+                            UserLoginPostReq loginPostReq  = userService.userLogin(email);
+                            message.setAccessToken(loginPostReq.getAccessToken());
+                            message.setRefreshToken(loginPostReq.getRefreshToken());
+                            message.setStatus(StatusEnum.OK);
+                            message.setResponseType("Login:로그인성공");
+                            return new ResponseEntity<>(message,headers, HttpStatus.OK);
+                        }
+                        else{
+                            message.setResponseType("Login:아이디와 비밀번호를 확인해주세요");
+                            message.setStatus(StatusEnum.BAD_REQUEST);
+
+                            return new ResponseEntity<>(message,headers,HttpStatus.OK);
+                        }
+                    }else{
                         message.setResponseType("Login:아이디와 비밀번호를 확인해주세요");
                         message.setStatus(StatusEnum.BAD_REQUEST);
-
                         return new ResponseEntity<>(message,headers,HttpStatus.OK);
+
                     }
 
                 }
@@ -228,13 +246,18 @@ public class UserController {
 
         try {
             if (nickname != null && !nickname.equals("")){
-                if (userService.checkNickname(nickname) != null){
-                    return new ResponseEntity<>("존재하는 닉네임",headers,HttpStatus.BAD_REQUEST);
+                if(inputSecurityService.sqlInjectionCheck(nickname)){
+                    if (userService.checkNickname(nickname) != null){
+                        return new ResponseEntity<>("존재하는 닉네임",headers,HttpStatus.BAD_REQUEST);
+                    }
+                    else{
+                        userService.ModifingNickname(email,nickname);
+                        return new ResponseEntity<>("닉네임 변경 완료",headers,HttpStatus.OK);
+
+                    }
                 }
                 else{
-                    userService.ModifingNickname(email,nickname);
-                    return new ResponseEntity<>("닉네임 변경 완료",headers,HttpStatus.OK);
-
+                    return new ResponseEntity<>("사용할수 없는 닉네임",headers,HttpStatus.OK);
                 }
             }
             else{
