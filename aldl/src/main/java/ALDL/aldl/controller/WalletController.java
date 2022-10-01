@@ -43,4 +43,14 @@ public class WalletController {
         }
     }
 
+    @GetMapping(path="/myEth")
+    public ResponseEntity<String> syncEth(@RequestParam String address) {
+        Wallet wallet = walletService.syncBalance(address, walletService.getBalance(address));
+        if (wallet == null) {
+            return new ResponseEntity<>("존재하지 않는 지갑주소입니다.", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(wallet.getBalance(), HttpStatus.OK);
+        }
+    }
+
 }
