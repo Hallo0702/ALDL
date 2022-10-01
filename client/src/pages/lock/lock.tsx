@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {AbiItem} from 'web3-utils'
+import { AbiItem } from 'web3-utils';
 
 import { getLocksByBackground, setLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
@@ -13,6 +13,7 @@ import places from '../../constant/places';
 import { ABI } from '../../contract/ABI';
 import { Bytecode } from '../../contract/Bytecode';
 import Web3 from 'web3';
+import { store } from '../../utils/contract';
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
   { ssr: false }
@@ -26,44 +27,19 @@ const Lock: NextPage = () => {
   const [locks, setLocks] = useState([]);
 
   const onAction = async (locationX: number, locationY: number) => {
-    const {content,title,image}=router.query;
-    console.log(content, title, image, router);    
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider('http://43.200.253.174:3000')
+    const { content, title, image } = router.query;
+    const storeRes = await store(
+      '0xc3358af8becbab80cd6e3c6b2425368a6b6ac8f4aa8807e73ca1fd62347f39b5',
+      '0xa6Af487111486Af3FEeEa15631EFaB3168801273',
+      {
+        imageSrc: image,
+        content: content,
+        title: title,
+        lockType: draggableLock?.lockType,
+        background: selectedPlace,
+      }
     );
-    const Contract = await new web3.eth.Contract(ABI as AbiItem[]);
-    // DB에 저장된 사용자의 privateKey를 적용
-    web3.eth.accounts.wallet.add("0xc3358af8becbab80cd6e3c6b2425368a6b6ac8f4aa8807e73ca1fd62347f39b5");
-    const deploy = Contract.deploy({
-      data : '0x' + Bytecode.object
-  // 사용자의 address값을 from에 적용
-  }).send({
-          from : "0xa6Af487111486Af3FEeEa15631EFaB3168801273",
-          gas: 1000000,
-          gasPrice : "1000000000"
-      }, (err, transactionHash) =>{
-          console.info('transactionHash', transactionHash);
-      }).on('error', (error)=>{
-          console.info('error', error);
-      }).on('transactionHash', (transactionHash) =>{
-          console.info('transactionHash', transactionHash);
-      }).on('receipt', async (receipt) =>{
-          console.info('receipt', receipt);
-          const startContract = new web3.eth.Contract(ABI as AbiItem[], receipt.contractAddress);
-          console.log("1", startContract);
-          const res = await startContract.methods.store(image, title, content, selectedPlace, draggableLock?.lockType).send({
-            // 사용자의 address값을 from에 적용
-            from : "0xa6Af487111486Af3FEeEa15631EFaB3168801273",
-            gas: 1000000,
-            gasPrice : "1000000000" 
-          });
-          console.log("2", res)
-          // 현재 사용자 address retrieve를 통해 url, title, content를 0, 1, 2로 확인
-          const res1 = await startContract.methods.retrieve().call({from : "0xa6Af487111486Af3FEeEa15631EFaB3168801273" });
-          console.log(res1);
-        })
-    // todo : web3js로 자물쇠 걸고 해쉬값받아서 API요청
-    const lockerHash = 'temp';
+    const lockerHash = storeRes['_address'];
     const res = await setLocker({
       background: selectedPlace,
       lockType: draggableLock?.lockType,
@@ -73,16 +49,6 @@ const Lock: NextPage = () => {
     });
     console.log(res);
   };
-  // 내용 불러오기 테스트
-  const test=async()=>{
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider('http://43.200.253.174:3000')
-    );
-    const startContract = new web3.eth.Contract(ABI as AbiItem[], "0x0A2bfB91bA9904E633C1704Ef785063Bac00dB5E");
-    // 받는 사람 지갑 address
-    const res1 = await startContract.methods.retrieve().call({from : "0xb284A2af5385E18Ead9E6cf13B33D179ed1CB258" });
-    console.log(res1);
-  }
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(selectedPlace);
@@ -146,10 +112,6 @@ const Lock: NextPage = () => {
         placeId={selectedPlace}
         onAction={onAction}
       />
-      <div className="flex justify-center content-center mt-12">
-        <Button label="취소" btnType="normal" btnSize="medium" onClick={test}></Button>
-        <Button label="걸기" btnType="active" btnSize="medium"></Button>
-      </div>
     </>
   );
 };
