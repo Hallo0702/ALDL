@@ -1,11 +1,14 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
 
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import ListCard from '../../components/common/ListCard';
+import places from '../../constant/places';
 
-const collection: NextPage = ({}) => {
+const Collection: NextPage = ({}) => {
+  const [selectedPlace, setSelectedPlace] = useState('all');
   return (
     <>
       <Head>
@@ -40,11 +43,27 @@ const collection: NextPage = ({}) => {
             위치
           </label>
           <div className="justify-self-start">
-            <Button label="#서울" btnType="active" btnSize="medium"></Button>
-            <Button label="#광주" btnType="normal" btnSize="medium"></Button>
-            <Button label="#대전" btnType="normal" btnSize="medium"></Button>
-            <Button label="#구미" btnType="normal" btnSize="medium"></Button>
-            <Button label="#부울경" btnType="normal" btnSize="medium"></Button>
+            <Button
+              label="전체"
+              btnType={selectedPlace === 'all' ? 'active' : 'normal'}
+              btnSize="medium"
+              onClick={() => {
+                setSelectedPlace('all');
+              }}
+            ></Button>
+            {places.map((place) => (
+              <Button
+                key={place.id}
+                label={`#${place.name}`}
+                btnType={`${
+                  Number(selectedPlace) === place.id ? 'active' : 'normal'
+                }`}
+                btnSize="medium"
+                onClick={() => {
+                  setSelectedPlace(place.id.toString());
+                }}
+              />
+            ))}
           </div>
         </div>
       </Board>
@@ -71,4 +90,4 @@ const collection: NextPage = ({}) => {
     </>
   );
 };
-export default collection;
+export default Collection;
