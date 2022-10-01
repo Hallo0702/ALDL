@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Web3 from 'web3';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
+import { normalize } from 'path';
 
 async function createUser(
   email: string,
@@ -129,7 +130,11 @@ const Signup: NextPage = ({}) => {
         }
         break;
       case 'password':
-        if (/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/.test(enteredPassword)) {
+        if (
+          /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/.test(
+            enteredPassword
+          )
+        ) {
           setIsPasswordError(false);
         } else {
           setIsPasswordError(true);
@@ -143,7 +148,7 @@ const Signup: NextPage = ({}) => {
         }
         break;
       case 'name':
-        if (/^[가-힣]+$/.test(enteredName)) {
+        if (/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/.test(enteredName)) {
           setIsNameError(false);
         } else {
           setIsNameError(true);
@@ -163,6 +168,10 @@ const Signup: NextPage = ({}) => {
   async function emailDpHandler(event: React.MouseEvent) {
     const enteredEmail = emailInputRef.current?.value || '';
     event.preventDefault();
+    if (isEmailError) {
+      alert('이메일 유효성을 먼저 확인해주세요.');
+      return;
+    }
     const response = await emailduplicate({ email: enteredEmail });
     if (response.data) {
       setIsEmailDpError(false);
@@ -176,6 +185,10 @@ const Signup: NextPage = ({}) => {
   async function nicknameDpHandler(event: React.MouseEvent) {
     const enteredNickname = nicknameInputRef.current?.value || '';
     event.preventDefault();
+    if (isNameError) {
+      alert('닉네임 유효성을 먼저 확인해주세요.');
+      return;
+    }
     const response = await nicknameduplicate({ nickname: enteredNickname });
     if (response.data) {
       setIsNicknameDpError(false);
@@ -201,79 +214,76 @@ const Signup: NextPage = ({}) => {
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          <div className="flex flex-row">
-            <FormInput
-              label="이메일"
-              id="email"
-              isError={isEmailError}
-              errMsg="* 유효한 형식의 이메일을 입력해주세요."
-              // value={emailInputValue}
-              onChange={(e) => checkHandler(e, 'email')}
-              ref={emailInputRef}
-            ></FormInput>
-            <Button
-              label="중복 확인"
-              btnType="normal"
-              btnSize="medium"
-              type="button"
-              onClick={emailDpHandler}
-            ></Button>
-          </div>
-          <div className="flex flex-row">
-            <FormInput
-              label="비밀번호"
-              id="password"
-              type="password"
-              isError={isPasswordError}
-              errMsg="* 영어, 숫자 혼합 8글자 이상의 비밀번호를 입력해주세요"
-              // value={passwordInputValue}
-              onChange={(e) => checkHandler(e, 'password')}
-              ref={passwordInputRef}
-            ></FormInput>
-            <div className="w-24 h-10 m-2"></div>
-          </div>
-          <div className="flex flex-row">
-            <FormInput
-              label="비밀번호 확인"
-              id="passwordCk"
-              type="password"
-              isError={isPasswordCkError}
-              errMsg="* 비밀번호를 다시 확인해주세요."
-              // value={passwordCkInputValue}
-              onChange={(e) => checkHandler(e, 'passwordCk')}
-              ref={passwordCkInputRef}
-            ></FormInput>
-            <div className="w-24 h-10 m-2"></div>
-          </div>
-          <div className="flex flex-row">
-            <FormInput
-              label="이름"
-              id="name"
-              isError={isNameError}
-              errMsg="* 한글을 입력해주세요."
-              // value={nameInputValue}
-              onChange={(e) => checkHandler(e, 'name')}
-              ref={nameInputRef}
-            ></FormInput>
-            <div className="w-24 h-10 m-2"></div>
-          </div>
-          <div className="flex flex-row">
-            <FormInput
-              label="닉네임"
-              id="nickname"
-              isError={isNicknameError}
-              errMsg="* 2~8글자의 닉네임을 입력해주세요."
-              // value={nicknameInputValue}
-              onChange={(e) => checkHandler(e, 'nickname')}
-              ref={nicknameInputRef}
-            ></FormInput>
-            <Button
-              label="중복 확인"
-              btnType="normal"
-              btnSize="medium"
-              type="button"
-              onClick={nicknameDpHandler}
-            ></Button>
+          <div className="pr-12">
+            <div className="flex flex-row">
+              <FormInput
+                label="이메일"
+                id="email"
+                isError={isEmailError}
+                errMsg="* 유효한 형식의 이메일을 입력해주세요."
+                onChange={(e) => checkHandler(e, 'email')}
+                ref={emailInputRef}
+              ></FormInput>
+              <Button
+                label="중복 확인"
+                btnType="normal"
+                btnSize="medium"
+                type="button"
+                onClick={emailDpHandler}
+              ></Button>
+            </div>
+            <div className="flex flex-row">
+              <FormInput
+                label="비밀번호"
+                id="password"
+                type="password"
+                isError={isPasswordError}
+                errMsg="* 영문자, 숫자, 특수문자 조합 8글자 이상"
+                onChange={(e) => checkHandler(e, 'password')}
+                ref={passwordInputRef}
+              ></FormInput>
+              <div className="w-24 h-10 m-2"></div>
+            </div>
+            <div className="flex flex-row">
+              <FormInput
+                label="비밀번호 확인"
+                id="passwordCk"
+                type="password"
+                isError={isPasswordCkError}
+                errMsg="* 비밀번호를 다시 확인해주세요."
+                onChange={(e) => checkHandler(e, 'passwordCk')}
+                ref={passwordCkInputRef}
+              ></FormInput>
+              <div className="w-24 h-10 m-2"></div>
+            </div>
+            <div className="flex flex-row">
+              <FormInput
+                label="이름"
+                id="name"
+                isError={isNameError}
+                errMsg="* 2글자 이상의 한글을 입력해주세요."
+                onChange={(e) => checkHandler(e, 'name')}
+                ref={nameInputRef}
+              ></FormInput>
+              <div className="w-24 h-10 m-2"></div>
+            </div>
+            <div className="flex flex-row">
+              <FormInput
+                label="닉네임"
+                id="nickname"
+                isError={isNicknameError}
+                errMsg="* 2~8글자의 닉네임을 입력해주세요."
+                onChange={(e) => checkHandler(e, 'nickname')}
+                ref={nicknameInputRef}
+              ></FormInput>
+              <Button
+                label="중복 확인"
+                btnType="normal"
+                btnSize="medium"
+                type="button"
+                onClick={nicknameDpHandler}
+              ></Button>
+            </div>
           </div>
           <div className="flex justify-center content-center">
             <Link href="/">

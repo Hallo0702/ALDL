@@ -10,8 +10,8 @@ interface FormInputProps extends React.ComponentPropsWithoutRef<'input'> {
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, id, isError, errMsg, onChange, ...rest }, ref) => {
     return (
-      <div className="text-2xl font-bold pb-12 flex h-28">
-        <div className="self-center w-48 text-right">
+      <div className="flex text-xl font-bold pb-12 h-24 pr-2">
+        <div className="self-center w-48 text-right mt-1">
           {label && (
             <label className="mr-8 h-12" htmlFor={id}>
               {label}
@@ -20,7 +20,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         </div>
         <div>
           <input
-            className="w-112 h-12 rounded-full text-center p-8"
+            className="flex w-80 h-12 border border-black rounded-full text-center p-4"
             type="text"
             id={id}
             onChange={onChange}
@@ -28,7 +28,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             {...rest}
           />
           {isError && (
-            <p className="font-regular text-base text-red p-2 ml-4">{errMsg}</p>
+            <p className="font-medium text-base text-red p-2 ml-4">{errMsg}</p>
           )}
         </div>
       </div>
