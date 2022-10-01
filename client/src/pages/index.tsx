@@ -31,7 +31,9 @@ const Home: NextPage = () => {
               customstyle="mr-8"
             ></Button>
           </Link>
-          <Button btnSize="large" btnType="normal" label="모아보기"></Button>
+          <Link href="/lock/collection">
+            <Button btnSize="large" btnType="normal" label="모아보기"></Button>
+          </Link>
         </section>
 
         <section className="flex flex-wrap justify-around gap-32">
@@ -42,23 +44,6 @@ const Home: NextPage = () => {
               </div>
             </Link>
           ))}
-          {/* <Link href="/place/gwangju">
-            <div className="w-1/4">
-              <Card title="#광주" imageSrc="/images/landmark/seoul.png"></Card>
-            </div>
-          </Link>
-          <div className="w-1/4 relative top-36 ">
-            <Card title="#서울" imageSrc="/images/landmark/seoul.png"></Card>
-          </div>
-          <div className="w-1/4 relative top-16">
-            <Card title="#부울경" imageSrc="/images/landmark/seoul.png"></Card>
-          </div>
-          <div className="w-1/4 relative top-36">
-            <Card title="#구미" imageSrc="/images/landmark/seoul.png"></Card>
-          </div>
-          <div className="w-1/4">
-            <Card title="#대전" imageSrc="/images/landmark/seoul.png"></Card>
-          </div> */}
         </section>
         <div className="h-56"></div>
       </main>
