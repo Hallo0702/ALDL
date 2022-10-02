@@ -6,7 +6,7 @@ interface ListCardProps {
   title: string;
   content?: string;
   imageSrc?: string;
-  onClick(): void;
+  onClick?(): void;
 }
 
 const ListCard: FC<ListCardProps> = ({
