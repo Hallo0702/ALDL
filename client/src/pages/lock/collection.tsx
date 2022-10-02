@@ -37,6 +37,14 @@ const Collection: NextPage = ({}) => {
     };
     fetchLockHashs();
   }, []);
+
+  // useEffect(() => {}, [lockHashs]);
+
+  //처음 로그인하면 mylock받아서 lockhashs상태 업데이트
+  //lockhashs 상태 업데이트되면 locks 블록체인에서 얻어와서 상태업데이트
+  //locks혹은 selectedPlace 업데이트되면 filteredLocks업데이트
+  //filteredLocks 보여주기
+
   //lockHashs retrieve해서 locks채우기
   //selectedPlace로 필터링해서 showedLocks 만들기
   return (
