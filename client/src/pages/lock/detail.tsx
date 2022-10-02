@@ -1,7 +1,10 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
+
+import { userState } from '../../store/states';
 import Board from '../../components/common/Board';
 import { retrieve } from '../../utils/contract';
 
@@ -15,9 +18,20 @@ interface data {
 
 const Detail: NextPage = ({}) => {
   const router = useRouter();
+  const [user, setUserstate] = useRecoilState(userState);
   const [data, setData] = useState<data>();
   useEffect(() => {
     const hash = router.query.hash;
+    if (!user.isLogined) {
+      alert('로그인이 필요한 페이지입니다.');
+      router.push('/auth/login');
+      return;
+    }
+    if (!hash) {
+      alert('잘못된 접근입니다.');
+      router.push('/');
+      return;
+    }
     const fetch = async () => {
       if (typeof hash === 'string') {
         const data = await retrieve(hash);

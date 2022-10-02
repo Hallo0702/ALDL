@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { userState } from '../../store/states';
 import { uploadImage } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
@@ -16,6 +18,7 @@ interface FormState {
   lockType: number;
 }
 const Create = () => {
+  const [user, setUserstate] = useRecoilState(userState);
   const [formState, setFormState] = useState<FormState>({
     title: '',
     content: '',
@@ -82,7 +85,13 @@ const Create = () => {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-
+  useEffect(() => {
+    if (!user.isLogined) {
+      alert('로그인이 필요한 페이지입니다.');
+      router.push('/auth/login');
+      return;
+    }
+  }, []);
   return (
     <>
       <Head>
