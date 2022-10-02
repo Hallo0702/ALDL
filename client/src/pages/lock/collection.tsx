@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import { v4 } from 'uuid';
+import Link from 'next/link';
 
 import { userState } from '../../store/states';
 import { getMyLockers, saveLocker } from '../../api/lock';
@@ -22,6 +23,7 @@ interface lock {
   content: string;
   background: number;
   lockType: number;
+  hash: string;
 }
 
 const Collection: NextPage = ({}) => {
@@ -37,7 +39,7 @@ const Collection: NextPage = ({}) => {
     try {
       const newLock = await retrieve(toAddLockerHash);
       const res = await saveLocker(toAddLockerHash);
-      setLocks((prev) => [newLock, ...prev]);
+      setLocks((prev) => [{ ...newLock, hash: toAddLockerHash }, ...prev]);
     } catch (err) {
       if (err instanceof AxiosError) alert(err?.response?.data);
     }
@@ -54,10 +56,9 @@ const Collection: NextPage = ({}) => {
       const lockHashs = res.data.map(
         (data: { lockerHash: string }) => data.lockerHash
       );
-      console.log(lockHashs);
       const fetchLock = async (hash: string) => {
         const lock = await retrieve(hash);
-        setLocks((prev) => [...prev, lock]);
+        setLocks((prev) => [...prev, { ...lock, hash }]);
       };
       lockHashs.forEach((lockHash: string) => {
         fetchLock(lockHash);
@@ -67,7 +68,6 @@ const Collection: NextPage = ({}) => {
   }, []);
 
   useEffect(() => {
-    console.log(locks);
     setFilteredLocks(
       locks.filter(
         (lock) =>
@@ -147,6 +147,17 @@ const Collection: NextPage = ({}) => {
             }`}
             title={lock.title}
             imageSrc={LOCKS.find((v) => v.lockType === lock.lockType)?.imageSrc}
+            onClick={() => {
+              router.push(
+                {
+                  pathname: '/lock/detail',
+                  query: {
+                    hash: lock.hash,
+                  },
+                },
+                '/lock/detail'
+              );
+            }}
           />
         ))}
       </div>
