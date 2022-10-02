@@ -1,5 +1,7 @@
 package ALDL.aldl.controller;
 
+import ALDL.aldl.auth.ALDLUserDetails;
+import ALDL.aldl.auth.JwtTokenProvider;
 import ALDL.aldl.auth.UserLoginPostReq;
 import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
@@ -18,9 +20,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Entity;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -33,7 +37,8 @@ public class UserController {
     UserService userService;
     @Autowired
     InputSecurityService inputSecurityService;
-
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
     @Autowired
     WalletService walletService;
 
@@ -213,30 +218,45 @@ public class UserController {
         }
 
     }
+
+    @ApiOperation(value = "사용자 비밀번호 확인")
+    @GetMapping(path = "/checkPassword")
+    public ResponseEntity<String> checkPassword(@RequestParam String password, HttpServletRequest httpServletRequest) {
+        String refreshToken = httpServletRequest.getHeader("Authorization");
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        String email = aldlUserDetails.getEmail();
+
+        try {
+            if (userService.checkPassword(email, UserSha256.encrypt(password)) != null) {
+                return new ResponseEntity<>("인증되었습니다", headers, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>("비밀번호를 확인하세요", headers, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<>("에러 발생", headers, HttpStatus.NOT_FOUND);
+        }
+    }
+
     //비밀번호 수정
     @ApiOperation(value = "사용자 비밀번호 수정")
     @PatchMapping(path="/ModifyPassword")
-    public ResponseEntity<String> ModifyPassword(@RequestBody Swagger_Modifypassword info){
-        String email = info.getEmail();
+    public ResponseEntity<String> ModifyPassword(@RequestBody Swagger_Modifypassword info, HttpServletRequest httpServletRequest){
+        String refreshToken = httpServletRequest.getHeader("Authorization");
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+        ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
+        String email = aldlUserDetails.getEmail();
         String new_password = UserSha256.encrypt(info.getNew_password());
-        String current_password = UserSha256.encrypt(info.getCurrent_password());
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
         try {
-            if (userService.checkEmail(email) != null){
-                if (userService.checkPassword(email,current_password)!=null){
-                    userService.ModifingPassword(email,new_password);
-                    return new ResponseEntity<>("비밀번호 수정완료",headers,HttpStatus.OK);
-                }
-                else{
-                    return new ResponseEntity<>("비밀번호 확인하세요",headers,HttpStatus.BAD_REQUEST);
-                }
+            if (new_password==""||new_password==null){
+                return new ResponseEntity<>("유효하지 않은 정보",headers,HttpStatus.BAD_REQUEST);
             }
-            else{
-
-                return new ResponseEntity<>("이메일을 확인하세요",headers,HttpStatus.BAD_REQUEST);
-            }
+            userService.ModifingPassword(email,new_password);
+            return new ResponseEntity<>("비밀번호 수정완료",headers,HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>("에러발생",headers,HttpStatus.NOT_FOUND);
@@ -356,14 +376,8 @@ public class UserController {
     }
     @Getter
     public static class Swagger_Modifypassword{
-        @ApiModelProperty(example="사용자 이메일")
-        String email;
         @ApiModelProperty(example = "사용자 새로운 비밀번호")
         String new_password;
-        @ApiModelProperty(example = "사용자 기존 비밀번호")
-        String current_password;
-
-
     }
     @Getter
     public static class Swagger_ModifyNickname{
