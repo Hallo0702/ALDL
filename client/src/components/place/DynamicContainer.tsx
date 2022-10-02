@@ -1,5 +1,6 @@
-import crypto from 'crypto';
+import { v4 } from 'uuid';
 import { FC, useEffect, useRef, useState } from 'react';
+
 import places from '../../constant/places';
 import DraggableLock from './DraggableLock';
 
@@ -111,18 +112,13 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       onMouseUp={(e) => endDrag(e)}
       onMouseLeave={(e) => endDrag(e)}
     >
-      {/* <div
-        className="relative left-[5%] top-[5%] w-[90%] h-[90%] bg-opacity-30 bg-white"
-        onMouseMove={(e: any) => {
-          console.log(e.target.offsetTop);
-        }}
-      > */}
       {locks.map((lock) => (
         <Lock
-          key={crypto.randomBytes(64).toString('hex')}
+          key={v4()}
           lockType={lock.lockType}
           locationY={lock.locationY}
           locationX={lock.locationX}
+          lockerTitle={lock.lockerTitle}
           opacity={locksOpacity}
         />
       ))}
