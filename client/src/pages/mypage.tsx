@@ -3,8 +3,20 @@ import Head from 'next/head';
 import Button from '../components/common/Button';
 import Board from '../components/common/Board';
 import ListCard from '../components/common/ListCard';
+import { myEth } from '../api/wallet';
+import { useEffect, useState } from 'react';
 
 const MyPage: NextPage = ({}) => {
+  // 이더리움 잔액 적용 
+  const [userEth,setUserEth]=useState('');
+  useEffect(() => {
+    const fetch=async()=>{
+      // 사용자의 address값 입력
+      const res = await myEth('0xa6Af487111486Af3FEeEa15631EFaB3168801273');
+      setUserEth(res.data);
+    }
+    fetch();
+  })
   return (
     <>
       <Head>
@@ -41,7 +53,7 @@ const MyPage: NextPage = ({}) => {
                 잔액
               </div>
               <div className="font-custom font-medium text-lg mr-2">
-                10,000 ETH
+                <h2>{userEth} Eth</h2>
               </div>
               <Button label="충전" btnType="active" btnSize="small"></Button>
             </div>
@@ -50,7 +62,8 @@ const MyPage: NextPage = ({}) => {
                 내 지갑 주소
               </div>
               <div className="font-custom font-medium text-lg">
-                sdfkwefkpwfk10fanklefaewo;jfaowefjawjfopa
+                {/* 지갑 주소 입력하는 부분 */}
+                <h2>0xa6Af487111486Af3FEeEa15631EFaB3168801273</h2>
               </div>
             </div>
           </Board>
