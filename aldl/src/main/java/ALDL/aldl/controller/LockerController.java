@@ -22,6 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Objects;
 
 @Api(value = "LOCKER API", tags = {"Locker"})
 @RestController
@@ -83,30 +84,31 @@ public class LockerController {
 
         Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
         ALDLUserDetails aldlUserDetails = (ALDLUserDetails) authentication.getDetails();
-
-        //String email = info.getEmail();
+//        String email = info.getEmail();
         String lockerHash = info.getLockerHash();
-        String lockerTitle = info.getLockerTitle();
-        String background = info.getBackground();
-        Integer lockType = info.getLockType();
+//        String lockerTitle = info.getLockerTitle();
+//        String background = info.getBackground();
+//        Integer lockType = info.getLockType();
         try{
             String email = aldlUserDetails.getEmail();
             System.out.println("User email : " + email);
 
-            if(email==""||email==null||
-            lockerHash==""||lockerHash==null||
-            lockerTitle==""||lockerTitle==null||
-                    background == ""||background==null||
-                    lockType==null
+            if(Objects.equals(email, "") ||email==null||
+                    Objects.equals(lockerHash, "") ||lockerHash==null
+//            lockerTitle==""||lockerTitle==null||
+//                    background == ""||background==null||
+//                    lockType==null
             ){
                 return new ResponseEntity<>("올바르지 않은 정보",headers, HttpStatus.BAD_REQUEST);
-
             }
-            if(lockerOwnerService.findlocker(email,lockerHash)==false){
-
-                return new ResponseEntity<>("이미 등록된 자물쇠",headers, HttpStatus.FORBIDDEN);
+            if (lockerService.findLockerHash(lockerHash) == null) {
+                return new ResponseEntity<>("유효하지 않은 자물쇠입니다.", headers, HttpStatus.BAD_REQUEST);
             }
-            lockerOwnerService.saveLockerOwner(email,lockerHash,lockerTitle,background,lockType);
+            if(!lockerOwnerService.findlocker(email, lockerHash)){
+
+                return new ResponseEntity<>("이미 등록된 자물쇠입니다.",headers, HttpStatus.FORBIDDEN);
+            }
+            lockerOwnerService.saveLockerOwner(email,lockerHash);
 
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
@@ -156,19 +158,19 @@ public class LockerController {
     //swagger
     @Getter
     public static class Swagger_savelocker{
-        @ApiModelProperty(example = "사용자 이메일")
-        String email;
+//        @ApiModelProperty(example = "사용자 이메일")
+//        String email;
         @ApiModelProperty(example = "자물쇠 해쉬값")
         String lockerHash;
 
-        @ApiModelProperty(example = "자물쇠 제목")
-        String lockerTitle;
-
-        @ApiModelProperty(example = "자물쇠 배경")
-        String background;
-
-        @ApiModelProperty(example = "자물쇠 디자인")
-        Integer lockType;
+//        @ApiModelProperty(example = "자물쇠 제목")
+//        String lockerTitle;
+//
+//        @ApiModelProperty(example = "자물쇠 배경")
+//        String background;
+//
+//        @ApiModelProperty(example = "자물쇠 디자인")
+//        Integer lockType;
 
     }
     @Getter

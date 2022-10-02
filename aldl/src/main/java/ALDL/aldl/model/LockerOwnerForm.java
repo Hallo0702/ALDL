@@ -8,11 +8,11 @@ public class LockerOwnerForm {
     private String email;
     private String lockerHash;
 
-    private String lockerTitle;
-
-    private String background;
-
-    private Integer lockType;
+//    private String lockerTitle;
+//
+//    private String background;
+//
+//    private Integer lockType;
 
 
     public LockerOwner toEntity(){
@@ -20,9 +20,9 @@ public class LockerOwnerForm {
         return LockerOwner.builder()
                 .email(email)
                 .lockerHash(lockerHash)
-                .lockerTitle(lockerTitle)
-                .background(background)
-                .lockType(lockType)
+                .lockerTitle("")
+                .background("")
+                .lockType(0)
                 .build();
     }
 }
