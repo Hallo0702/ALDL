@@ -4,9 +4,11 @@ import ALDL.aldl.auth.UserLoginPostReq;
 import ALDL.aldl.model.Message;
 import ALDL.aldl.model.StatusEnum;
 import ALDL.aldl.model.User;
+import ALDL.aldl.model.Wallet;
 import ALDL.aldl.service.InputSecurityService;
 import ALDL.aldl.service.UserService;
 import ALDL.aldl.service.UserSha256;
+import ALDL.aldl.service.WalletService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +33,9 @@ public class UserController {
     UserService userService;
     @Autowired
     InputSecurityService inputSecurityService;
+
+    @Autowired
+    WalletService walletService;
 
     //회원가입
     @ApiOperation(value = "사용자회원가입")
@@ -146,10 +151,13 @@ public class UserController {
                     if(inputSecurityService.inputEmailCheck(email) && inputSecurityService.sqlInjectionCheck(email)){
                         String password_encrypt = UserSha256.encrypt(password);
                         if (userService.checkPassword(email,password_encrypt)!=null){
+                            Wallet w = walletService.getInfo(email);
                             UserLoginPostReq loginPostReq  = userService.userLogin(email);
                             message.setAccessToken(loginPostReq.getAccessToken());
                             message.setRefreshToken(loginPostReq.getRefreshToken());
                             message.setStatus(StatusEnum.OK);
+                            message.setAddress(w.getAddress());
+                            message.setPrivateKey(w.getPrivateKey());
                             message.setResponseType("Login:로그인성공");
                             return new ResponseEntity<>(message,headers, HttpStatus.OK);
                         }
