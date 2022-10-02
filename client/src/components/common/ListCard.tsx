@@ -4,7 +4,7 @@ import type { FC } from 'react';
 interface ListCardProps {
   tag: string;
   title: string;
-  content: string;
+  content?: string;
   imageSrc?: string;
 }
 
