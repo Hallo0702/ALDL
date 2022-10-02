@@ -12,7 +12,13 @@ export const retrieve = async (hash: string) => {
   const contract = new web3.eth.Contract(ABI as AbiItem[], hash);
   const res = await contract.methods.retrieve().call();
   const { 0: imageSrc, 1: title, 2: content, 3: background, 4: lockType } = res;
-  return { imageSrc, title, content, background, lockType };
+  return {
+    imageSrc,
+    title,
+    content,
+    background: Number(background),
+    lockType: Number(lockType),
+  };
 };
 
 export const store = async (

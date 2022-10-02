@@ -30,3 +30,13 @@ export const setLocker = async (body: {
   const res = await API.post('/setlocker', body);
   return res;
 };
+
+export const saveLocker = async (lockerHash: string) => {
+  const res = await API.post('/savelocker', { lockerHash });
+  return res;
+};
+
+export const getMyLockers = async () => {
+  const res = await API.get('/mylockers');
+  return res;
+};
