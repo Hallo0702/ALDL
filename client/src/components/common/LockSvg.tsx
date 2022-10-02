@@ -13,6 +13,7 @@ interface LockSvgProps {
   id?: string;
   style?: { top: string; left: string; opacity?: string };
   onMouseOver?(): void;
+  onMouseLeave?(): void;
 }
 const getLockSvg = (type: number) => {
   if (type === 0) return Lock0Icon;
