@@ -37,27 +37,28 @@ public class EmailController {
     private JavaMailSender javaMailSender;
 
     @ApiOperation(value = "이메일로 인증번호 보내기")
-    @PatchMapping(path="/sendAuthCode")
-    public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info, @ApiIgnore Authentication authentication){
-        ALDLUserDetails aldlUserDetails = (ALDLUserDetails)authentication.getDetails();
+    @PatchMapping(path="/sendModifyPasswordMail")
+    public ResponseEntity<String> sendAuthCode(@RequestBody Swagger_email info){
+        //ALDLUserDetails aldlUserDetails = (ALDLUserDetails)authentication.getDetails();
         //String email = aldlUserDetails.getEmail();
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         try{
-            String email = aldlUserDetails.getEmail();
+            String email = info.getEmail();
             if (email !=null && !email.equals("")){
-                Integer v = (int)Math.floor(Math.random() * 1000000);
-                String authCode = v.toString();
+                Integer v = (int)Math.floor(Math.random() * 100000);
+                String authCode = v.toString() + "aldl";
+
                 String to = email;
                 String from = "jihun3104@aldl.com";
                 String subject = "알록달록 인증센터";
 
                 StringBuilder body = new StringBuilder();
                 body.append("<html> <body><h1>알록달록 인증센터입니다 </h1>");
-                body.append("<div>발급된 인증번호를 입력하시면 인증이 진행됩니다 </div>");
-                body.append("<div>인증번호는 <h3>"+authCode +"</h3> 입니다</div> </body></html>");
-                System.out.println(authCode);
+                body.append("<div>임시 비밀번호를 발급해드립니다. </div>");
+                body.append("<div>새로운 비밀번호는 <h3>"+authCode +"</h3> 입니다</div> </body></html>");
+                String temp_password = UserSha256.encrypt(authCode);
 
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -67,7 +68,7 @@ public class EmailController {
                 mimeMessageHelper.setSubject(subject);
                 mimeMessageHelper.setText(body.toString(), true);
 
-                userService.updateAuthCode(email,authCode);
+                userService.ModifingPassword(email,temp_password);
 
                 javaMailSender.send(mimeMessage);
 

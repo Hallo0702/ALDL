@@ -69,6 +69,13 @@ public class UserController {
             if(!inputSecurityService.sqlInjectionCheck(email)){
                 return new ResponseEntity<>("사용할수 없는 이메일 형식",headers,HttpStatus.BAD_REQUEST);
             }
+            if(!inputSecurityService.inputEmailCheck(nickname)){
+                return new ResponseEntity<>("유효하지 않은 닉네임 형식",headers,HttpStatus.BAD_REQUEST);
+
+            }
+            if(!inputSecurityService.sqlInjectionCheck(nickname)){
+                return new ResponseEntity<>("사용할수 없는 닉네임 형식",headers,HttpStatus.BAD_REQUEST);
+            }
             if (userService.checkEmail(email) != null){
 
                 return new ResponseEntity<>("존재하는 이메일",headers,HttpStatus.BAD_REQUEST);
