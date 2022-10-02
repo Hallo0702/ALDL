@@ -13,6 +13,7 @@ import places from '../../constant/places';
 import { useRouter } from 'next/router';
 import { retrieve } from '../../utils/contract';
 import LOCKS from '../../constant/locks';
+import { AxiosError } from 'axios';
 
 interface lock {
   imageSrc: string;
@@ -33,8 +34,12 @@ const Collection: NextPage = ({}) => {
 
   const saveLockerHandler = async () => {
     if (!toAddLockerHash) return;
-    const res = await saveLocker(toAddLockerHash);
-    setLockHashs((prev) => [...prev, toAddLockerHash]);
+    try {
+      const res = await saveLocker(toAddLockerHash);
+      setLockHashs((prev) => [...prev, toAddLockerHash]);
+    } catch (err) {
+      if (err instanceof AxiosError) alert(err?.response?.data);
+    }
   };
 
   useEffect(() => {
