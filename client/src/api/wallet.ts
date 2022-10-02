@@ -5,7 +5,12 @@ export const createWallet = async (body: { email: string; address: string; priva
     return res;
   };
 
-  export const requestEth = async (address: string) => {
-    const res = await API.put(`/wallet/requestEth/${address}` );
-    return res;
-  };
+export const requestEth = async (address: string) => {
+  const res = await API.put(`/wallet/requestEth/${address}` );
+  return res;
+};
+
+export const myEth = async (address:string) => {
+  const res = await API.get(`/wallet/myEth?address=${address}`);
+  return res;
+};
