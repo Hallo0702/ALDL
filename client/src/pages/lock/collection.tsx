@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { v4 } from 'uuid';
 
 import { userState } from '../../store/states';
 import { getMyLockers, saveLocker } from '../../api/lock';
@@ -10,12 +11,23 @@ import Button from '../../components/common/Button';
 import ListCard from '../../components/common/ListCard';
 import places from '../../constant/places';
 import { useRouter } from 'next/router';
+import { retrieve } from '../../utils/contract';
+import LOCKS from '../../constant/locks';
+
+interface lock {
+  imageSrc: string;
+  title: string;
+  content: string;
+  background: number;
+  lockType: number;
+}
 
 const Collection: NextPage = ({}) => {
   const [user, setUserstate] = useRecoilState(userState);
   const [selectedPlace, setSelectedPlace] = useState('all');
   const [toAddLockerHash, setToAddLokcerHash] = useState('');
-  const [locks, setLocks] = useState([]);
+  const [locks, setLocks] = useState<lock[]>([]);
+  const [filteredLocks, setFilteredLocks] = useState<lock[]>([]);
   const [lockHashs, setLockHashs] = useState<string[]>([]);
   const router = useRouter();
 
@@ -38,15 +50,24 @@ const Collection: NextPage = ({}) => {
     fetchLockHashs();
   }, []);
 
-  // useEffect(() => {}, [lockHashs]);
+  useEffect(() => {
+    const fetchLock = async (hash: string) => {
+      const lock = await retrieve(hash);
+      setLocks((prev) => [...prev, lock]);
+    };
+    lockHashs.forEach((lockHash) => {
+      fetchLock(lockHash);
+    });
+  }, [lockHashs]);
 
-  //처음 로그인하면 mylock받아서 lockhashs상태 업데이트
-  //lockhashs 상태 업데이트되면 locks 블록체인에서 얻어와서 상태업데이트
-  //locks혹은 selectedPlace 업데이트되면 filteredLocks업데이트
-  //filteredLocks 보여주기
-
-  //lockHashs retrieve해서 locks채우기
-  //selectedPlace로 필터링해서 showedLocks 만들기
+  useEffect(() => {
+    setFilteredLocks(
+      locks.filter(
+        (lock) =>
+          selectedPlace === 'all' || lock.background === Number(selectedPlace)
+      )
+    );
+  }, [locks, selectedPlace]);
   return (
     <>
       <Head>
@@ -111,24 +132,14 @@ const Collection: NextPage = ({}) => {
         </div>
       </Board>
       <div className="mt-20">
-        <ListCard
-          tag="#광주"
-          title="자물쇠 제목"
-          content="자물쇠 내용"
-          imageSrc=""
-        ></ListCard>
-        <ListCard
-          tag="#광주"
-          title="자물쇠 제목"
-          content="자물쇠 내용"
-          imageSrc=""
-        ></ListCard>
-        <ListCard
-          tag="#광주"
-          title="자물쇠 제목"
-          content="자물쇠 내용"
-          imageSrc=""
-        ></ListCard>
+        {filteredLocks.map((lock) => (
+          <ListCard
+            key={v4()}
+            tag={`#${lock.background}`}
+            title={lock.title}
+            imageSrc={LOCKS.find((v) => v.lockType === lock.lockType)?.imageSrc}
+          />
+        ))}
       </div>
     </>
   );
