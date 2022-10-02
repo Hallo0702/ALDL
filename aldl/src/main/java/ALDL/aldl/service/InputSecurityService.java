@@ -14,7 +14,6 @@ import java.util.ListIterator;
 public class InputSecurityService {
     public boolean inputEmailCheck(String email){
         if ((email.split("@")[1]).split("\\.").length==2){
-            System.out.println("True");
             return true;
         }
         else{
@@ -27,7 +26,6 @@ public class InputSecurityService {
     public boolean sqlInjectionCheck(String input){
         for (int i=0;i< SQLs.length;i++){
             if (input.contains(SQLs[i])){
-                System.out.println("SQL Injection ERROR");
                 return false;
 
             }
