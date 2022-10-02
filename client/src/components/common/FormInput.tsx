@@ -11,7 +11,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, id, isError, errMsg, onChange, ...rest }, ref) => {
     return (
       <div className="flex text-xl font-bold pb-12 h-24 pr-2">
-        <div className="self-center w-48 text-right mt-1">
+        <div className="self-center w-48 text-right text-black mt-1">
           {label && (
             <label className="mr-8 h-12" htmlFor={id}>
               {label}
@@ -20,7 +20,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         </div>
         <div>
           <input
-            className="flex w-80 h-12 border border-black rounded-full text-center p-4"
+            className="flex w-80 h-12 border border-black bg-white rounded-full focus:outline-none focus:border-rose-300 focus:ring-1 focus:ring-rose-300 text-center text-black p-4"
             type="text"
             id={id}
             onChange={onChange}
