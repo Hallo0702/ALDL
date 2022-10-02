@@ -7,16 +7,16 @@ import { myEth } from '../api/wallet';
 import { useEffect, useState } from 'react';
 
 const MyPage: NextPage = ({}) => {
-  // 이더리움 잔액 적용 
-  const [userEth,setUserEth]=useState('');
+  // 이더리움 잔액 적용
+  const [userEth, setUserEth] = useState('');
   useEffect(() => {
-    const fetch=async()=>{
+    const fetch = async () => {
       // 사용자의 address값 입력
       const res = await myEth('0xa6Af487111486Af3FEeEa15631EFaB3168801273');
       setUserEth(res.data);
-    }
+    };
     fetch();
-  })
+  });
   return (
     <>
       <Head>

@@ -228,6 +228,7 @@ const Signup: NextPage = ({}) => {
                 label="중복 확인"
                 btnType="normal"
                 btnSize="medium"
+                customstyle="mt-1"
                 type="button"
                 onClick={emailDpHandler}
               ></Button>
@@ -280,13 +281,14 @@ const Signup: NextPage = ({}) => {
                 label="중복 확인"
                 btnType="normal"
                 btnSize="medium"
+                customstyle="mt-1"
                 type="button"
                 onClick={nicknameDpHandler}
               ></Button>
             </div>
           </div>
           <div className="flex justify-center content-center">
-            <Link href="/">
+            <Link href="/auth/login">
               <Button
                 label="취소"
                 btnType="normal"

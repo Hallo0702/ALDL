@@ -25,9 +25,9 @@ const btnTypeClass = {
 };
 
 const btnSizeClass = {
-  [btnSize.small]: 'w-14 h-7 m-2 font-custom font-medium text-xs',
-  [btnSize.medium]: 'w-24 h-10 m-2 font-custom font-medium text-sm',
-  [btnSize.large]: 'w-36 h-10 m-2 font-custom font-medium text-sm',
+  [btnSize.small]: 'w-14 h-7 m-2 font-custom font-medium text-xs text-black',
+  [btnSize.medium]: 'w-24 h-10 m-2 font-custom font-medium text-sm text-black',
+  [btnSize.large]: 'w-36 h-10 m-2 font-custom font-medium text-sm text-black',
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

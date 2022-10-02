@@ -29,7 +29,7 @@ const Header: NextPage = () => {
           <img src="/images/logo.png" alt="home" />
         </Link>
       </div>
-      <nav className="flex font-medium text-lg">
+      <nav className="flex font-medium text-lg text-black">
         <Link href="/about">
           <div className="mr-10 cursor-pointer">· about</div>
         </Link>
