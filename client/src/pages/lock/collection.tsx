@@ -1,18 +1,23 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { getMyLockers, saveLocker } from '../../api/lock';
+import { useRecoilState } from 'recoil';
 
+import { userState } from '../../store/states';
+import { getMyLockers, saveLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import ListCard from '../../components/common/ListCard';
 import places from '../../constant/places';
+import { useRouter } from 'next/router';
 
 const Collection: NextPage = ({}) => {
+  const [user, setUserstate] = useRecoilState(userState);
   const [selectedPlace, setSelectedPlace] = useState('all');
   const [toAddLockerHash, setToAddLokcerHash] = useState('');
   const [locks, setLocks] = useState([]);
   const [lockHashs, setLockHashs] = useState<string[]>([]);
+  const router = useRouter();
 
   const saveLockerHandler = async () => {
     if (!toAddLockerHash) return;
@@ -21,6 +26,11 @@ const Collection: NextPage = ({}) => {
   };
 
   useEffect(() => {
+    if (!user.isLogined) {
+      alert('로그인이 필요한 페이지입니다.');
+      router.push('/auth/login');
+    }
+
     const fetchLockHashs = async () => {
       const res = await getMyLockers();
       setLockHashs(res.data);
