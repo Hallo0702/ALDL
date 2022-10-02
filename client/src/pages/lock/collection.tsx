@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
 import { v4 } from 'uuid';
 
 import { userState } from '../../store/states';
@@ -10,10 +11,10 @@ import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import ListCard from '../../components/common/ListCard';
 import places from '../../constant/places';
-import { useRouter } from 'next/router';
 import { retrieve } from '../../utils/contract';
 import LOCKS from '../../constant/locks';
 import { AxiosError } from 'axios';
+import PLACES from '../../constant/places';
 
 interface lock {
   imageSrc: string;
@@ -29,14 +30,14 @@ const Collection: NextPage = ({}) => {
   const [toAddLockerHash, setToAddLokcerHash] = useState('');
   const [locks, setLocks] = useState<lock[]>([]);
   const [filteredLocks, setFilteredLocks] = useState<lock[]>([]);
-  const [lockHashs, setLockHashs] = useState<string[]>([]);
   const router = useRouter();
 
   const saveLockerHandler = async () => {
     if (!toAddLockerHash) return;
     try {
+      const newLock = await retrieve(toAddLockerHash);
       const res = await saveLocker(toAddLockerHash);
-      setLockHashs((prev) => [...prev, toAddLockerHash]);
+      setLocks((prev) => [newLock, ...prev]);
     } catch (err) {
       if (err instanceof AxiosError) alert(err?.response?.data);
     }
@@ -50,22 +51,23 @@ const Collection: NextPage = ({}) => {
 
     const fetchLockHashs = async () => {
       const res = await getMyLockers();
-      setLockHashs(res.data);
+      const lockHashs = res.data.map(
+        (data: { lockerHash: string }) => data.lockerHash
+      );
+      console.log(lockHashs);
+      const fetchLock = async (hash: string) => {
+        const lock = await retrieve(hash);
+        setLocks((prev) => [...prev, lock]);
+      };
+      lockHashs.forEach((lockHash: string) => {
+        fetchLock(lockHash);
+      });
     };
     fetchLockHashs();
   }, []);
 
   useEffect(() => {
-    const fetchLock = async (hash: string) => {
-      const lock = await retrieve(hash);
-      setLocks((prev) => [...prev, lock]);
-    };
-    lockHashs.forEach((lockHash) => {
-      fetchLock(lockHash);
-    });
-  }, [lockHashs]);
-
-  useEffect(() => {
+    console.log(locks);
     setFilteredLocks(
       locks.filter(
         (lock) =>
@@ -140,7 +142,9 @@ const Collection: NextPage = ({}) => {
         {filteredLocks.map((lock) => (
           <ListCard
             key={v4()}
-            tag={`#${lock.background}`}
+            tag={`#${
+              PLACES.find((place) => place.id === lock.background)?.name
+            }`}
             title={lock.title}
             imageSrc={LOCKS.find((v) => v.lockType === lock.lockType)?.imageSrc}
           />
