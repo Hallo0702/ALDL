@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 import { v4 } from 'uuid';
-import Link from 'next/link';
+import { AxiosError } from 'axios';
 
 import { userState } from '../../store/states';
 import { getMyLockers, saveLocker } from '../../api/lock';
@@ -14,7 +14,6 @@ import ListCard from '../../components/common/ListCard';
 import places from '../../constant/places';
 import { retrieve } from '../../utils/contract';
 import LOCKS from '../../constant/locks';
-import { AxiosError } from 'axios';
 import PLACES from '../../constant/places';
 
 interface lock {
@@ -38,7 +37,7 @@ const Collection: NextPage = ({}) => {
     if (!toAddLockerHash) return;
     try {
       const newLock = await retrieve(toAddLockerHash);
-      const res = await saveLocker(toAddLockerHash);
+      await saveLocker(toAddLockerHash);
       setLocks((prev) => [{ ...newLock, hash: toAddLockerHash }, ...prev]);
     } catch (err) {
       if (err instanceof AxiosError) alert(err?.response?.data);
