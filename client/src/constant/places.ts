@@ -1,4 +1,4 @@
-const places = [
+const PLACES = [
   {
     id: 0,
     name: '서울',
@@ -40,4 +40,4 @@ const places = [
     width: 596,
   },
 ];
-export default places;
+export default PLACES;

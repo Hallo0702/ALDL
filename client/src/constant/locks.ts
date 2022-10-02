@@ -1,4 +1,4 @@
-const locks = [
+const LOCKS = [
   {
     lockType: 0,
     imageSrc: '/images/locks/lock0.svg',
@@ -17,4 +17,4 @@ const locks = [
   },
 ];
 
-export default locks;
+export default LOCKS;
