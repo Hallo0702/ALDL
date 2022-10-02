@@ -23,7 +23,7 @@ public class InputSecurityService {
 
 
     }
-    String[] SQLs = {"where", "select", "admin","drop","delete","\'or\'1\'=\'1" };
+    String[] SQLs = {"where ", "select ", " admin","drop ","delete ","\'or\'1\'=\'1"," " };
     public boolean sqlInjectionCheck(String input){
         for (int i=0;i< SQLs.length;i++){
             if (input.contains(SQLs[i])){
