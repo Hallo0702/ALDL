@@ -11,16 +11,16 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User,Long> {
-    @Query(value = "SELECT id FROM User t where t.email = ?1 ")
+    @Query(value = "SELECT t.id FROM User t where t.email = ?1 ")
     String validEmail(String email);
 
-    @Query(value = "SELECT email FROM User t where (t.email = ?1 and t.authCode = ?2)")
+    @Query(value = "SELECT t.email FROM User t where (t.email = ?1 and t.authCode = ?2)")
     String validAuthCode(String email,String authCode);
-    @Query(value = "SELECT id FROM User t where (t.email= ?1 and t.password = ?2)")
+    @Query(value = "SELECT t.id FROM User t where (t.email= ?1 and t.password = ?2)")
     String validPassword(String email,String password);
-    @Query(value = "SELECT id FROM User t where t.nickname = ?1 ")
+    @Query(value = "SELECT t.id FROM User t where t.nickname = ?1 ")
     String validNickname(String nickname);
-    @Query(value = "SELECT email FROM User t where t.email =?1 ")
+    @Query(value = "SELECT t.email FROM User t where t.email =?1 ")
     Optional<User> findByUserEmail(String email);
 
     @Modifying

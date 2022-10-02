@@ -13,18 +13,30 @@ public class LockerOwnerService {
     @Autowired
     private LockerOwnerRepository lockerOwnerRepository;
 
-    public void saveLockerOwner(String email,String lockerHash,String lockerTitle,String background,Integer lockType){
-        LockerOwnerForm lockerOwnerForm = new LockerOwnerForm();
-        lockerOwnerForm.setEmail(email);
-        lockerOwnerForm.setLockerHash(lockerHash);
-        lockerOwnerForm.setLockerTitle(lockerTitle);
-        lockerOwnerForm.setBackground(background);
-        lockerOwnerForm.setLockType(lockType);
+//    public void saveLockerOwner(String email,String lockerHash,String lockerTitle,String background,Integer lockType){
+//        LockerOwnerForm lockerOwnerForm = new LockerOwnerForm();
+//        lockerOwnerForm.setEmail(email);
+//        lockerOwnerForm.setLockerHash(lockerHash);
+//        lockerOwnerForm.setLockerTitle(lockerTitle);
+//        lockerOwnerForm.setBackground(background);
+//        lockerOwnerForm.setLockType(lockType);
+//
+//        LockerOwner lockerOwner = lockerOwnerForm.toEntity();
+//        lockerOwnerRepository.save(lockerOwner);
+//
+//    }
+public void saveLockerOwner(String email, String lockerHash){
+    LockerOwnerForm lockerOwnerForm = new LockerOwnerForm();
+    lockerOwnerForm.setEmail(email);
+    lockerOwnerForm.setLockerHash(lockerHash);
+//    lockerOwnerForm.setLockerTitle(lockerTitle);
+//    lockerOwnerForm.setBackground(background);
+//    lockerOwnerForm.setLockType(lockType);
 
-        LockerOwner lockerOwner = lockerOwnerForm.toEntity();
-        lockerOwnerRepository.save(lockerOwner);
+    LockerOwner lockerOwner = lockerOwnerForm.toEntity();
+    lockerOwnerRepository.save(lockerOwner);
 
-    }
+}
 
     public List<LockerOwner> mylockers(String email){
         return lockerOwnerRepository.myLocker(email);

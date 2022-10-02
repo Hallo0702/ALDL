@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface LockerOwnerRepository extends CrudRepository<LockerOwner,Long> {
-    @Query(value="SELECT t from LockerOwner t where email=?1")
+    @Query(value="SELECT t from LockerOwner t where t.email=?1")
     List<LockerOwner> myLocker(String email);
 
-    @Query(value="SELECT id from LockerOwner t where email=?1 and lockerHash=?2")
+    @Query(value="SELECT t.id from LockerOwner t where t.email=?1 and t.lockerHash=?2")
     String findLocker(String email,String lockerHash);
 }

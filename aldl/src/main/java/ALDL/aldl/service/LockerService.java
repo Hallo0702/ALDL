@@ -32,4 +32,6 @@ public class LockerService {
         return lockerRepository.backgroundLocker(background);
     }
 
+    public Locker findLockerHash(String lockerHash) {return lockerRepository.findLockerHash(lockerHash).orElse(null);}
+
 }
