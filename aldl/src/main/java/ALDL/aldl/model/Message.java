@@ -13,11 +13,15 @@ public class Message {
 //    private String userEmail;
     private Object accessToken,refreshToken;
 
+    private String address, privateKey;
+
     public Message(){
         this.status = StatusEnum.BAD_REQUEST;
 //        this.userEmail = null;
         this.responseType = null;
         this.accessToken=null;
         this.refreshToken=null;
+        this.address=null;
+        this.privateKey=null;
     }
 }

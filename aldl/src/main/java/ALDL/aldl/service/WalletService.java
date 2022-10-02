@@ -37,12 +37,14 @@ public class WalletService {
     @Autowired
     private WalletRepository walletRepository;
 
-
-
-
     public Wallet create(Wallet wallet){
         Wallet w = Wallet.builder().email(wallet.getEmail()).address(wallet.getAddress()).privateKey(wallet.getPrivateKey()).build();
         return walletRepository.save(w);
+    }
+
+    public Wallet getInfo(String email){
+        Wallet w = walletRepository.findWalletByEmail(email).orElse(null);
+        return w;
     }
 
     @Transactional
