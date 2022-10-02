@@ -6,11 +6,21 @@ interface ListCardProps {
   title: string;
   content?: string;
   imageSrc?: string;
+  onClick(): void;
 }
 
-const ListCard: FC<ListCardProps> = ({ tag, title, content, imageSrc }) => {
+const ListCard: FC<ListCardProps> = ({
+  tag,
+  title,
+  content,
+  imageSrc,
+  onClick,
+}) => {
   return (
-    <div className="w-full h-48 bg-white rounded-3xl px-12 py-6 mb-12 border-black border-2 flex justify-between text-black">
+    <div
+      onClick={onClick}
+      className="w-full h-48 bg-white rounded-3xl px-12 py-6 mb-12 border-black border-2 flex justify-between text-black cursor-pointer"
+    >
       <div className="w-128">
         <div className="px-4 py-2 bg-peach w-24 rounded-full text-center font-bold mb-2 border-black border">
           {tag}
