@@ -15,6 +15,18 @@ const LOCKS = [
     lockType: 3,
     imageSrc: '/images/locks/lock3.svg',
   },
+  {
+    lockType: 4,
+    imageSrc: '/images/locks/lock4.svg',
+  },
+  {
+    lockType: 5,
+    imageSrc: '/images/locks/lock5.svg',
+  },
+  {
+    lockType: 6,
+    imageSrc: '/images/locks/lock6.svg',
+  },
 ];
 
 export default LOCKS;

@@ -19,6 +19,7 @@ interface FormState {
 }
 const Create = () => {
   const [user, setUserstate] = useRecoilState(userState);
+  const [dragOver, setDragOver] = useState(false);
   const [formState, setFormState] = useState<FormState>({
     title: '',
     content: '',
@@ -29,10 +30,37 @@ const Create = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const onDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.items) {
+      if (e.dataTransfer.items.length !== 1) {
+        alert('한개의 파일만 업로드해주세요.');
+        return;
+      }
+      if (e.dataTransfer.items[0].kind !== 'file') {
+        alert('올바른 이미지를 업로드해주세요.');
+        return;
+      }
+      const file = e.dataTransfer.items[0].getAsFile();
+      if (file.type.indexOf('image') >= 0) {
+        setFormState((prev) => ({ ...prev, image: file }));
+      }
+    }
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const files = input.files;
+      if (files[0].type.indexOf('image') < 0) {
+        alert('올바른 이미지를 업로드해주세요');
+        return;
+      }
       setFormState((prev) => ({ ...prev, image: files[0] }));
     }
   };
@@ -48,6 +76,14 @@ const Create = () => {
   };
 
   const onCreateHandler = async () => {
+    if (!formState.title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (!formState.content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     const formData = new FormData();
     try {
       if (formState.image) {
@@ -76,6 +112,7 @@ const Create = () => {
               title: formState.title,
               content: formState.content,
               lockType: formState.lockType,
+              image: '',
             },
           },
           '/lock/lock'
@@ -132,7 +169,11 @@ const Create = () => {
             />
           </div>
           <div className="flex items-end gap-10">
-            <div className="w-96 h-32 relative ml-20">
+            <div
+              className="w-96 h-32 relative ml-20"
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+            >
               <Image
                 src="/images/upload.png"
                 alt="메인 배경 이미지"
