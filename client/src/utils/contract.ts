@@ -34,6 +34,7 @@ export const store = async (
 ): Promise<any> => {
   const contract = new web3.eth.Contract(ABI as AbiItem[]);
   web3.eth.accounts.wallet.add(privateKey);
+  console.log('contract', contract);
   return new Promise<any>((resolve) => {
     contract
       .deploy({
@@ -46,7 +47,8 @@ export const store = async (
           gasPrice: '1000000000',
         },
         (err, transactionHash) => {
-          // console.info('transactionHash', transactionHash);
+          console.log('err', err);
+          console.info('transactionHash', transactionHash);
         }
       )
       .on('error', (error) => {
@@ -57,6 +59,7 @@ export const store = async (
           ABI as AbiItem[],
           receipt.contractAddress
         );
+        console.log(startContract);
         const res: any = await startContract.methods
           .store(
             data.imageSrc,
@@ -70,6 +73,7 @@ export const store = async (
             gas: 1000000,
             gasPrice: '1000000000',
           });
+        console.log(res);
         resolve(res);
       });
   });
