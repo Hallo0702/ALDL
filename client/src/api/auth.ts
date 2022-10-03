@@ -71,3 +71,21 @@ export const sendAuthCode = async (body: { email: string }) => {
     throw err;
   }
 };
+
+export const checkPassword = async (params: { password: string }) => {
+  try {
+    const res = await API.get('/auth/checkPassword', { params });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const ModifyPassword = async (body: { new_password: string }) => {
+  try {
+    const res = await API.patch('/auth/ModifyPassword', body);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};

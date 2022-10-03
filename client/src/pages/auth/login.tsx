@@ -24,24 +24,31 @@ const Login: NextPage = ({}) => {
     const enteredPassword = (passwordInputRef.current as HTMLInputElement)
       .value;
 
+    if (
+      enteredEmail.trim().length === 0 ||
+      enteredPassword.trim().length === 0
+    ) {
+      alert('입력을 해주세요.');
+      return;
+    }
     if (!user.isLogined) {
       const response = await login({
         email: enteredEmail,
         password: enteredPassword,
       });
-      console.log(response);
       if (response.data.status === 'OK') {
         const { accessToken } = response.data;
         Cookies.set('refreshToken', response.data.refreshToken);
         API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         setUserstate({ isLogined: true });
-        router.replace('/');
+        router.push('/');
       } else {
-        console.log('error');
+        alert('다시 확인해주세요. 로그인 할 수 없습니다.');
       }
     } else {
-      router.replace('/');
-      return <div>이미 로그인된 상태입니다. 메인 페이지로 이동합니다.</div>;
+      alert('이미 로그인된 상태입니다. 메인 페이지로 이동합니다.');
+      router.push('/');
+      return;
     }
   }
 

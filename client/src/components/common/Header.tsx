@@ -40,7 +40,7 @@ const Header: NextPage = () => {
                 · logout
               </div>
             </Link>
-            <Link href="/mypage">
+            <Link href="/user/mypage">
               <div className="mr-24 cursor-pointer">· mypage</div>
             </Link>
           </>
