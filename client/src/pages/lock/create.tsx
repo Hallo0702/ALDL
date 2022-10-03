@@ -76,6 +76,7 @@ const Create = () => {
               title: formState.title,
               content: formState.content,
               lockType: formState.lockType,
+              image: '',
             },
           },
           '/lock/lock'
