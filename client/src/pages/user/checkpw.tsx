@@ -21,7 +21,6 @@ const CheckPw: NextPage = ({}) => {
     }
     try {
       const response = await checkPassword({ password: enteredPassword });
-      console.log(response);
       if (response.data === '인증되었습니다') {
         router.push(
           {

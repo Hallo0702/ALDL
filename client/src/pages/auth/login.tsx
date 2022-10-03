@@ -67,6 +67,7 @@ const Login: NextPage = ({}) => {
         <div className="text-center font-custom font-bold text-lg text-black mb-12">
           로그인
         </div>
+        <div></div>
         <form
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
@@ -101,9 +102,11 @@ const Login: NextPage = ({}) => {
             ></Button>
           </div>
         </form>
-        <Link href="auth/password">
-          <div className="flex justify-center content-center m-2 font-custom font-medium text-sm text-gray-dark">
-            비밀번호 찾기
+        <Link href="/auth/findpw">
+          <div className="flex justify-center">
+            <button className="text-center m-2 font-custom font-medium text-sm text-gray-dark">
+              비밀번호 찾기
+            </button>
           </div>
         </Link>
       </main>
