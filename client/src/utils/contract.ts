@@ -31,50 +31,46 @@ export const store = async (
     background: number | undefined;
     lockType: number | undefined;
   }
-) => {
-  const contract = await new web3.eth.Contract(ABI as AbiItem[]);
+): Promise<any> => {
+  const contract = new web3.eth.Contract(ABI as AbiItem[]);
   web3.eth.accounts.wallet.add(privateKey);
-  const deploy = contract
-    .deploy({
-      data: '0x' + Bytecode.object,
-      // 사용자의 address값을 from에 적용
-    })
-    .send(
-      {
-        from: walletAddres,
-        gas: 1000000,
-        gasPrice: '1000000000',
-      },
-      (err, transactionHash) => {
-        console.info('transactionHash', transactionHash);
-      }
-    )
-    .on('error', (error) => {
-      console.info('error', error);
-    })
-    .on('receipt', async (receipt) => {
-      console.info('receipt', receipt);
-      const startContract = new web3.eth.Contract(
-        ABI as AbiItem[],
-        receipt.contractAddress
-      );
-      const res = await startContract.methods
-        .store(
-          data.imageSrc,
-          data.title,
-          data.content,
-          data.background,
-          data.lockType
-        )
-        .send({
+  return new Promise<any>((resolve) => {
+    contract
+      .deploy({
+        data: '0x' + Bytecode.object,
+      })
+      .send(
+        {
           from: walletAddres,
           gas: 1000000,
           gasPrice: '1000000000',
-        });
-      console.log(res);
-    })
-    .then((res) => {
-      return res;
-    });
-  return deploy;
+        },
+        (err, transactionHash) => {
+          // console.info('transactionHash', transactionHash);
+        }
+      )
+      .on('error', (error) => {
+        console.info('error', error);
+      })
+      .on('receipt', async (receipt) => {
+        const startContract = new web3.eth.Contract(
+          ABI as AbiItem[],
+          receipt.contractAddress
+        );
+        const res: any = await startContract.methods
+          .store(
+            data.imageSrc,
+            data.title,
+            data.content,
+            data.background,
+            data.lockType
+          )
+          .send({
+            from: walletAddres,
+            gas: 1000000,
+            gasPrice: '1000000000',
+          });
+        resolve(res);
+      });
+  });
 };

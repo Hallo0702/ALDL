@@ -48,11 +48,23 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    console.log(places.find((place) => place.id === placeId)?.bgImgSrc);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const checkPosition = (locationX: number, locationY: number) => {
+    if (
+      locks.findIndex(
+        (lock) =>
+          Math.abs(lock.locationX - locationX) < 2 &&
+          Math.abs(lock.locationY - locationY) < 2
+      ) >= 0
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const [isSelected, setIsSelected] = useState(false);
   const startDrag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -64,16 +76,26 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
     if (e.target instanceof Element && e?.target?.parentElement?.id === 'svg') {
       setIsSelected(false);
       //todo : 자물쇠 걸기 모달띄워서 걸기진행
-      const res = window.confirm('자물쇠를 거시겠습니까?');
-      if (res && bgRef && bgRef.current) {
+      if (bgRef && bgRef.current) {
         const x =
-          (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+          (100 *
+            (e.clientX -
+              bgRef.current.getBoundingClientRect().left -
+              0.025 * resize.width)) /
           Number(bgRef.current.offsetWidth);
         const y =
-          (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+          (100 *
+            (e.clientY -
+              bgRef.current.getBoundingClientRect().top -
+              0.025 * resize.width)) /
           Number(bgRef.current.offsetHeight);
-        if (onAction) {
-          onAction(x - 2.5, y - 2.5);
+        if (!checkPosition(x, y)) {
+          alert('근처에 자물쇠가 있습니다. 다른곳에 걸어주세요.');
+          return;
+        }
+        const res = window.confirm('자물쇠를 거시겠습니까?');
+        if (res && onAction) {
+          onAction(x, y);
         }
       }
     }
@@ -84,14 +106,21 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
     const svg = document.querySelector('#svg') as HTMLElement;
     if (bgRef && bgRef.current) {
       const x =
-        (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+        (100 *
+          (e.clientX -
+            bgRef.current.getBoundingClientRect().left -
+            0.025 * resize.width)) /
         Number(bgRef.current.offsetWidth);
       const y =
-        (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+        (100 *
+          (e.clientY -
+            bgRef.current.getBoundingClientRect().top -
+            0.025 * resize.width)) /
         Number(bgRef.current.offsetHeight);
+      checkPosition(x, y);
       if (svg && x > 2.5 && x < 97.5 && y > 2.5 && y < 97.5) {
-        svg.style.left = `${x - 2.5}%`;
-        svg.style.top = `${y - 2.5}%`;
+        svg.style.left = `${x}%`;
+        svg.style.top = `${y}%`;
       }
     }
   };
