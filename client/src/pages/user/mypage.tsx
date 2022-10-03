@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Button from '../components/common/Button';
-import Board from '../components/common/Board';
-import ListCard from '../components/common/ListCard';
-import { myEth } from '../api/wallet';
+import Button from '../../components/common/Button';
+import Board from '../../components/common/Board';
+import ListCard from '../../components/common/ListCard';
+import { myEth } from '../../api/wallet';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const MyPage: NextPage = ({}) => {
   // 이더리움 잔액 적용
@@ -32,16 +33,20 @@ const MyPage: NextPage = ({}) => {
           <div className="flex items-center font-custom font-bold text-xl mr-4">
             nickname 님 안녕하세요!
           </div>
-          <Button
-            label="내 정보 확인"
-            btnType="normal"
-            btnSize="medium"
-          ></Button>
-          <Button
-            label="비밀번호 수정"
-            btnType="normal"
-            btnSize="medium"
-          ></Button>
+          <Link href="/user/myinfo">
+            <Button
+              label="내 정보 확인"
+              btnType="normal"
+              btnSize="medium"
+            ></Button>
+          </Link>
+          <Link href="/user/checkpw">
+            <Button
+              label="비밀번호 수정"
+              btnType="normal"
+              btnSize="medium"
+            ></Button>
+          </Link>
         </div>
         <div className="flex flex-col mb-8">
           <div className="flex items-center font-custom font-bold text-xl mb-4">

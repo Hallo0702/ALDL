@@ -99,7 +99,7 @@ const Signup: NextPage = ({}) => {
         privateKey: res.privateKey,
       });
       requestEth(res.address);
-      router.replace('/auth/login');
+      router.push('/auth/login');
     } catch (error) {
       alert('다시 시도해주세요.');
     }
