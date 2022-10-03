@@ -13,7 +13,7 @@ import java.util.ListIterator;
 @RequiredArgsConstructor
 public class InputSecurityService {
     public boolean inputEmailCheck(String email){
-        if ((email.split("@")[1]).split("\\.").length==2){
+        if ((email.split("@")[1]).split("\\.").length>=2){
             return true;
         }
         else{
