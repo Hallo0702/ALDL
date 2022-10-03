@@ -64,34 +64,47 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
     if (e.target instanceof Element && e?.target?.parentElement?.id === 'svg') {
       setIsSelected(false);
       //todo : 자물쇠 걸기 모달띄워서 걸기진행
-      const res = window.confirm('자물쇠를 거시겠습니까?');
-      if (res && bgRef && bgRef.current) {
+      if (bgRef && bgRef.current) {
         const x =
-          (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+          (100 *
+            (e.clientX -
+              bgRef.current.getBoundingClientRect().left -
+              0.025 * resize.width)) /
           Number(bgRef.current.offsetWidth);
         const y =
-          (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+          (100 *
+            (e.clientY -
+              bgRef.current.getBoundingClientRect().top -
+              0.025 * resize.width)) /
           Number(bgRef.current.offsetHeight);
-        if (onAction) {
-          onAction(x - 2.5, y - 2.5);
+        const res = window.confirm('자물쇠를 거시겠습니까?');
+        if (res && onAction) {
+          onAction(x, y);
         }
       }
     }
   };
   const drag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!isSelected) return;
+    console.log('asd');
     e.preventDefault();
     const svg = document.querySelector('#svg') as HTMLElement;
     if (bgRef && bgRef.current) {
       const x =
-        (100 * (e.clientX - bgRef.current.getBoundingClientRect().left)) /
+        (100 *
+          (e.clientX -
+            bgRef.current.getBoundingClientRect().left -
+            0.025 * resize.width)) /
         Number(bgRef.current.offsetWidth);
       const y =
-        (100 * (e.clientY - bgRef.current.getBoundingClientRect().top)) /
+        (100 *
+          (e.clientY -
+            bgRef.current.getBoundingClientRect().top -
+            0.025 * resize.width)) /
         Number(bgRef.current.offsetHeight);
       if (svg && x > 2.5 && x < 97.5 && y > 2.5 && y < 97.5) {
-        svg.style.left = `${x - 2.5}%`;
-        svg.style.top = `${y - 2.5}%`;
+        svg.style.left = `${x}%`;
+        svg.style.top = `${y}%`;
       }
     }
   };

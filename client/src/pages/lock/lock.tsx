@@ -23,7 +23,7 @@ const Lock: NextPage = () => {
   const [user, setUserstate] = useRecoilState(userState);
 
   const router = useRouter();
-  const [locks, setLocks] = useState([]);
+  const [locks, setLocks] = useState<LockProps[]>([]);
 
   const onAction = async (locationX: number, locationY: number) => {
     const { content, title, image } = router.query;
@@ -48,6 +48,7 @@ const Lock: NextPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(selectedPlace);
+      console.log(res.data);
       setLocks(res.data);
     };
     fetch();
