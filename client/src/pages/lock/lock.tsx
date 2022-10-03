@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -22,33 +23,53 @@ const Lock: NextPage = () => {
   const [draggableLock, setDraggableLock] = useState<LockProps>();
   const [user, setUserstate] = useRecoilState(userState);
 
+  const [isPending, setIsPending] = useState<boolean | null>(null);
+  const [lockerHash, setLockerHash] = useState<string | null>(null);
+
   const router = useRouter();
   const [locks, setLocks] = useState<LockProps[]>([]);
 
   const onAction = async (locationX: number, locationY: number) => {
+    setIsPending(true);
     const { content, title, image } = router.query;
 
-    const storeRes = await store(user.privateKey, user.address, {
+    const res = await store(user.privateKey, user.address, {
       imageSrc: image,
       content: content,
       title: title,
       lockType: draggableLock?.lockType,
       background: selectedPlace,
     });
-    const lockerHash = storeRes['_address'];
-    const res = await setLocker({
+    const lockerHash = res['to'];
+    setLockerHash(lockerHash);
+    setLocker({
       background: selectedPlace,
       lockType: draggableLock?.lockType,
       locationX,
       locationY,
       lockerHash,
       lockerTitle: title,
+    }).then(() => {
+      setIsPending(false);
     });
   };
+
+  useEffect(() => {
+    if (isPending === false && lockerHash) {
+      router.push(
+        {
+          pathname: '/lock/detail',
+          query: {
+            hash: lockerHash,
+          },
+        },
+        '/lock/detail'
+      );
+    }
+  }, [isPending, lockerHash]);
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(selectedPlace);
-      console.log(res.data);
       setLocks(res.data);
     };
     fetch();
