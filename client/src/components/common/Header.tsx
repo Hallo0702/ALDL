@@ -17,11 +17,10 @@ const Header: NextPage = () => {
       return;
     }
     const result = await logout({ refreshToken: refreshToken });
-    setUserstate({ isLogined: false });
+    setUserstate({ isLogined: false, address: '', privateKey: '' });
     Cookies.remove('refreshToken', { sameSite: 'strict', path: '/' });
     API.defaults.headers.common['Authorization'] = `Bearer ${''}`;
   }
-
   return (
     <header className="flex justify-between py-12">
       <div className="cursor-pointer">
