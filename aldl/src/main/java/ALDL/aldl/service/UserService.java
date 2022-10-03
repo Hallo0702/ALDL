@@ -116,4 +116,8 @@ public class UserService {
         user.deleteRefreshToken();
     }
 
+    public User getNickname(String email){
+        return userRepository.findNicknameByUserEmail(email).orElse(null);
+    }
+
 }
