@@ -48,6 +48,14 @@ const Create = () => {
   };
 
   const onCreateHandler = async () => {
+    if (!formState.title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (!formState.content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     const formData = new FormData();
     try {
       if (formState.image) {
