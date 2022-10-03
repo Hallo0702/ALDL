@@ -26,6 +26,7 @@ export const setLocker = async (body: {
   locationX: number;
   locationY: number;
   lockerHash: string;
+  lockerTitle: string;
 }) => {
   const res = await API.post('/setlocker', body);
   return res;

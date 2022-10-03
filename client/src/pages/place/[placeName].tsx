@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getLocksByBackground } from '../../api/lock';
+import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
 
 const DynamicContainer = dynamic(
@@ -20,7 +21,6 @@ const PlaceName: NextPage = ({}) => {
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(place.id);
-      console.log(res.data);
       setLocks(res.data);
     };
     fetch();

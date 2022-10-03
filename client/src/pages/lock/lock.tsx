@@ -44,6 +44,7 @@ const Lock: NextPage = () => {
       locationX,
       locationY,
       lockerHash,
+      lockerTitle: title,
     });
     console.log(res);
   };
