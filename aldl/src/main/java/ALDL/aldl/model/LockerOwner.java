@@ -22,22 +22,19 @@ public class LockerOwner {
     @Column
     private String lockerHash;
 
-    @Column
-    private String lockerTitle;
+//    @Column
+//    private String lockerTitle;
 
-    @Column
-    private String background;
-
-    @Column
-    private Integer lockType;
+//    @Column
+//    private String background;
+//
+//    @Column
+//    private Integer lockType;
 
     @Builder
-    public LockerOwner(String email,String lockerHash,String lockerTitle,String background, Integer lockType){
+    public LockerOwner(String email,String lockerHash){
         this.email=email;
         this.lockerHash = lockerHash;
-        this.lockerTitle = lockerTitle;
-        this.background = background;
-        this.lockType = lockType;
 
     }
 }

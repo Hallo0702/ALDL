@@ -20,9 +20,6 @@ public class LockerOwnerForm {
         return LockerOwner.builder()
                 .email(email)
                 .lockerHash(lockerHash)
-                .lockerTitle("")
-                .background("")
-                .lockType(0)
                 .build();
     }
 }

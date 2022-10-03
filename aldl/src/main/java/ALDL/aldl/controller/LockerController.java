@@ -67,6 +67,7 @@ public class LockerController {
             }
 
             lockerService.saveLocker(background,lockType,lockerHash,locationX,locationY,lockerTitle);
+            lockerOwnerService.saveLockerOwner(email, lockerHash);
             return new ResponseEntity<>("자물쇠 등록 완료",headers, HttpStatus.OK);
         }catch(Exception e){
 
