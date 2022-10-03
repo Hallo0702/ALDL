@@ -22,7 +22,7 @@ public interface UserRepository extends CrudRepository<User,Long> {
     String validNickname(String nickname);
     @Query(value = "SELECT t.email FROM User t where t.email =?1 ")
     Optional<User> findByUserEmail(String email);
-    @Query(value = "SELECT t.nickname FROM User t where t.email = ?1")
+    @Query(value = "SELECT t FROM User t where t.email = ?1")
     Optional<User> findNicknameByUserEmail(String email);
 
     @Modifying
