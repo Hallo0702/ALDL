@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { DragEvent, useEffect, useRef, useState } from 'react';
 
 import { userState } from '../../store/states';
 import { uploadImage } from '../../api/lock';
@@ -30,7 +30,7 @@ const Create = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const onDrop = (e) => {
+  const onDrop = (e: DragEvent) => {
     e.preventDefault();
     if (e.dataTransfer.items) {
       if (e.dataTransfer.items.length !== 1) {
@@ -42,13 +42,13 @@ const Create = () => {
         return;
       }
       const file = e.dataTransfer.items[0].getAsFile();
-      if (file.type.indexOf('image') >= 0) {
+      if (file && file.type.indexOf('image') >= 0) {
         setFormState((prev) => ({ ...prev, image: file }));
       }
     }
   };
 
-  const onDragOver = (e) => {
+  const onDragOver = (e: DragEvent) => {
     e.preventDefault();
     setDragOver(true);
   };
