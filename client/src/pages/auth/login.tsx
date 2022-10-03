@@ -40,7 +40,11 @@ const Login: NextPage = ({}) => {
         const { accessToken } = response.data;
         Cookies.set('refreshToken', response.data.refreshToken);
         API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        setUserstate({ isLogined: true });
+        setUserstate({
+          isLogined: true,
+          address: response.data.address,
+          privateKey: response.data.privateKey,
+        });
         router.push('/');
       } else {
         alert('다시 확인해주세요. 로그인 할 수 없습니다.');
