@@ -87,7 +87,9 @@ const Signup: NextPage = ({}) => {
       );
 
       const web3 = new Web3(
-        new Web3.providers.HttpProvider('http://43.200.253.174:3000')
+        new Web3.providers.HttpProvider(
+          process.env.NEXT_PUBLIC_BLOCKCHAIN_URI || ''
+        )
       );
       const account = await web3.eth.accounts.create();
       const res = await web3.eth.accounts.privateKeyToAccount(
