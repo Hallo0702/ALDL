@@ -48,11 +48,23 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    console.log(places.find((place) => place.id === placeId)?.bgImgSrc);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const checkPosition = (locationX: number, locationY: number) => {
+    if (
+      locks.findIndex(
+        (lock) =>
+          Math.abs(lock.locationX - locationX) < 2 &&
+          Math.abs(lock.locationY - locationY) < 2
+      ) >= 0
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const [isSelected, setIsSelected] = useState(false);
   const startDrag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -77,6 +89,10 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
               bgRef.current.getBoundingClientRect().top -
               0.025 * resize.width)) /
           Number(bgRef.current.offsetHeight);
+        if (!checkPosition(x, y)) {
+          alert('근처에 자물쇠가 있습니다. 다른곳에 걸어주세요.');
+          return;
+        }
         const res = window.confirm('자물쇠를 거시겠습니까?');
         if (res && onAction) {
           onAction(x, y);
@@ -86,7 +102,6 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   };
   const drag = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!isSelected) return;
-    console.log('asd');
     e.preventDefault();
     const svg = document.querySelector('#svg') as HTMLElement;
     if (bgRef && bgRef.current) {
@@ -102,6 +117,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
             bgRef.current.getBoundingClientRect().top -
             0.025 * resize.width)) /
         Number(bgRef.current.offsetHeight);
+      checkPosition(x, y);
       if (svg && x > 2.5 && x < 97.5 && y > 2.5 && y < 97.5) {
         svg.style.left = `${x}%`;
         svg.style.top = `${y}%`;
