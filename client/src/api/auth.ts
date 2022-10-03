@@ -89,3 +89,12 @@ export const ModifyPassword = async (body: { new_password: string }) => {
     throw err;
   }
 };
+
+export const sendModifyPasswordMail = async (body: { email: string }) => {
+  try {
+    const res = await API.patch('/sendModifyPasswordMail', body);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
