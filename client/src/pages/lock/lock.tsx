@@ -99,6 +99,28 @@ const Lock: NextPage = () => {
       <div className="text-center font-custom font-bold text-lg text-black mb-12">
         <h1>자물쇠 걸기</h1>
       </div>
+      {isPending && (
+        <div
+          id="defaultModal"
+          tabIndex={-1}
+          aria-hidden="true"
+          className="overflow-y-auto overflow-x-hidden fixed top-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-black/50"
+        >
+          <div className="relative w-full max-w-2xl h-full md:h-auto left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2">
+            {/* <!-- Modal content --> */}
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              {/* <!-- Modal header --> */}
+              <div className="flex justify-center items-start p-4 rounded-t border-b dark:border-gray-600">
+                <h3 className="text-xl font-bold  text-gray-900 dark:text-white">
+                  자물쇠를 거는중입니다.
+                </h3>
+              </div>
+              {/* <!-- Modal body --> */}
+              <div className="p-6 space-y-6"></div>
+            </div>
+          </div>
+        </div>
+      )}
       <Board>
         <div className="flex mb-4 w-full h-12 items-center text-xl font-bold justify-center">
           <label htmlFor="title" className="w-16 mr-4">
