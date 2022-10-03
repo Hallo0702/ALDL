@@ -139,7 +139,6 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       onMouseDown={(e) => startDrag(e)}
       onMouseMove={(e) => drag(e)}
       onMouseUp={(e) => endDrag(e)}
-      onMouseLeave={(e) => endDrag(e)}
     >
       {locks.map((lock) => (
         <Lock
