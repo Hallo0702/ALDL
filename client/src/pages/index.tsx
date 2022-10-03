@@ -25,14 +25,14 @@ const Home: NextPage = () => {
         <section className="flex justify-center mb-16">
           <Link href="/lock/create">
             <Button
-              btnSize="large"
+              btnSize="xlarge"
               btnType="active"
               label="자물쇠 등록"
               customstyle="mr-8"
             ></Button>
           </Link>
           <Link href="/lock/collection">
-            <Button btnSize="large" btnType="normal" label="모아보기"></Button>
+            <Button btnSize="xlarge" btnType="normal" label="모아보기"></Button>
           </Link>
         </section>
 

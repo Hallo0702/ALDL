@@ -6,15 +6,25 @@ import ListCard from '../../components/common/ListCard';
 import { myEth } from '../../api/wallet';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../store/states';
 
 const MyPage: NextPage = ({}) => {
   // 이더리움 잔액 적용
   const [userEth, setUserEth] = useState('');
+  const [userNickname, setUserNickname] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [user, setUserstate] = useRecoilState(userState);
   useEffect(() => {
     const fetch = async () => {
       // 사용자의 address값 입력
-      const res = await myEth('0xa6Af487111486Af3FEeEa15631EFaB3168801273');
-      setUserEth(res.data);
+      const res = await myEth(user.address);
+      console.log(res);
+      setUserNickname(res.data.nickname);
+      setUserName(res.data.name);
+      setUserEmail(res.data.email);
+      setUserEth(res.data.balance);
     };
     fetch();
   });
@@ -31,15 +41,8 @@ const MyPage: NextPage = ({}) => {
         </div>
         <div className="flex mb-8">
           <div className="flex items-center font-custom font-bold text-xl mr-4">
-            nickname 님 안녕하세요!
+            {userNickname} 님 안녕하세요!
           </div>
-          <Link href="/user/myinfo">
-            <Button
-              label="내 정보 확인"
-              btnType="normal"
-              btnSize="medium"
-            ></Button>
-          </Link>
           <Link href="/user/checkpw">
             <Button
               label="비밀번호 수정"
@@ -47,6 +50,29 @@ const MyPage: NextPage = ({}) => {
               btnSize="medium"
             ></Button>
           </Link>
+        </div>
+        <div className="flex flex-col mb-8">
+          <div className="flex items-center font-custom font-bold text-xl mb-4">
+            내 정보
+          </div>
+          <Board>
+            <div className="flex flex-row mb-4">
+              <div className="font-custom font-bold text-lg text-left mr-20">
+                이름
+              </div>
+              <div className="font-custom font-medium text-lg mr-2">
+                <h2>{userName}</h2>
+              </div>
+            </div>
+            <div className="flex flex-row">
+              <div className="font-custom font-bold text-lg text-left mr-16">
+                이메일
+              </div>
+              <div className="font-custom font-medium text-lg">
+                <h2>{userEmail}</h2>
+              </div>
+            </div>
+          </Board>
         </div>
         <div className="flex flex-col mb-8">
           <div className="flex items-center font-custom font-bold text-xl mb-4">
@@ -58,9 +84,8 @@ const MyPage: NextPage = ({}) => {
                 잔액
               </div>
               <div className="font-custom font-medium text-lg mr-2">
-                <h2>{userEth} Eth</h2>
+                <h2>{userEth} ETH</h2>
               </div>
-              <Button label="충전" btnType="active" btnSize="small"></Button>
             </div>
             <div className="flex flex-row">
               <div className="font-custom font-bold text-lg text-left mr-6">
@@ -68,47 +93,10 @@ const MyPage: NextPage = ({}) => {
               </div>
               <div className="font-custom font-medium text-lg">
                 {/* 지갑 주소 입력하는 부분 */}
-                <h2>0xa6Af487111486Af3FEeEa15631EFaB3168801273</h2>
+                <h2>{user.address}</h2>
               </div>
             </div>
           </Board>
-        </div>
-        <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mb-4">
-            내가 등록한 자물쇠
-          </div>
-          <ListCard
-            tag="#광주"
-            title="
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        "
-            content="
-        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
-        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
-        "
-          />
-          <ListCard
-            tag="#광주"
-            title="
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        긴 제목입니다.
-        "
-            content="
-        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
-        아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.아무 내용없는 긴내용입니다.
-        "
-          />
         </div>
       </main>
     </>

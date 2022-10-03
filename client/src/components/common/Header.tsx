@@ -6,12 +6,14 @@ import { logout } from '../../api/auth';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
 import API from '../../api';
+import { useRouter } from 'next/router';
 
 const Header: NextPage = () => {
   const [user, setUserstate] = useRecoilState(userState);
+  const router = useRouter();
+
   async function signoutHandler(event: React.SyntheticEvent) {
     event.preventDefault();
-
     const refreshToken = Cookies.get('refreshToken');
     if (!refreshToken) {
       return;
@@ -20,6 +22,7 @@ const Header: NextPage = () => {
     setUserstate({ isLogined: false, address: '', privateKey: '' });
     Cookies.remove('refreshToken', { sameSite: 'strict', path: '/' });
     API.defaults.headers.common['Authorization'] = `Bearer ${''}`;
+    router.push('/');
   }
   return (
     <header className="flex justify-between py-12">
