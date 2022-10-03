@@ -3,12 +3,14 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { getLocksByBackground, setLocker } from '../../api/lock';
 import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
+import { userState } from '../../store/states';
 import { store } from '../../utils/contract';
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
@@ -18,6 +20,7 @@ const DynamicContainer = dynamic(
 const Lock: NextPage = () => {
   const [selectedPlace, setSelectedPlace] = useState(0);
   const [draggableLock, setDraggableLock] = useState<LockProps>();
+  const [user, setUserstate] = useRecoilState(userState);
 
   const router = useRouter();
   const [locks, setLocks] = useState([]);
@@ -25,18 +28,13 @@ const Lock: NextPage = () => {
   const onAction = async (locationX: number, locationY: number) => {
     const { content, title, image } = router.query;
 
-    //privateKey,walletAddress 받아야함.
-    const storeRes = await store(
-      '0xc3358af8becbab80cd6e3c6b2425368a6b6ac8f4aa8807e73ca1fd62347f39b5',
-      '0xa6Af487111486Af3FEeEa15631EFaB3168801273',
-      {
-        imageSrc: image,
-        content: content,
-        title: title,
-        lockType: draggableLock?.lockType,
-        background: selectedPlace,
-      }
-    );
+    const storeRes = await store(user.privateKey, user.address, {
+      imageSrc: image,
+      content: content,
+      title: title,
+      lockType: draggableLock?.lockType,
+      background: selectedPlace,
+    });
     const lockerHash = storeRes['_address'];
     const res = await setLocker({
       background: selectedPlace,
@@ -46,12 +44,10 @@ const Lock: NextPage = () => {
       lockerHash,
       lockerTitle: title,
     });
-    console.log(res);
   };
   useEffect(() => {
     const fetch = async () => {
       const res = await getLocksByBackground(selectedPlace);
-      console.log(res.data);
       setLocks(res.data);
     };
     fetch();
@@ -69,7 +65,6 @@ const Lock: NextPage = () => {
       locationY: 50,
       locationX: 50,
     });
-    console.log(router.query);
   }, [router]);
 
   return (
