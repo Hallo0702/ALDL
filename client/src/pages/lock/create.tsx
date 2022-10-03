@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { userState } from '../../store/states';
 import { uploadImage } from '../../api/lock';
@@ -57,6 +57,10 @@ const Create = () => {
     const input = e.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const files = input.files;
+      if (files[0].type.indexOf('image') < 0) {
+        alert('올바른 이미지를 업로드해주세요');
+        return;
+      }
       setFormState((prev) => ({ ...prev, image: files[0] }));
     }
   };
