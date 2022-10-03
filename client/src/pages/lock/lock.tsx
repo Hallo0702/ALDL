@@ -13,6 +13,10 @@ import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
 import { userState } from '../../store/states';
 import { store } from '../../utils/contract';
+
+import Locking from '../../assets/locks/locking.gif';
+import Image from 'next/image';
+
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
   { ssr: false }
@@ -106,17 +110,21 @@ const Lock: NextPage = () => {
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed top-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-black/50"
         >
-          <div className="relative w-full max-w-2xl h-full md:h-auto left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2">
-            {/* <!-- Modal content --> */}
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              {/* <!-- Modal header --> */}
-              <div className="flex justify-center items-start p-4 rounded-t border-b dark:border-gray-600">
-                <h3 className="text-xl font-bold  text-gray-900 dark:text-white">
+          <div className="relative w-full max-w-md h-full md:h-auto left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 ">
+            <div className="relative bg-white rounded-xl shadow dark:bg-gray-700">
+              <div className="flex flex-col justify-center items-center p-4 py-12 rounded-xl  dark:border-gray-600 border-black border-2 shadow-black shadow-[4px_4px_0px_#000000]">
+                <div className="justify-self-center place-items-center">
+                  <Image
+                    src={Locking}
+                    alt="lokcing"
+                    width={200}
+                    height={200}
+                  ></Image>
+                </div>
+                <h3 className="text-xl font-bold place-self-center text-gray-900 dark:text-white">
                   자물쇠를 거는중입니다.
                 </h3>
               </div>
-              {/* <!-- Modal body --> */}
-              <div className="p-6 space-y-6"></div>
             </div>
           </div>
         </div>
