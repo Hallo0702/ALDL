@@ -46,6 +46,9 @@ public class EmailController {
 
         try{
             String email = info.getEmail();
+            if (userService.checkEmail(email)==null){
+                return new ResponseEntity<>("존재하지 않는 이메일",headers,HttpStatus.OK);
+            }
             if (email !=null && !email.equals("")){
                 Integer v = (int)Math.floor(Math.random() * 100000);
                 String authCode = v.toString() + "aldl";
