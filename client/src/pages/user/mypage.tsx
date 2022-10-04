@@ -20,7 +20,6 @@ const MyPage: NextPage = ({}) => {
     const fetch = async () => {
       // 사용자의 address값 입력
       const res = await myEth(user.address);
-      console.log(res);
       setUserNickname(res.data.nickname);
       setUserName(res.data.name);
       setUserEmail(res.data.email);
