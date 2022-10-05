@@ -221,7 +221,7 @@ const Signup: NextPage = ({}) => {
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          <div className="flex flex-row max-w-screen">
+          <div className="flex flex-row">
             <FormInput
               label="이메일"
               id="email"
