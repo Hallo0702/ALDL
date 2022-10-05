@@ -66,24 +66,17 @@ const Login: NextPage = ({}) => {
       </Head>
       <main>
         <Title>로그인</Title>
-        <div></div>
         <form
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          <div className="pr-36">
-            <FormInput
-              label="이메일"
-              id="email"
-              ref={emailInputRef}
-            ></FormInput>
-            <FormInput
-              label="비밀번호"
-              id="password"
-              type="password"
-              ref={passwordInputRef}
-            ></FormInput>
-          </div>
+          <FormInput label="이메일" id="email" ref={emailInputRef}></FormInput>
+          <FormInput
+            label="비밀번호"
+            id="password"
+            type="password"
+            ref={passwordInputRef}
+          ></FormInput>
           <div className="flex justify-center content-center">
             <Link href="/auth/signup">
               <Button
