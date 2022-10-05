@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { userState } from '../../store/states';
 import Board from '../../components/common/Board';
 import { retrieve } from '../../utils/contract';
+import Button from '../../components/common/Button';
 
 interface data {
   imageSrc: string;
@@ -20,6 +21,18 @@ const Detail: NextPage = ({}) => {
   const router = useRouter();
   const [user, setUserstate] = useRecoilState(userState);
   const [data, setData] = useState<data>();
+
+  const copy = () => {
+    const $textarea = document.createElement('textarea');
+    document.body.appendChild($textarea);
+    if (typeof router.query.hash === 'string')
+      $textarea.value = router.query.hash;
+    $textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild($textarea);
+    alert('주소가 복사되었습니다.');
+  };
+
   useEffect(() => {
     const hash = router.query.hash;
     if (!user.isLogined) {
@@ -82,11 +95,17 @@ const Detail: NextPage = ({}) => {
               {data?.content}
             </div>
           </div>
-          <div className="flex w-full items-center text-xl font-bold">
-            <label htmlFor="address" className="w-16 mr-4 self-start">
+          <div className="flex w-full text-xl font-bold items-center">
+            <label htmlFor="address" className="w-16 mr-4">
               주소
             </label>
             <p>{router.query.hash}</p>
+            <Button
+              btnSize="medium"
+              btnType="dark"
+              label="복사"
+              onClick={copy}
+            ></Button>
           </div>
         </div>
       </Board>
