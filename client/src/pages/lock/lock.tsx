@@ -35,7 +35,10 @@ const Lock: NextPage = () => {
 
   const onAction = async (locationX: number, locationY: number) => {
     setIsPending(true);
-    const { content, title, image } = router.query;
+    let { content, title, image } = router.query;
+    if (typeof image !== 'string') image = '';
+    if (typeof content !== 'string') content = '';
+    if (typeof title !== 'string') title = '';
 
     const res = await store(user.privateKey, user.address, {
       imageSrc: image,
