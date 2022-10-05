@@ -3,6 +3,7 @@ import { AbiItem } from 'web3-utils';
 
 import { ABI } from '../contract/ABI';
 import { Bytecode } from '../contract/Bytecode';
+import Crypto from 'crypto-js';
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_BLOCKCHAIN_URI || '')
@@ -11,7 +12,10 @@ const web3 = new Web3(
 export const retrieve = async (hash: string) => {
   const contract = new web3.eth.Contract(ABI as AbiItem[], hash);
   const res = await contract.methods.retrieve().call();
-  const { 0: imageSrc, 1: title, 2: content, 3: background, 4: lockType } = res;
+  const { 0: encImageSrc, 1: title, 2: content, 3: background, 4: lockType } = res;
+  const AESprivateKey = 'JUpViFIyRMB4NsMvwEFlmowYLa6N9UCb';
+  const bytes = Crypto.AES.decrypt(encImageSrc,AESprivateKey);
+  const imageSrc = Crypto.enc.Utf8.stringify(bytes);
   return {
     imageSrc,
     title,
@@ -25,15 +29,23 @@ export const store = async (
   privateKey: string,
   walletAddres: string,
   data: {
-    imageSrc: string | string[] | undefined;
-    title: string | string[] | undefined;
-    content: string | string[] | undefined;
+    imageSrc: string;
+    title: string;
+    content: string;
     background: number | undefined;
     lockType: number | undefined;
   }
 ): Promise<any> => {
   const contract = new web3.eth.Contract(ABI as AbiItem[]);
-  web3.eth.accounts.wallet.add(privateKey);
+  const AESprivateKey = 'JUpViFIyRMB4NsMvwEFlmowYLa6N9UCb';
+  console.log(privateKey);
+  const bytes = Crypto.AES.decrypt(privateKey,AESprivateKey);
+  console.log(bytes);
+  const decrypted = Crypto.enc.Utf8.stringify(bytes);
+  console.log(decrypted);
+  const encryptImageSrc = Crypto.AES.encrypt(data.imageSrc,AESprivateKey).toString();
+  console.log(encryptImageSrc);
+  web3.eth.accounts.wallet.add(decrypted);
   console.log('contract', contract);
   return new Promise<any>((resolve) => {
     contract
@@ -62,7 +74,7 @@ export const store = async (
         console.log(startContract);
         const res: any = await startContract.methods
           .store(
-            data.imageSrc,
+            encryptImageSrc,
             data.title,
             data.content,
             data.background,
