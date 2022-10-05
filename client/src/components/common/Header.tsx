@@ -42,7 +42,7 @@ const Header: NextPage = () => {
             type="button"
             className="inline-flex items-center justify-center rounded-md p-2 hover:bg-white-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
-            <img className="w-6 h-6" src="/images/menu.png" alt="menu" />
+            <img className="w-7 h-7" src="/images/menu.png" alt="menu" />
           </button>
         </div>
         <ul
