@@ -8,6 +8,7 @@ import { userState } from '../../store/states';
 import Board from '../../components/common/Board';
 import { retrieve } from '../../utils/contract';
 import Button from '../../components/common/Button';
+import PLACES from '../../constant/places';
 
 interface data {
   imageSrc: string;
@@ -109,6 +110,30 @@ const Detail: NextPage = ({}) => {
           </div>
         </div>
       </Board>
+      <div>
+        <Button
+          btnSize="xlarge"
+          btnType="normal"
+          label="모아보기"
+          onClick={() => {
+            router.push('/lock/collection');
+          }}
+        ></Button>
+        <Button
+          btnSize="xlarge"
+          btnType="active"
+          label={`${
+            PLACES.find((place) => place.id === data?.background)?.name
+          }`}
+          onClick={() => {
+            router.push(
+              `/place/${
+                PLACES.find((place) => place.id === data?.background)?.placeName
+              }`
+            );
+          }}
+        ></Button>
+      </div>
     </>
   );
 };
