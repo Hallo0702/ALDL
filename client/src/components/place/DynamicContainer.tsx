@@ -124,7 +124,6 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       }
     }
   };
-  console.log(resize.width);
   return (
     <main
       className={`relative bg-no-repeat bg-cover bg-center border-2 border-black rounded-xl`}
@@ -140,6 +139,9 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       onMouseMove={(e) => drag(e)}
       onMouseUp={(e) => endDrag(e)}
     >
+      <div className="absolute text-sm md:text-lg top-1 left-1 md:top-6 md:left-6 bg-white rounded-full px-4 py-1 md:px-8 md:py-2 text-black border-black border">
+        {places.find((place) => place.id === placeId)?.name}
+      </div>
       {locks.map((lock) => (
         <Lock
           key={v4()}
