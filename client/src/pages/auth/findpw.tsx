@@ -33,7 +33,7 @@ const FindPw: NextPage = ({}) => {
         );
         router.push('/auth/login');
       } else {
-        alert('입력한 정보를 다시 확인해주세요.');
+        alert('존재하지 않는 회원입니다. 다시 확인해주세요.');
       }
     } else {
       alert('이미 로그인된 상태입니다. 메인 페이지로 이동합니다.');
