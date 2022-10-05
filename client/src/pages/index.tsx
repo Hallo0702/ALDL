@@ -31,7 +31,6 @@ const Home: NextPage = () => {
               btnSize="xlarge"
               btnType="active"
               label="자물쇠 등록"
-              customstyle="mr-8"
             ></Button>
           </Link>
         </section>
