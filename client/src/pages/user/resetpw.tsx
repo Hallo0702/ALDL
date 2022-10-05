@@ -93,7 +93,7 @@ const ResetPw: NextPage = ({}) => {
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          <div className="pr-36">
+          <div>
             {/* <FormInput
               label="현재 비밀번호"
               id="currentpw"

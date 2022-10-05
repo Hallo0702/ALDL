@@ -51,7 +51,7 @@ const CheckPw: NextPage = ({}) => {
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"
         >
-          <div className="pr-36">
+          <div>
             <FormInput
               label="비밀번호"
               id="password"

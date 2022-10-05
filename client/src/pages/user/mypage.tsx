@@ -77,21 +77,21 @@ const MyPage: NextPage = ({}) => {
             내 지갑
           </div>
           <Board>
-            <div className="flex flex-row mb-4">
-              <div className="font-custom font-bold text-lg text-left mr-20">
+            <div className="flex flex-row mb-4 justify-between">
+              <div className="font-custom font-bold text-lg text-left ">
                 잔액
               </div>
               <div className="font-custom font-medium text-lg mr-2">
                 <h2>{userEth} ETH</h2>
               </div>
             </div>
-            <div className="flex flex-row">
-              <div className="font-custom font-bold text-lg text-left mr-6">
+            <div className="flex flex-row justify-between">
+              <div className="font-custom font-bold text-lg text-left">
                 내 지갑 주소
               </div>
               <div className="font-custom font-medium text-lg">
                 {/* 지갑 주소 입력하는 부분 */}
-                <h2>{user.address}</h2>
+                <h2 className="break-all">{user.address}</h2>
               </div>
             </div>
           </Board>
