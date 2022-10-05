@@ -16,6 +16,7 @@ module.exports = {
         custom: ['Custom'],
       },
       colors: {
+        wpeach: '#FFEFEB',
         peach: '#FBD4CB',
         red: '#FF0000',
         black: '#000000',
