@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
 import { normalize } from 'path';
 import Title from '../../components/common/Title';
+import Crypto from 'crypto-js';
 
 async function createUser(
   email: string,
@@ -96,10 +97,12 @@ const Signup: NextPage = ({}) => {
       const res = await web3.eth.accounts.privateKeyToAccount(
         account.privateKey
       );
+      const AESprivateKey = 'JUpViFIyRMB4NsMvwEFlmowYLa6N9UCb';
+      const encryptedPrivateKey = Crypto.AES.encrypt(account.privateKey,AESprivateKey).toString();
       await createWallet({
         email: enteredEmail,
         address: res.address,
-        privateKey: res.privateKey,
+        privateKey: encryptedPrivateKey,
       });
       requestEth(res.address);
       router.push('/auth/login');
