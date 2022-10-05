@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -28,6 +27,7 @@ const Lock: NextPage = () => {
   const [user, setUserstate] = useRecoilState(userState);
 
   const [isPending, setIsPending] = useState<boolean | null>(null);
+  const [pedingTime, setPendingTime] = useState(0);
   const [lockerHash, setLockerHash] = useState<string | null>(null);
 
   const router = useRouter();
@@ -35,6 +35,9 @@ const Lock: NextPage = () => {
 
   const onAction = async (locationX: number, locationY: number) => {
     setIsPending(true);
+    const timer = setInterval(() => {
+      setPendingTime((prev) => prev + 1);
+    }, 1000);
     let { content, title, image } = router.query;
     if (typeof image !== 'string') image = '';
     if (typeof content !== 'string') content = '';
@@ -58,6 +61,7 @@ const Lock: NextPage = () => {
       lockerTitle: title,
     }).then(() => {
       setIsPending(false);
+      clearInterval(timer);
     });
   };
 
@@ -126,6 +130,9 @@ const Lock: NextPage = () => {
                 </div>
                 <h3 className="text-xl font-bold place-self-center text-gray-900 dark:text-white">
                   자물쇠를 거는중입니다.
+                </h3>
+                <h3 className="text-xl font-bold place-self-center text-gray-900 dark:text-white">
+                  30초이상 소요될 수 있습니다....{pedingTime}
                 </h3>
               </div>
             </div>
