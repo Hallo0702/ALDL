@@ -15,6 +15,7 @@ import places from '../../constant/places';
 import { retrieve } from '../../utils/contract';
 import LOCKS from '../../constant/locks';
 import PLACES from '../../constant/places';
+import Title from '../../components/common/Title';
 
 interface lock {
   imageSrc: string;
@@ -81,38 +82,35 @@ const Collection: NextPage = ({}) => {
         <meta name="description" content="자물쇠 모아보기" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <div className="text-center font-custom font-bold text-lg text-black mb-12">
-        <h1>자물쇠 모아보기</h1>
-      </div>
-      <div className="flex items-start justify-center gap-20  font-bold mb-20">
-        <h2 className="font-bold file:placeholder:text-lg pt-2">자물쇠 추가</h2>
+      <Title>자물쇠 모아보기</Title>
+      <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-20  font-bold mb-20">
         <div>
           <input
             type="text"
-            className="w-96 h-10 rounded-full border-black border-2 p-4"
+            className="w-full max-w-[12rem] md:max-w-full md:w-96 h-10 rounded-full border-black border-2 p-4"
             value={toAddLockerHash}
             onChange={(e) => {
               setToAddLokcerHash(e.target.value);
             }}
           />
+          <Button
+            label="추가"
+            btnType="dark"
+            btnSize="medium"
+            customstyle="mt-0"
+            onClick={saveLockerHandler}
+          ></Button>
           <p className="text-center py-2 font-medium">
             공유받은 자물쇠 주소를 입력해주세요
           </p>
         </div>
-        <Button
-          label="추가"
-          btnType="dark"
-          btnSize="medium"
-          customstyle="mt-0"
-          onClick={saveLockerHandler}
-        ></Button>
       </div>
       <Board>
-        <div className="flex mb-4 w-full h-12 items-center text-xl font-bold justify-center">
-          <label htmlFor="title" className="w-16 mr-4">
+        <div className="flex w-full items-center text-xl font-bold justify-center">
+          <label htmlFor="title" className="hidden md:block w-16 mr-4">
             위치
           </label>
-          <div className="justify-self-start">
+          <div className="flex flex-wrap md:justify-self-start">
             <Button
               label="전체"
               btnType={selectedPlace === 'all' ? 'active' : 'normal'}
