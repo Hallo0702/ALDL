@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Board from '../components/common/Board';
 import Title from '../components/common/Title';
 
 const About: NextPage = ({}) => {
@@ -12,6 +13,54 @@ const About: NextPage = ({}) => {
       </Head>
       <main>
         <Title>알록달록이란?</Title>
+        <div className="pb-xl">
+          <h1 className="flex items-center font-custom font-bold text-black text-2xl mb-4 ml-lg">
+            알록달록 서비스는,
+          </h1>
+          <div className="w-full h-auto px-lg py-lg rounded-3xl bg-white text-black border-black border-2">
+            알록달록 서비스에 대한 설명이 들어갑니다.알록달록 서비스에 대한
+            설명이 들어갑니다.알록달록 서비스에 대한 설명이 들어갑니다. 알록달록
+            서비스에 대한 설명이 들어갑니다.알록달록 서비스에 대한 설명이
+            들어갑니다.알록달록 서비스에 대한 설명이 들어갑니다. 알록달록
+            서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해 얻을 수
+            있는 기대 효과 등 서비스 전체적인 소개가 추가 됩니다. 알록달록
+            서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해 얻을 수
+            있는알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를
+            통해 얻을 수 있는 기대 효과 등 서비스 전체적인 소개가 추가 됩니다.
+            알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해
+            얻을 수 있는알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경,
+            서비스를 통해 얻을 수 있는 기대 효과 등 서비스 전체적인 소개가 추가
+            됩니다. 알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경,
+            서비스를 통해 얻을 수 있는
+          </div>
+        </div>
+        <div className="pb-xl">
+          <h1 className="flex justify-end items-center font-custom font-bold text-black text-2xl mb-4 mr-lg">
+            어떻게 이용할 수 있나요?
+          </h1>
+          <div className="w-full h-auto px-lg py-lg rounded-3xl bg-white text-black border-black border-2">
+            알록달록 서비스에 대한 설명이 들어갑니다.알록달록 서비스에 대한
+            설명이 들어갑니다.알록달록 서비스에 대한 설명이 들어갑니다. 알록달록
+            서비스에 대한 설명이 들어갑니다.알록달록 서비스에 대한 설명이
+            들어갑니다.알록달록 서비스에 대한 설명이 들어갑니다. 알록달록
+            서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해 얻을 수
+            있는 기대 효과 등 서비스 전체적인 소개가 추가 됩니다. 알록달록
+            서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해 얻을 수
+            있는알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를
+            통해 얻을수 있는 기대 효과 등 서비스 전체적인 소개가 추가 됩니다.
+            알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경, 서비스를 통해
+            얻을 수 있는알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경,
+            서비스를 통해 얻을 수 있는 기대 효과 등 서비스 전체적인 소개가 추가
+            됩니다. 알록달록 서비스에 대한 설명이 소개됩니다. 개발 배경,
+            서비스를 통해 얻을 수 있는
+          </div>
+        </div>
+        <div>
+          <h1 className="flex justify-center items-center font-custom font-bold text-black text-2xl mb-4 mr-lg">
+            FAQ
+          </h1>
+          <div className="w-full h-auto px-lg py-lg rounded-3xl bg-wpeach text-black border-black border-2"></div>
+        </div>
       </main>
     </>
   );
