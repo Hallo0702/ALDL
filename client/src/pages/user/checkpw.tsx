@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import { checkPassword } from '../../api/auth';
 import Button from '../../components/common/Button';
 import FormInput from '../../components/common/FormInput';
+import Title from '../../components/common/Title';
 
 const CheckPw: NextPage = ({}) => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -45,9 +46,7 @@ const CheckPw: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          비밀번호 확인
-        </div>
+        <Title>비밀번호 확인</Title>
         <form
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"

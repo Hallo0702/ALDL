@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import API from '../../api/index';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
+import Title from '../../components/common/Title';
 
 const Login: NextPage = ({}) => {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -64,9 +65,7 @@ const Login: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          로그인
-        </div>
+        <Title>로그인</Title>
         <div></div>
         <form
           onSubmit={submitHandler}

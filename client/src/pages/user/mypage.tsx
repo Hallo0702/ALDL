@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
+import Title from '../../components/common/Title';
 
 const MyPage: NextPage = ({}) => {
   // 이더리움 잔액 적용
@@ -20,7 +21,6 @@ const MyPage: NextPage = ({}) => {
     const fetch = async () => {
       // 사용자의 address값 입력
       const res = await myEth(user.address);
-      console.log(res);
       setUserNickname(res.data.nickname);
       setUserName(res.data.name);
       setUserEmail(res.data.email);
@@ -36,11 +36,9 @@ const MyPage: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          마이페이지
-        </div>
+        <Title>마이페이지</Title>
         <div className="flex mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mr-4">
+          <div className="flex items-center font-custom font-bold text-2xl mr-4 ml-2">
             {userNickname} 님 안녕하세요!
           </div>
           <Link href="/user/checkpw">
@@ -52,7 +50,7 @@ const MyPage: NextPage = ({}) => {
           </Link>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mb-4">
+          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
             내 정보
           </div>
           <Board>
@@ -75,7 +73,7 @@ const MyPage: NextPage = ({}) => {
           </Board>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mb-4">
+          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
             내 지갑
           </div>
           <Board>
