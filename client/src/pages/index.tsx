@@ -23,6 +23,9 @@ const Home: NextPage = () => {
         </section>
 
         <section className="flex justify-center mb-16">
+          <Link href="/lock/collection">
+            <Button btnSize="xlarge" btnType="normal" label="모아보기"></Button>
+          </Link>
           <Link href="/lock/create">
             <Button
               btnSize="xlarge"
@@ -31,21 +34,17 @@ const Home: NextPage = () => {
               customstyle="mr-8"
             ></Button>
           </Link>
-          <Link href="/lock/collection">
-            <Button btnSize="xlarge" btnType="normal" label="모아보기"></Button>
-          </Link>
         </section>
 
-        <section className="flex flex-wrap justify-around gap-32">
+        <section className="flex flex-wrap justify-around gap-lg md:gap-32">
           {places.map((place) => (
             <Link href={`/place/${place.placeName}`} key={place.id}>
-              <div className="w-1/4">
+              <div className="max-w-full w-96">
                 <Card title={`#${place.name}`} imageSrc={place.bgImgSrc}></Card>
               </div>
             </Link>
           ))}
         </section>
-        <div className="h-56"></div>
       </main>
     </>
   );
