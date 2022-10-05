@@ -168,9 +168,9 @@ const Create = () => {
               }}
             />
           </div>
-          <div className="flex items-end gap-10">
+          <div className="flex justify-center items-end gap-10">
             <div
-              className="w-96 h-32 relative ml-20"
+              className="hidden lg:block w-96 h-32 relative ml-20"
               onDrop={onDrop}
               onDragOver={onDragOver}
             >
@@ -215,10 +215,13 @@ const Create = () => {
             ></Button>
           </div>
           <div className="flex mb-4 h-48 items-center text-xl font-bold flex-1">
-            <label htmlFor="lock" className="min-w-fit mr-4 self-start">
+            <label
+              htmlFor="lock"
+              className="hidden md:block min-w-fit mr-4 self-start"
+            >
               자물쇠*
             </label>
-            <div id="lock" className="flex gap-4 flex-wrap">
+            <div id="lock" className="flex gap-4 flex-wrap justify-center">
               {locks.map((lock) => (
                 <div
                   key={lock.lockType}
