@@ -7,6 +7,11 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      screens: {
+        sm: '576px',
+        md: '768px',
+        lg: '1024px',
+      },
       fontFamily: {
         custom: ['Custom'],
       },
@@ -29,6 +34,13 @@ module.exports = {
       height: {
         112: '28rem',
         128: '32rem',
+        256: '64rem',
+      },
+      spacing: {
+        sm: '0.5rem',
+        md: '1rem',
+        lg: '1.5rem',
+        xl: '2rem',
       },
     },
   },
