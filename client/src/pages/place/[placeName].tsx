@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getLocksByBackground } from '../../api/lock';
-import { LockProps } from '../../components/place/Lock';
 import places from '../../constant/places';
 
 const DynamicContainer = dynamic(

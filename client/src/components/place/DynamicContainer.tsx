@@ -124,15 +124,14 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       }
     }
   };
-
   return (
     <main
-      className={`relative bg-no-repeat bg-cover bg-center`}
+      className={`relative bg-no-repeat bg-cover bg-center border-2 border-black rounded-xl`}
       style={{
         backgroundImage: `url(${
           places.find((place) => place.id === placeId)?.bgImgSrc
         })`,
-        width: `calc(${resize.width}px - 10rem)`,
+        width: `calc(${resize.width}px - ${resize.width < 768 ? '1' : '3'}rem)`,
         height: `${resize.contentHeight}px`,
       }}
       ref={bgRef}
@@ -140,6 +139,9 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
       onMouseMove={(e) => drag(e)}
       onMouseUp={(e) => endDrag(e)}
     >
+      <div className="absolute text-sm md:text-lg top-1 left-1 md:top-6 md:left-6 bg-white rounded-full px-4 py-1 md:px-8 md:py-2 text-black border-black border">
+        {places.find((place) => place.id === placeId)?.name}
+      </div>
       {locks.map((lock) => (
         <Lock
           key={v4()}
