@@ -9,7 +9,7 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="relative max-w-full min-h-screen font-custom">
+    <div className="relative max-w-full min-h-screen font-custom text-black">
       <Image
         src="/images/main_bg.png"
         alt="메인 배경 이미지"
