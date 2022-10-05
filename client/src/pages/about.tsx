@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Title from '../components/common/Title';
 
 const About: NextPage = ({}) => {
   return (
@@ -10,9 +11,7 @@ const About: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-2xl text-black mb-12">
-          알록달록이란?
-        </div>
+        <Title>알록달록이란?</Title>
       </main>
     </>
   );

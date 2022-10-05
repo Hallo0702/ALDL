@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { sendModifyPasswordMail } from '../../api/auth';
 import Button from '../../components/common/Button';
 import FormInput from '../../components/common/FormInput';
+import Title from '../../components/common/Title';
 import { userState } from '../../store/states';
 
 const FindPw: NextPage = ({}) => {
@@ -49,9 +50,7 @@ const FindPw: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          비밀번호 찾기
-        </div>
+        <Title>비밀번호 찾기</Title>
         <form
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"

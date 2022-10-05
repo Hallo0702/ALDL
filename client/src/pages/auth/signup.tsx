@@ -12,6 +12,7 @@ import Web3 from 'web3';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
 import { normalize } from 'path';
+import Title from '../../components/common/Title';
 
 async function createUser(
   email: string,
@@ -209,9 +210,7 @@ const Signup: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          회원가입
-        </div>
+        <Title>회원가입</Title>
         <form
           onSubmit={submitHandler}
           className="flex flex-col justify-center items-center"

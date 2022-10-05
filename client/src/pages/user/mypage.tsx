@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
+import Title from '../../components/common/Title';
 
 const MyPage: NextPage = ({}) => {
   // 이더리움 잔액 적용
@@ -35,9 +36,7 @@ const MyPage: NextPage = ({}) => {
         <link rel="icon" href="/images/logo.png" />
       </Head>
       <main>
-        <div className="text-center font-custom font-bold text-lg text-black mb-12">
-          마이페이지
-        </div>
+        <Title>마이페이지</Title>
         <div className="flex mb-8">
           <div className="flex items-center font-custom font-bold text-xl mr-4">
             {userNickname} 님 안녕하세요!
