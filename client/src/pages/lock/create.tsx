@@ -214,11 +214,11 @@ const Create = () => {
               }}
             ></Button>
           </div>
-          <div className="flex mb-4 w-full h-48 items-center text-xl font-bold">
-            <label htmlFor="lock" className="w-20 self-start">
+          <div className="flex mb-4 h-48 items-center text-xl font-bold flex-1">
+            <label htmlFor="lock" className="min-w-fit mr-4 self-start">
               자물쇠*
             </label>
-            <div id="lock" className="flex gap-4 self-start">
+            <div id="lock" className="flex gap-4 flex-wrap">
               {locks.map((lock) => (
                 <div
                   key={lock.lockType}
