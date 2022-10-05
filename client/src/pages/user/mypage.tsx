@@ -38,7 +38,7 @@ const MyPage: NextPage = ({}) => {
       <main>
         <Title>마이페이지</Title>
         <div className="flex mb-8">
-          <div className="flex items-center font-custom font-bold text-2xl mr-4 ml-2">
+          <div className="flex items-center font-custom font-bold text-black text-2xl mr-4 ml-2">
             {userNickname} 님 안녕하세요!
           </div>
           <Link href="/user/checkpw">
@@ -50,7 +50,7 @@ const MyPage: NextPage = ({}) => {
           </Link>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
+          <div className="flex items-center font-custom font-bold text-black text-2xl mb-4 ml-2">
             내 정보
           </div>
           <Board>
@@ -73,7 +73,7 @@ const MyPage: NextPage = ({}) => {
           </Board>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
+          <div className="flex items-center font-custom font-bold text-black text-2xl mb-4 ml-2">
             내 지갑
           </div>
           <Board>
@@ -82,7 +82,7 @@ const MyPage: NextPage = ({}) => {
                 잔액
               </div>
               <div className="font-custom font-medium text-lg mr-2">
-                <h2>{userEth} ETH</h2>
+                <h2>{userEth} WEI</h2>
               </div>
             </div>
             <div className="flex flex-row justify-between">
