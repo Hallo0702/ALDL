@@ -10,6 +10,7 @@ import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import LockSvg from '../../components/common/LockSvg';
 import locks from '../../constant/locks';
+import Title from '../../components/common/Title';
 
 interface FormState {
   title: string;
@@ -136,9 +137,7 @@ const Create = () => {
         <meta name="description" content="자물쇠 등록" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <div className="text-center font-custom font-bold text-lg text-black mb-12">
-        <h1>자물쇠 등록</h1>
-      </div>
+      <Title>자물쇠 등록</Title>
       <Board>
         <div className="flex flex-col gap-8">
           <div className="flex w-full h-12 items-center text-xl font-bold">
