@@ -38,7 +38,7 @@ const MyPage: NextPage = ({}) => {
       <main>
         <Title>마이페이지</Title>
         <div className="flex mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mr-4">
+          <div className="flex items-center font-custom font-bold text-2xl mr-4 ml-2">
             {userNickname} 님 안녕하세요!
           </div>
           <Link href="/user/checkpw">
@@ -50,7 +50,7 @@ const MyPage: NextPage = ({}) => {
           </Link>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mb-4">
+          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
             내 정보
           </div>
           <Board>
@@ -73,7 +73,7 @@ const MyPage: NextPage = ({}) => {
           </Board>
         </div>
         <div className="flex flex-col mb-8">
-          <div className="flex items-center font-custom font-bold text-xl mb-4">
+          <div className="flex items-center font-custom font-bold text-2xl mb-4 ml-2">
             내 지갑
           </div>
           <Board>
