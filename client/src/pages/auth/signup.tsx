@@ -302,12 +302,12 @@ const Signup: NextPage = ({}) => {
               ></Button>
             </Link>
 
-            {/* <Button
+            <Button
               label="확인"
               btnType="active"
               btnSize="medium"
               type="submit"
-            ></Button> */}
+            ></Button>
           </div>
         </form>
       </main>
