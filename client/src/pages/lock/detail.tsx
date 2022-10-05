@@ -9,6 +9,7 @@ import Board from '../../components/common/Board';
 import { retrieve } from '../../utils/contract';
 import Button from '../../components/common/Button';
 import PLACES from '../../constant/places';
+import Title from '../../components/common/Title';
 
 interface data {
   imageSrc: string;
@@ -62,9 +63,7 @@ const Detail: NextPage = ({}) => {
         <meta name="description" content="자물쇠 상세보기" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <div className="text-center font-custom font-bold text-lg text-black mb-12">
-        <h1>자물쇠 상세보기</h1>
-      </div>
+      <Title>자물쇠 상세보기</Title>
       <Board>
         <div className="flex flex-col gap-8">
           <div className="flex w-full h-12 items-center text-xl font-bold">
@@ -100,7 +99,9 @@ const Detail: NextPage = ({}) => {
             <label htmlFor="address" className="w-16 mr-4">
               주소
             </label>
-            <p>{router.query.hash}</p>
+            <span className="overflow-auto whitespace-pre">
+              {router.query.hash}
+            </span>
             <Button
               btnSize="medium"
               btnType="dark"
@@ -110,7 +111,7 @@ const Detail: NextPage = ({}) => {
           </div>
         </div>
       </Board>
-      <div>
+      <div className="flex justify-center">
         <Button
           btnSize="xlarge"
           btnType="normal"

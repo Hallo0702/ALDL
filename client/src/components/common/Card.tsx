@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ title, imageSrc }) => {
   return (
-    <div className="relative w-96 h-112 font-bold border-black border-2 rounded-3xl cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+    <div className="relative max-w-96 h-112 font-bold border-black border-2 rounded-3xl cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
       <Image
         alt={title}
         src={imageSrc}

@@ -10,6 +10,7 @@ import Board from '../../components/common/Board';
 import Button from '../../components/common/Button';
 import LockSvg from '../../components/common/LockSvg';
 import locks from '../../constant/locks';
+import Title from '../../components/common/Title';
 
 interface FormState {
   title: string;
@@ -136,9 +137,7 @@ const Create = () => {
         <meta name="description" content="자물쇠 등록" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <div className="text-center font-custom font-bold text-lg text-black mb-12">
-        <h1>자물쇠 등록</h1>
-      </div>
+      <Title>자물쇠 등록</Title>
       <Board>
         <div className="flex flex-col gap-8">
           <div className="flex w-full h-12 items-center text-xl font-bold">
@@ -168,9 +167,9 @@ const Create = () => {
               }}
             />
           </div>
-          <div className="flex items-end gap-10">
+          <div className="flex justify-center items-end gap-10">
             <div
-              className="w-96 h-32 relative ml-20"
+              className="hidden lg:block w-96 h-32 relative ml-20"
               onDrop={onDrop}
               onDragOver={onDragOver}
             >
@@ -215,10 +214,13 @@ const Create = () => {
             ></Button>
           </div>
           <div className="flex mb-4 h-48 items-center text-xl font-bold flex-1">
-            <label htmlFor="lock" className="min-w-fit mr-4 self-start">
+            <label
+              htmlFor="lock"
+              className="hidden md:block min-w-fit mr-4 self-start"
+            >
               자물쇠*
             </label>
-            <div id="lock" className="flex gap-4 flex-wrap">
+            <div id="lock" className="flex gap-4 flex-wrap justify-center">
               {locks.map((lock) => (
                 <div
                   key={lock.lockType}
