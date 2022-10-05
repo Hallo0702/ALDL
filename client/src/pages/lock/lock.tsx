@@ -15,6 +15,7 @@ import { store } from '../../utils/contract';
 
 import Locking from '../../assets/locks/locking.gif';
 import Image from 'next/image';
+import Title from '../../components/common/Title';
 
 const DynamicContainer = dynamic(
   () => import('../../components/place/DynamicContainer'),
@@ -107,9 +108,7 @@ const Lock: NextPage = () => {
         <meta name="description" content="자물쇠 걸기" />
         <link rel="icon" href="/images/logo.png" />
       </Head>
-      <div className="text-center font-custom font-bold text-lg text-black mb-12">
-        <h1>자물쇠 걸기</h1>
-      </div>
+      <Title>자물쇠 걸기</Title>
       {isPending && (
         <div
           id="defaultModal"
@@ -159,6 +158,7 @@ const Lock: NextPage = () => {
           </div>
         </div>
       </Board>
+      <div className="h-12"></div>
       <DynamicContainer
         bgHeight={places[selectedPlace].height}
         bgWidth={places[selectedPlace].width}
