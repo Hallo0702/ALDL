@@ -17,7 +17,7 @@ const Layout: FC<Props> = ({ children }) => {
         objectFit="fill"
         objectPosition="center"
       />
-      <div className="relative mx-sm md:mx-lg lg:max-w-[90vw] lg:mx-auto z-20">
+      <div className="relative mx-sm md:mx-lg z-20">
         <Header />
         {children}
       </div>
