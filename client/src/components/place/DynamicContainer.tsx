@@ -127,7 +127,7 @@ const DynamicContainer: FC<DynamicContainerProps> = ({
   console.log(resize.width);
   return (
     <main
-      className={`relative bg-no-repeat bg-cover bg-center`}
+      className={`relative bg-no-repeat bg-cover bg-center border-2 border-black rounded-xl`}
       style={{
         backgroundImage: `url(${
           places.find((place) => place.id === placeId)?.bgImgSrc
