@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { logout } from '../../api/auth';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../store/states';
@@ -24,13 +24,12 @@ const Header: NextPage = () => {
     Cookies.remove('refreshToken', { sameSite: 'strict', path: '/' });
     API.defaults.headers.common['Authorization'] = `Bearer ${''}`;
     router.push('/');
-
   }
 
   useEffect(() => {
     setOpen(false);
-  }, [router])
-  
+  }, [router]);
+
   return (
     <header className="flex justify-between py-8">
       <div className="cursor-pointer ">
