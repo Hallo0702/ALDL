@@ -9,11 +9,9 @@ import FormInput from '../../components/common/FormInput';
 import Title from '../../components/common/Title';
 
 const ResetPw: NextPage = ({}) => {
-  // const currentPwInputRef = useRef<HTMLInputElement>(null);
   const resetPwInputRef = useRef<HTMLInputElement>(null);
   const resetPwCkInputRef = useRef<HTMLInputElement>(null);
 
-  // const [isCurrentPwError, setIsCurrentPwError] = useState(false);
   const [isResetPwError, setIsResetPwError] = useState(false);
   const [isResetPwCkError, setIsResetPwCkError] = useState(false);
 
@@ -94,12 +92,6 @@ const ResetPw: NextPage = ({}) => {
           className="flex flex-col justify-center items-center"
         >
           <div>
-            {/* <FormInput
-              label="현재 비밀번호"
-              id="currentpw"
-              type="password"
-              ref={currentPwInputRef}
-            ></FormInput> */}
             <FormInput
               label="변경할 비밀번호"
               id="resetpw"

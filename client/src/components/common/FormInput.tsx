@@ -18,6 +18,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
           placeholder={label}
           onChange={onChange}
           ref={ref}
+          autoComplete="on"
           {...rest}
         />
         <p className="h-4 font-medium text-sm text-red">{isError && errMsg}</p>
