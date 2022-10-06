@@ -12,9 +12,15 @@ const web3 = new Web3(
 export const retrieve = async (hash: string) => {
   const contract = new web3.eth.Contract(ABI as AbiItem[], hash);
   const res = await contract.methods.retrieve().call();
-  const { 0: encImageSrc, 1: title, 2: content, 3: background, 4: lockType } = res;
+  const {
+    0: encImageSrc,
+    1: title,
+    2: content,
+    3: background,
+    4: lockType,
+  } = res;
   const AESprivateKey = 'JUpViFIyRMB4NsMvwEFlmowYLa6N9UCb';
-  const bytes = Crypto.AES.decrypt(encImageSrc,AESprivateKey);
+  const bytes = Crypto.AES.decrypt(encImageSrc, AESprivateKey);
   const imageSrc = Crypto.enc.Utf8.stringify(bytes);
   return {
     imageSrc,
@@ -38,15 +44,13 @@ export const store = async (
 ): Promise<any> => {
   const contract = new web3.eth.Contract(ABI as AbiItem[]);
   const AESprivateKey = 'JUpViFIyRMB4NsMvwEFlmowYLa6N9UCb';
-  console.log(privateKey);
-  const bytes = Crypto.AES.decrypt(privateKey,AESprivateKey);
-  console.log(bytes);
+  const bytes = Crypto.AES.decrypt(privateKey, AESprivateKey);
   const decrypted = Crypto.enc.Utf8.stringify(bytes);
-  console.log(decrypted);
-  const encryptImageSrc = Crypto.AES.encrypt(data.imageSrc,AESprivateKey).toString();
-  console.log(encryptImageSrc);
+  const encryptImageSrc = Crypto.AES.encrypt(
+    data.imageSrc,
+    AESprivateKey
+  ).toString();
   web3.eth.accounts.wallet.add(decrypted);
-  console.log('contract', contract);
   return new Promise<any>((resolve) => {
     contract
       .deploy({
@@ -71,7 +75,6 @@ export const store = async (
           ABI as AbiItem[],
           receipt.contractAddress
         );
-        console.log(startContract);
         const res: any = await startContract.methods
           .store(
             encryptImageSrc,
@@ -85,7 +88,7 @@ export const store = async (
             gas: 1000000,
             gasPrice: '1000000000',
           });
-        console.log(res);
+
         resolve(res);
       });
   });
