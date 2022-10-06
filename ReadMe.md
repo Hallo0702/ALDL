@@ -38,13 +38,11 @@
 
     - ##### 쌓인 기록을 원격으로 확인 가능합니다.
 
-- #### 주요 기능 (이후 수정 요망)
+- #### 주요 기능
 
   | 서비스             | 주요 기능                                                                                                                                                                 |
   | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | Google Oauth로그인 | 사용자는 Google 아이디를 통해 쉽게 회원가입/로그인이 가능하다 회원가입시 Kakao 위치기반 서비스를 활용하여 지역을 동록할 수 있고, 신체 데이터를 입력하면 회원가입이 완료됩니다. |
-  | 피드 시스템        | 사용자의 이용지역 근처에, 사용자의 신체 사이즈가 비슷한 사람들의 피드를 노출해주고, 팔로우, 팔로잉, 메세지 전송 등의 서비스를 이용할 수 있습니다.                                  |
-  | 채팅 시스템         | 채팅을 통해 의류 대여 및 구매에 관련된 일정을 의논할 수 있습니다. 채팅서버는 메세지저장, 읽음확인, 알림기능 등을 지원합니다.                                                     |
+  | 자물쇠 걸기 | 이미지를 포함한 내용을 블록체인에 기록할 수 있습니다. |
 
 - #### 상세기능
 
@@ -85,7 +83,8 @@
 
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
 <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Next.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=TailwindCss&logoColor=white"/>
+<img src="https://img.shields.io/badge/recoil-black?style=for-the-badge&logoColor=white"/>
 
 
 ### Backend
@@ -140,16 +139,13 @@
 #### Frontend
 
 client 폴더 안에서 아래의 명령어를 실행합니다.
+* dev 환경에서는 약간의 버그가 있을 수 있습니다.
 
 ```
-환경변수 설정 (.env)
+환경변수 .env.development  .env.production
+NEXT_PUBLIC_API_URI=http://j7c207.p.ssafy.io:8088
+NEXT_PUBLIC_BLOCKCHAIN_URI=http://43.200.253.174:3000
 
-REACT_APP_KAKAO_REST_API_KEY=
-REACT_APP_GOOGLE_CLIENT_KEY=
-REACT_APP_CLIENT_URI=
-REACT_APP_API_URI=
-REACT_APP_MOCK_API_URI=
-REACT_APP_SOCKET_URI=
 ```
 
 ```
