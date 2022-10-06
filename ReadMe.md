@@ -8,7 +8,7 @@
   <tr>
       <td align="center"><a href="https://github.com/abovenormal"><img src="https://avatars.githubusercontent.com/u/51263415?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>한세환<br>Back-end, 팀장<br/></b></sub></a></td>
       <td align="center"><a href="https://github.com/positivehun/"><img src="https://avatars.githubusercontent.com/u/46879750?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>김지헌<br>Back-end</b></sub></a><br /></td>      
-      <td align="center"><a href="https://github.com/kky0455"><img src="https://avatars.githubusercontent.com/u/97174109?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>김광용<br>Back-end</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/kky0455"><img src="https://avatars.githubusercontent.com/u/97174109?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>김광용<br>Back-end,<br>BlockChain</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/Hallo0702"><img src="https://avatars.githubusercontent.com/u/74289293?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>홍찬기<br>Back-end,<br>BlockChain</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/choijinhap"><img src="https://avatars.githubusercontent.com/u/48246705?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>최진합<br>Front-end</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/YoonJuhye"><img src="https://avatars.githubusercontent.com/u/97590562?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>윤주혜<br>Front-end</b></sub></a><br /></td>
