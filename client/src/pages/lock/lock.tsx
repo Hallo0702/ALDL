@@ -163,7 +163,7 @@ const Lock: NextPage = () => {
         bgHeight={places[selectedPlace].height}
         bgWidth={places[selectedPlace].width}
         locks={locks}
-        locksOpacity={70}
+        locksOpacity={50}
         draggableLock={draggableLock}
         placeId={selectedPlace}
         onAction={onAction}
