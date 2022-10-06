@@ -92,7 +92,6 @@ public class LockerController {
 //        Integer lockType = info.getLockType();
         try{
             String email = aldlUserDetails.getEmail();
-            System.out.println("User email : " + email);
 
             if(Objects.equals(email, "") ||email==null||
                     Objects.equals(lockerHash, "") ||lockerHash==null

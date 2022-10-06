@@ -50,7 +50,6 @@ public class UserService {
 
     public User getUserByUserEmail(String userEmail) {
         // 디비에 유저 정보 조회 (userId 를 통한 조회).
-        System.out.println("유저ID 체크" + userEmail);
         User user = userLoginRepo.findByEmail(userEmail);
         return user;
     }

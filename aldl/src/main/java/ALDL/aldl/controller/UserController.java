@@ -159,7 +159,6 @@ public class UserController {
 
 
         try{
-            System.out.println("현재위치확인 // 로그인");
             if (email != null && !email.equals("")){
 
                 if (userService.checkEmail(email) != null){

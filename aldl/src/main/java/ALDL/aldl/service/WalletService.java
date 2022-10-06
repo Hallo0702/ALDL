@@ -69,7 +69,6 @@ public class WalletService {
             String ethb = String.valueOf(ethbalance);
             return ethb;
         } catch (Exception e) {
-            System.out.println(ethBalanceResponse);
             return null;
         }
     }
@@ -81,7 +80,6 @@ public class WalletService {
             if (wallet == null){
                 throw new NotFoundException("지갑이 존재하지 않습니다.");
             }
-            System.out.println("33");
             Web3j web3 = Web3j.build(new HttpService("http://43.200.253.174:3000"));
 //            URL url = getClass().getClassLoader().getResource("admin.wallet");
 //            File filepath = new File(url.getPath());
@@ -93,7 +91,6 @@ public class WalletService {
             if (transactionReceipt == null || transactionReceipt.equals("")){
                 throw new ApplicationContextException("트랜잭션을 보낼 수 없습니다.");
             }
-            System.out.println(44);
 
             return syncBalance(address, getBalance(address));
 

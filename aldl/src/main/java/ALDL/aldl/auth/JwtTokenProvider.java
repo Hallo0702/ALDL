@@ -86,7 +86,6 @@ public class JwtTokenProvider {
         try {
             verifier.verify(token.replace("Bearer ", ""));
         }         catch (Exception ex) {
-            System.out.println(ex);
             throw ex;
         }
     }
@@ -125,7 +124,6 @@ public class JwtTokenProvider {
         claims.put("email",userEmail);
         Date now = new Date();
 
-        System.out.println("createRefreshToken 완료");
 
 
         return Jwts.builder()

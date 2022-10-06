@@ -37,18 +37,13 @@ public class RefreshTokenController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         String refreshToken = body.get("refreshToken");
-        System.out.println(refreshToken + "  : refresh");
 
         try {
             loginPostReq = userService.refreshToken(refreshToken);
-            System.out.println("check");
 
             String email = loginPostReq.getEmail();
             String accesstoken = loginPostReq.getAccessToken();
             String new_refreshToken = loginPostReq.getRefreshToken();
-
-            System.out.println(accesstoken + "    : access");
-            System.out.println(email + "    :   userid ");
 
             message.setStatus(StatusEnum.OK);
             message.setAccessToken(accesstoken);
