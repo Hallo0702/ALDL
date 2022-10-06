@@ -18,8 +18,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <section className="w-fill h-72 relative mb-8">
+        <section className="w-fill h-72 relative mb-8 hidden md:block">
           <Image src="/images/banner.png" alt="배너" layout="fill" />
+        </section>
+        <section className="w-fill h-64 relative mb-8 md:hidden">
+          <Image src="/images/banner_mobile.png" alt="배너" layout="fill" />
         </section>
 
         <section className="flex justify-center mb-16">
