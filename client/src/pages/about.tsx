@@ -70,12 +70,6 @@ const About: NextPage = ({}) => {
           <div>걱정없이 원하는 추억을 기록해보세요.</div>
         </div>
       </div>
-      <div>
-        <h1 className="flex justify-center items-center font-custom font-bold text-black text-lg sm:text-xl md:text-2xl mb-4 mr-lg">
-          FAQ
-        </h1>
-        <div className="w-fill h-auto px-lg py-lg rounded-3xl bg-wpeach text-black border-black border-2"></div>
-      </div>
     </>
   );
 };
