@@ -117,7 +117,7 @@ C207.zip
 
 **알록달록의 첫 페이지입니다.**
 
-<img src="/uploads/4663f701cd7eccb4704847224e340730/image.png" alt="그림1" width="300px" />
+<img src="/uploads/4663f701cd7eccb4704847224e340730/image.png" alt="그림1" width="500px" />
 
 1. About 페이지로 이동할 수 있습니다.
 2. 로그인 페이지로 이동할 수 있습니다.
@@ -129,20 +129,20 @@ C207.zip
 
 **알록달록의 서비스 설명을 볼 수 있습니다.**
 
-<img src="/uploads/8634baddda20f1d4409efa2782869f52/image.png" alt="그림2" width="800px" />
+<img src="/uploads/8634baddda20f1d4409efa2782869f52/image.png" alt="그림2" width="500px" />
 
 ### 로그인 페이지
 
 **회원가입을 통해 로그인을 진행할 수 있습니다.**
 
-<img src="/uploads/bba2efbfa0647b37cd52be5d131b0b72/image.png" alt="그림3" width="300px" />
+<img src="/uploads/bba2efbfa0647b37cd52be5d131b0b72/image.png" alt="그림3" width="500px" />
 
 
 ### MyPage
 
 **생성된 본인의 정보를 확인할 수 있습니다.**
 
-<img src="/uploads/f0bb585b719c702ed4010bb3781153a0/image.png" alt="그림9" width="300px" />
+<img src="/uploads/f0bb585b719c702ed4010bb3781153a0/image.png" alt="그림9" width="500px" />
 
 1. 가입 시 기재한 본인의 닉네임, 이름, 이메일 정보를 확인할 수 있습니다.
 2. 지갑 주소 및 ETH 잔액을 확인할 수 있습니다.
@@ -152,17 +152,17 @@ C207.zip
 
 **블록체인 서버에 등록할 내용을 작성합니다.**
 
-<img src="/uploads/c1acd654b1dec03f50e4de7627cc4dc0/image.png" alt="그림8" width="300px" />
+<img src="/uploads/c1acd654b1dec03f50e4de7627cc4dc0/image.png" alt="그림8" width="500px" />
 
 1. 제목, 내용, 사진을 작성할 수 있습니다.
 2. 자물쇠의 스타일을 지정할 수 있습니다.
 
-<img src="/uploads/4d9a1f77be589d84adfc18ee38ea61fb/image.png" alt="그림8" width="300px" />
+<img src="/uploads/4d9a1f77be589d84adfc18ee38ea61fb/image.png" alt="그림8" width="500px" />
 
 1. 자물쇠를 채울 지역, 위치를 선택할 수 있습니다.
 2. 채워진 자물쇠는 블록체인 서버에 등록됩니다.
 
-<img src="/uploads/f1c183ba96336cfc5d9abf6bdc5ed7a8/image.png" alt="그림8" width="300px" />
+<img src="/uploads/f1c183ba96336cfc5d9abf6bdc5ed7a8/image.png" alt="그림8" width="500px" />
 
 1. 블록체인 서버에 등록한 후 해쉬값을 받을 수 있습니다.
 2. 해쉬를 다른 사람에게 공유하여 본인이 등록한 자물쇠의 내용을 다른 사람에게 보여줄 수 있습니다.
@@ -171,7 +171,7 @@ C207.zip
 
 **본인이 작성하거나 추가한 해쉬값에 관련한 정보를 열람할 수 있습니다.**
 
-<img src="/uploads/401a38df65c9056ef04d73fd37e5be25/image.png" alt="그림7" width="300px" />
+<img src="/uploads/401a38df65c9056ef04d73fd37e5be25/image.png" alt="그림7" width="500px" />
 
 1. 공유받은 해쉬값을 추가할 수 있습니다.
 2. 위치를 선택하여 선택한 지역에 걸린 자물쇠만 열람할 수 있습니다.
