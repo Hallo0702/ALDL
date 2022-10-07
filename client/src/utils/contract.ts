@@ -64,7 +64,6 @@ export const store = async (
         },
         (err, transactionHash) => {
           console.log('err', err);
-          console.info('transactionHash', transactionHash);
         }
       )
       .on('error', (error) => {
@@ -88,7 +87,6 @@ export const store = async (
             gas: 1000000,
             gasPrice: '1000000000',
           });
-
         resolve(res);
       });
   });
