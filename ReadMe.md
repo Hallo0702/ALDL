@@ -163,7 +163,7 @@ $ npm run dev
 
 ##### Spring <br />
 
-backend-java 폴더 안에서 아래의 명령어를 실행합니다.
+aldl 폴더 안에서 아래의 명령어를 실행합니다.
 
 ```
 jar 파일 빌드
@@ -172,6 +172,7 @@ $ ./gradlew build
 
 ```
 빌드 파일 실행
+폴더이동 : build -> libs
 $ java -jar aldl.jar
 ```
 
