@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+}
+
+group = 'ALDL'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	// devTools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//MySql
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//jwt
+	implementation 'com.auth0:java-jwt:3.19.2'
+	compileOnly 'io.jsonwebtoken:jjwt-api:0.11.1'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1'
+	//mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	//s3 server
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+
+	// https://mvnrepository.com/artifact/org.web3j/core
+	implementation group: 'org.web3j', name: 'core', version: '4.9.4'
+
+}
+bootJar{
+	mainClass = 'ALDL.aldl.AldlApplication'
+	archiveFileName = 'aldl.jar'
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}
