@@ -172,6 +172,6 @@ $ ./gradlew build
 
 ```
 빌드 파일 실행
-$ java -jar ssafy-web-project-1.0-SNAPSHOT.jar
+$ java -jar aldl.jar
 ```
 
