@@ -74,7 +74,6 @@ export const store = async (
           ABI as AbiItem[],
           receipt.contractAddress
         );
-        console.log(startContract);
         const res: any = await startContract.methods
           .store(
             encryptImageSrc,
